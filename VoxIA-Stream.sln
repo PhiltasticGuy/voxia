@@ -5,7 +5,13 @@ VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoxIA.Mobile.Android", "src\mobile\VoxIA.Mobile\VoxIA.Mobile.Android\VoxIA.Mobile.Android.csproj", "{7F9AF50C-4005-4A93-9222-81D980604D2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoxIA.Mobile", "src\mobile\VoxIA.Mobile\VoxIA.Mobile\VoxIA.Mobile.csproj", "{9BD2EE52-FF51-40EF-811D-E2C292837737}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoxIA.Mobile", "src\mobile\VoxIA.Mobile\VoxIA.Mobile\VoxIA.Mobile.csproj", "{9BD2EE52-FF51-40EF-811D-E2C292837737}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{643F5A1F-5694-417A-A838-A11C0A252C2C}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
