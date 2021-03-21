@@ -14,6 +14,7 @@ namespace VoxIA.Mobile
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
+            DependencyService.Register<MockSongDataStore>();
             MainPage = new AppShell();
         }
 

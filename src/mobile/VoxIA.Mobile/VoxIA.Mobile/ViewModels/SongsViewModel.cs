@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using VoxIA.Mobile.Models;
+using VoxIA.Mobile.Services;
 using VoxIA.Mobile.Views;
 using Xamarin.Forms;
 
@@ -10,35 +11,36 @@ namespace VoxIA.Mobile.ViewModels
 {
     public class SongsViewModel : BaseViewModel
     {
-        private Item _selectedItem;
+        public new IDataStore<Song> DataStore => DependencyService.Get<IDataStore<Song>>();
+        private Song _selectedSong;
 
-        public ObservableCollection<Item> Items { get; }
-        public Command LoadItemsCommand { get; }
-        public Command AddItemCommand { get; }
-        public Command<Item> ItemTapped { get; }
+        public ObservableCollection<Song> Songs { get; }
+        public Command LoadSongsCommand { get; }
+        public Command AddSongCommand { get; }
+        public Command<Song> SongTapped { get; }
 
         public SongsViewModel()
         {
             Title = "Browse Songs";
-            Items = new ObservableCollection<Item>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            Songs = new ObservableCollection<Song>();
+            LoadSongsCommand = new Command(async () => await ExecuteLoadSongsCommand());
 
-            ItemTapped = new Command<Item>(OnItemSelected);
+            SongTapped = new Command<Song>(OnSongSelected);
 
-            AddItemCommand = new Command(OnAddItem);
+            AddSongCommand = new Command(OnAddSong);
         }
 
-        async Task ExecuteLoadItemsCommand()
+        async Task ExecuteLoadSongsCommand()
         {
             IsBusy = true;
 
             try
             {
-                Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
-                foreach (var item in items)
+                Songs.Clear();
+                var songs = await DataStore.GetItemsAsync(true);
+                foreach (var song in songs)
                 {
-                    Items.Add(item);
+                    Songs.Add(song);
                 }
             }
             catch (Exception ex)
@@ -54,31 +56,31 @@ namespace VoxIA.Mobile.ViewModels
         public void OnAppearing()
         {
             IsBusy = true;
-            SelectedItem = null;
+            SelectedSong = null;
         }
 
-        public Item SelectedItem
+        public Song SelectedSong
         {
-            get => _selectedItem;
+            get => _selectedSong;
             set
             {
-                SetProperty(ref _selectedItem, value);
-                OnItemSelected(value);
+                SetProperty(ref _selectedSong, value);
+                OnSongSelected(value);
             }
         }
 
-        private async void OnAddItem(object obj)
+        private async void OnAddSong(object obj)
         {
             await Shell.Current.GoToAsync(nameof(NewItemPage));
         }
 
-        async void OnItemSelected(Item item)
+        async void OnSongSelected(Song song)
         {
-            if (item == null)
+            if (song == null)
                 return;
 
             // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
+            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={song.Id}");
         }
     }
 }
