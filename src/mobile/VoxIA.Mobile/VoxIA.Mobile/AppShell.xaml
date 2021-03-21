@@ -82,8 +82,8 @@
     <FlyoutItem Title="Current Song" Icon="icon_feed.png">
         <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="Song List" Icon="icon_feed.png">
-        <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
+    <FlyoutItem Title="Browse Songs" Icon="icon_feed.png">
+        <ShellContent Route="SongsPage" ContentTemplate="{DataTemplate local:SongsPage}" />
     </FlyoutItem>
     <FlyoutItem Title="Upload Song" Icon="icon_feed.png">
         <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />

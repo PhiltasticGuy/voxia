@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\ItemsPage - Copy.xaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
+    <Compile Update="Views\SongsPage.xaml.cs">
+      <DependentUpon>SongsPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>
