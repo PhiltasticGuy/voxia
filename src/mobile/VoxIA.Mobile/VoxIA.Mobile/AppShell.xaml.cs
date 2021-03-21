@@ -12,6 +12,7 @@ namespace VoxIA.Mobile
         {
             InitializeComponent();
             Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
+            Routing.RegisterRoute(nameof(CurrentlyPlayingPage), typeof(CurrentlyPlayingPage));
             Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
         }
 

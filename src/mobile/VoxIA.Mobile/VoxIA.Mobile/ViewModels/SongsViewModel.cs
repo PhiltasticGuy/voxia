@@ -11,7 +11,8 @@ namespace VoxIA.Mobile.ViewModels
 {
     public class SongsViewModel : BaseViewModel
     {
-        public new IDataStore<Song> DataStore => DependencyService.Get<IDataStore<Song>>();
+        private new IDataStore<Song> DataStore => DependencyService.Get<MockSongDataStore>();
+
         private Song _selectedSong;
 
         public ObservableCollection<Song> Songs { get; }
@@ -21,16 +22,15 @@ namespace VoxIA.Mobile.ViewModels
 
         public SongsViewModel()
         {
-            Title = "Browse Songs";
+            Title = "Song Library";
             Songs = new ObservableCollection<Song>();
-            LoadSongsCommand = new Command(async () => await ExecuteLoadSongsCommand());
 
+            LoadSongsCommand = new Command(async () => await OnLoadSongs());
             SongTapped = new Command<Song>(OnSongSelected);
-
             AddSongCommand = new Command(OnAddSong);
         }
 
-        async Task ExecuteLoadSongsCommand()
+        async Task OnLoadSongs()
         {
             IsBusy = true;
 
@@ -79,8 +79,8 @@ namespace VoxIA.Mobile.ViewModels
             if (song == null)
                 return;
 
-            // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={song.Id}");
+            // This will push the CurrentlyPlayingPage onto the navigation stack
+            await Shell.Current.GoToAsync($"{nameof(CurrentlyPlayingPage)}?{nameof(CurrentSongViewModel.SongId)}={song.Id}");
         }
     }
 }
