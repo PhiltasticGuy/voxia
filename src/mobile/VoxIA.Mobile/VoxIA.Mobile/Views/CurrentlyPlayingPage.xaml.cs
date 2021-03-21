@@ -11,7 +11,7 @@ namespace VoxIA.Mobile.Views
 {
     public partial class CurrentlyPlayingPage : ContentPage
     {
-        CurrentSongViewModel _viewModel;
+        private readonly CurrentSongViewModel _viewModel;
 
         public CurrentlyPlayingPage()
         {

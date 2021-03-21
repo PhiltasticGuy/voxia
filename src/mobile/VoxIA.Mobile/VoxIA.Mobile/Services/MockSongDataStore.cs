@@ -9,7 +9,7 @@ namespace VoxIA.Mobile.Services
 {
     public class MockSongDataStore : IDataStore<Song>
     {
-        private List<Song> _items;
+        private readonly List<Song> _items;
 
         public MockSongDataStore()
         {

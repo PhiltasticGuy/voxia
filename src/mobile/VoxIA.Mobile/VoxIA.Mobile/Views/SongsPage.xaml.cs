@@ -14,7 +14,7 @@ namespace VoxIA.Mobile.Views
 {
     public partial class SongsPage : ContentPage
     {
-        SongsViewModel _viewModel;
+        private readonly SongsViewModel _viewModel;
 
         public SongsPage()
         {

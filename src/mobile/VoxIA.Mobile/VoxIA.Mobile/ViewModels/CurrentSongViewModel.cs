@@ -8,6 +8,8 @@ using Xamarin.Forms;
 
 namespace VoxIA.Mobile.ViewModels
 {
+    // TODO: Should be a difference between CurrentlyPlaying and SongDetails! Split this up...
+
     [QueryProperty(nameof(SongId), nameof(SongId))]
     public class CurrentSongViewModel : BaseViewModel
     {
@@ -15,7 +17,6 @@ namespace VoxIA.Mobile.ViewModels
 
         private string _songId;
 
-        private string _id;
         private string _songTitle;
         private string _artistName;
 
