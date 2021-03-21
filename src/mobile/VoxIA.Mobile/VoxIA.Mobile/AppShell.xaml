@@ -80,7 +80,7 @@
         https://docs.microsoft.com/dotnet/api/xamarin.forms.shellgroupitem.flyoutdisplayoptions?view=xamarin-forms
     -->
     <FlyoutItem Title="Currently Playing" Icon="icon_feed.png">
-        <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
+        <ShellContent Route="CurrentlyPlayingPage" ContentTemplate="{DataTemplate local:CurrentlyPlayingPage}" />
     </FlyoutItem>
     <FlyoutItem Title="Song Library" Icon="icon_feed.png">
         <ShellContent Route="SongsPage" ContentTemplate="{DataTemplate local:SongsPage}" />
