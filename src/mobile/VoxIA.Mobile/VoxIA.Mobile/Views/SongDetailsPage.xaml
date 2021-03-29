@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VoxIA.Mobile.Views.SongDetailsPage"
+             Title="{Binding Title}">
+    <ContentPage.Content>
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="Title:" FontSize="Medium" />
+            <Label Text="{Binding SongTitle}" FontSize="Small"/>
+            <Label Text="Artist(s):" FontSize="Medium" />
+            <Label Text="{Binding ArtistName}" FontSize="Small"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

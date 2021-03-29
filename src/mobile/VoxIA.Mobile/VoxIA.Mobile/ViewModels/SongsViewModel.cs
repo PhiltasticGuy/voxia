@@ -79,8 +79,8 @@ namespace VoxIA.Mobile.ViewModels
             if (song == null)
                 return;
 
-            // This will push the CurrentlyPlayingPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(CurrentlyPlayingPage)}?{nameof(CurrentSongViewModel.SongId)}={song.Id}");
+            // This will push the SongDetailsPage onto the navigation stack
+            await Shell.Current.GoToAsync($"{nameof(SongDetailsPage)}?{nameof(SongDetailsViewModel.SongId)}={song.Id}");
         }
     }
 }
