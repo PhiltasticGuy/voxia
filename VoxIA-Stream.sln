@@ -19,9 +19,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mobile", "mobile", "{216401
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ice", "ice", "{AB62AE63-7A69-483D-BED2-84C1B3AD1152}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoxIA.IceServer", "src\ice\VoxIA.IceServer\VoxIA.IceServer.csproj", "{CD09873D-135B-42A4-85B7-36F62F4970C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoxIA.IceServer", "src\ice\VoxIA.IceServer\VoxIA.IceServer.csproj", "{CD09873D-135B-42A4-85B7-36F62F4970C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoxIA.IceClient", "src\ice\VoxIA.IceClient\VoxIA.IceClient.csproj", "{F046D205-C164-4ED6-975C-00C979D3BD52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoxIA.IceClient", "src\ice\VoxIA.IceClient\VoxIA.IceClient.csproj", "{F046D205-C164-4ED6-975C-00C979D3BD52}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "contracts", "contracts", "{8639760F-38A0-4906-92CC-88E4FFA31FF9}"
+	ProjectSection(SolutionItems) = preProject
+		src\ice\contracts\Printer.ice = src\ice\contracts\Printer.ice
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +65,7 @@ Global
 		{AB62AE63-7A69-483D-BED2-84C1B3AD1152} = {D942BAB9-E6EC-4EA1-961B-CA4800827BB2}
 		{CD09873D-135B-42A4-85B7-36F62F4970C3} = {AB62AE63-7A69-483D-BED2-84C1B3AD1152}
 		{F046D205-C164-4ED6-975C-00C979D3BD52} = {AB62AE63-7A69-483D-BED2-84C1B3AD1152}
+		{8639760F-38A0-4906-92CC-88E4FFA31FF9} = {AB62AE63-7A69-483D-BED2-84C1B3AD1152}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3FA24D14-D770-452A-AE35-36AE834E103F}

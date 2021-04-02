@@ -1,7 +1,30 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <SliceCompile Include="../contracts/Printer.ice" />
+    <PackageReference Include="zeroc.ice.net" Version="3.7.5" />
+    <PackageReference Include="zeroc.icebuilder.msbuild" Version="5.0.6" />
+    <Compile Update="generated\Printer.cs">
+      <SliceCompileSource>../contracts/Printer.ice</SliceCompileSource>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="local-lib\index.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="local-lib\lorem2.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="local-lib\lorem.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup />
 
 </Project>
