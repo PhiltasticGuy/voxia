@@ -10,7 +10,7 @@ namespace VoxIA.Mobile.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
+        public ISongProvider<Item> DataStore => DependencyService.Get<ISongProvider<Item>>();
 
         bool isBusy = false;
         public bool IsBusy

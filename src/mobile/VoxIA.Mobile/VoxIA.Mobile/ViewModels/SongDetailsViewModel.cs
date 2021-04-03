@@ -11,7 +11,7 @@ namespace VoxIA.Mobile.ViewModels
     [QueryProperty(nameof(SongId), nameof(SongId))]
     public class SongDetailsViewModel : BaseViewModel
     {
-        private new IDataStore<Song> DataStore => DependencyService.Get<MockSongDataStore>();
+        private ISongProvider SongProvider => DependencyService.Get<ISongProvider>();
 
         public string SongId
         {
@@ -44,7 +44,7 @@ namespace VoxIA.Mobile.ViewModels
         {
             try
             {
-                var song = await DataStore.GetItemAsync(id);
+                var song = await SongProvider.GetSongByIdAsync(id);
 
                 if (song != null)
                 {

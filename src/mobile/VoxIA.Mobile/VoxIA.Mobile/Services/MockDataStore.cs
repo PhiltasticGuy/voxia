@@ -6,7 +6,7 @@ using VoxIA.Mobile.Models;
 
 namespace VoxIA.Mobile.Services
 {
-    public class MockDataStore : IDataStore<Item>
+    public class MockDataStore : ISongProvider<Item>
     {
         readonly List<Item> items;
 

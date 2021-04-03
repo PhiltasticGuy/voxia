@@ -11,7 +11,7 @@ namespace VoxIA.Mobile.ViewModels
 {
     public class SongsViewModel : BaseViewModel
     {
-        private new IDataStore<Song> DataStore => DependencyService.Get<MockSongDataStore>();
+        private ISongProvider SongProvider => DependencyService.Get<ISongProvider>();
 
         private Song _selectedSong;
 
@@ -37,7 +37,7 @@ namespace VoxIA.Mobile.ViewModels
             try
             {
                 Songs.Clear();
-                var songs = await DataStore.GetItemsAsync(true);
+                var songs = await SongProvider.GetAllSongsAsync();
                 foreach (var song in songs)
                 {
                     Songs.Add(song);

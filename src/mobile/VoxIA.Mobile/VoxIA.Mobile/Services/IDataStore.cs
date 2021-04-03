@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace VoxIA.Mobile.Services
 {
-    public interface IDataStore<T>
+    public interface ISongProvider<T>
     {
         Task<bool> AddItemAsync(T item);
         Task<bool> UpdateItemAsync(T item);
