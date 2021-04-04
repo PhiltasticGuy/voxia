@@ -41,7 +41,7 @@
                                HorizontalOptions="Center"
                                Padding="0"
                                IsClippedToBounds="True">
-                            <Image Source="album_cover_generic.png"
+                            <Image Source="{Binding AlbumCover}"
                                    Aspect="AspectFill"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center" />

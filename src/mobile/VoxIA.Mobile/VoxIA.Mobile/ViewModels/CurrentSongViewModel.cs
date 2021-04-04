@@ -25,6 +25,7 @@ namespace VoxIA.Mobile.ViewModels
         private string _songId;
         private string _songTitle;
         private string _artistName;
+        private string _albumCover;
         private bool _isPlaying;
 
         public string SongId
@@ -52,6 +53,12 @@ namespace VoxIA.Mobile.ViewModels
         {
             get => _artistName;
             set => SetProperty(ref _artistName, value);
+        }
+
+        public string AlbumCover
+        {
+            get => _albumCover;
+            set => SetProperty(ref _albumCover, value);
         }
 
         public bool IsPlaying

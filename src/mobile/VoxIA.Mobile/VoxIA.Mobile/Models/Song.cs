@@ -11,5 +11,7 @@ namespace VoxIA.Mobile.Models
         public string Title { get; set; }
 
         public string ArtistName { get; set; }
+
+        public string AlbumCover { get; set; }
     }
 }

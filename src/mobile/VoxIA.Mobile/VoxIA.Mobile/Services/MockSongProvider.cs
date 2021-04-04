@@ -15,16 +15,66 @@ namespace VoxIA.Mobile.Services
         {
             _songs = new List<Song>()
             {
-                new Song { Id = Guid.NewGuid().ToString(), Title = "First item", ArtistName="This is an item description." },
-                new Song { Id = Guid.NewGuid().ToString(), Title = "Second item", ArtistName="This is an item description." },
-                new Song { Id = Guid.NewGuid().ToString(), Title = "Third item", ArtistName="This is an item description." },
-                new Song { Id = Guid.NewGuid().ToString(), Title = "Fourth item", ArtistName="This is an item description." },
-                new Song { Id = Guid.NewGuid().ToString(), Title = "Fifth item", ArtistName="This is an item description." },
-                new Song { Id = Guid.NewGuid().ToString(), Title = "Sixth item", ArtistName="This is an item description." },
-                new Song { Id = Guid.NewGuid().ToString(), Title = "Seventh item", ArtistName="This is an item description." },
-                new Song { Id = Guid.NewGuid().ToString(), Title = "Eighth item", ArtistName="This is an item description." },
-                new Song { Id = Guid.NewGuid().ToString(), Title = "Ninth item", ArtistName="This is an item description." },
-                new Song { Id = Guid.NewGuid().ToString(), Title = "Tenth item", ArtistName="This is an item description." }
+                new Song {
+                    Id = Guid.NewGuid().ToString(),
+                    Title = "First item",
+                    ArtistName = "This is an item description.",
+                    AlbumCover = "album_cover_generic.png"
+                },
+                new Song {
+                    Id = Guid.NewGuid().ToString(),
+                    Title = "Second item",
+                    ArtistName = "This is an item description." ,
+                    AlbumCover = "album_cover_generic.png"
+                },
+                new Song {
+                    Id = Guid.NewGuid().ToString(),
+                    Title = "Third item",
+                    ArtistName = "This is an item description." ,
+                    AlbumCover = "album_cover_generic.png"
+                },
+                new Song {
+                    Id = Guid.NewGuid().ToString(),
+                    Title = "Fourth item",
+                    ArtistName = "This is an item description.",
+                    AlbumCover = "album_cover_generic.png"
+                },
+                new Song {
+                    Id = Guid.NewGuid().ToString(),
+                    Title = "Fifth item",
+                    ArtistName="This is an item description.",
+                    AlbumCover = "album_cover_generic.png"
+                },
+                new Song {
+                    Id = Guid.NewGuid().ToString(),
+                    Title = "Sixth item",
+                    ArtistName="This is an item description.",
+                    AlbumCover = "album_cover_generic.png"
+                },
+                new Song {
+                    Id = Guid.NewGuid().ToString(),
+                    Title = "Seventh item",
+                    ArtistName="This is an item description.",
+                    AlbumCover = "album_cover_generic.png"
+                },
+                new Song {
+                    Id = Guid.NewGuid().ToString(),
+                    Title = "Eighth item",
+                    ArtistName="This is an item description.",
+                    AlbumCover = "album_cover_generic.png"
+                },
+                new Song {
+                    Id = Guid.NewGuid().ToString(),
+                    Title = "Ninth item",
+                    ArtistName="This is an item description.",
+                    AlbumCover = "album_cover_generic.png"
+                },
+                new Song {
+                    Id = Guid.NewGuid().ToString(),
+                    Title = "Tenth item",
+                    ArtistName="This is an item description.",
+                    AlbumCover = "album_cover_generic.png"
+                }
             };
         }
 

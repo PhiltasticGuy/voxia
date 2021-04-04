@@ -25,6 +25,7 @@ namespace VoxIA.Mobile.ViewModels
 
         private string _songTitle;
         private string _artistName;
+        private string _albumCover;
 
         public string Id { get; set; }
 
@@ -40,6 +41,12 @@ namespace VoxIA.Mobile.ViewModels
             set => SetProperty(ref _artistName, value);
         }
 
+        public string AlbumCover
+        {
+            get => _albumCover;
+            set => SetProperty(ref _albumCover, value);
+        }
+
         public async void LoadSongById(string id)
         {
             try
@@ -51,6 +58,7 @@ namespace VoxIA.Mobile.ViewModels
                     Id = song.Id;
                     SongTitle = song.Title;
                     ArtistName = song.ArtistName;
+                    AlbumCover = song.AlbumCover;
                 }
             }
             catch (Exception)
