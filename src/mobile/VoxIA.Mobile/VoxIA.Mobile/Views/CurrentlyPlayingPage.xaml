@@ -4,13 +4,70 @@
              x:Class="VoxIA.Mobile.Views.CurrentlyPlayingPage"
              Title="{Binding Title}">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Accent">#96d1ff</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
-        <StackLayout Spacing="20" Padding="15">
-            <Label Text="Text:" FontSize="Medium" />
-            <Label Text="{Binding SongTitle}" FontSize="Small"/>
-            <Label Text="Description:" FontSize="Medium" />
-            <Label Text="{Binding ArtistName}" FontSize="Small"/>
-        </StackLayout>
+        <ScrollView>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackLayout BackgroundColor="{StaticResource Accent}" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                        <ContentView Padding="0,40,0,40" VerticalOptions="FillAndExpand">
+                            <Image Source="album_cover_generic.png" VerticalOptions="Center" HeightRequest="128" />
+                        </ContentView>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout Grid.Row="1" Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
+                    <StackLayout Spacing="20">
+                        <Label Text="Title:" FontSize="Medium" />
+                        <Label Text="{Binding SongTitle}" FontSize="Small"/>
+                        <Label Text="Artist(s):" FontSize="Medium" />
+                        <Label Text="{Binding ArtistName}" FontSize="Small"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="0" Spacing="2">
+                        <Button Text="&#xf048;"
+                                FontSize="40"
+                                TextColor="SkyBlue"
+                                BackgroundColor="{StaticResource Primary}"
+                                VerticalOptions="Center" 
+                                HorizontalOptions="Center"
+                                FontFamily="FontAwesome5FreeSolid400"
+                                Command="{Binding OpenWebCommand}" />
+                        <Button Text="&#xf04b;"
+                                FontSize="40"
+                                TextColor="SkyBlue"
+                                BackgroundColor="{StaticResource Primary}"
+                                VerticalOptions="Center" 
+                                HorizontalOptions="Center"
+                                FontFamily="FontAwesome5FreeSolid400"
+                                Command="{Binding OpenWebCommand}" />
+                        <Button Text="&#xf04c;"
+                                FontSize="40"
+                                TextColor="SkyBlue"
+                                BackgroundColor="{StaticResource Primary}"
+                                VerticalOptions="Center" 
+                                HorizontalOptions="Center"
+                                FontFamily="FontAwesome5FreeSolid400"
+                                Command="{Binding OpenWebCommand}" />
+                        <Button Text="&#xf051;"
+                                FontSize="40"
+                                TextColor="SkyBlue"
+                                BackgroundColor="{StaticResource Primary}"
+                                VerticalOptions="Center" 
+                                HorizontalOptions="Center"
+                                FontFamily="FontAwesome5FreeSolid400"
+                                Command="{Binding OpenWebCommand}" />
+                    </StackLayout>
+                </StackLayout>
+            </Grid>
+        </ScrollView>
     </ContentPage.Content>
 
 </ContentPage>

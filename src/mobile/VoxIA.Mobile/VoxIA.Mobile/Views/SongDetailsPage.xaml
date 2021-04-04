@@ -17,6 +17,7 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
+                
                 <StackLayout BackgroundColor="{StaticResource Accent}" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
                         <ContentView Padding="0,40,0,40" VerticalOptions="FillAndExpand">
@@ -24,6 +25,7 @@
                         </ContentView>
                     </StackLayout>
                 </StackLayout>
+                
                 <StackLayout Grid.Row="1" Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
                     <StackLayout Spacing="20">
                             <Label Text="Title:" FontSize="Medium" />
@@ -41,4 +43,5 @@
             </Grid>
         </ScrollView>
     </ContentPage.Content>
+    
 </ContentPage>
