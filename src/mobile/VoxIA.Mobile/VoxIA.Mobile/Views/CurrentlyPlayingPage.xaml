@@ -7,6 +7,10 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <Color x:Key="Accent">#96d1ff</Color>
+            <x:String x:Key="IconMediaPlay">&#xf04b;</x:String>
+            <x:String x:Key="IconMediaPause">&#xf04c;</x:String>
+            <x:String x:Key="IconMediaPrevious">&#xf048;</x:String>
+            <x:String x:Key="IconMediaNext">&#xf051;</x:String>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -16,6 +20,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <StackLayout BackgroundColor="{StaticResource Accent}" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
@@ -31,40 +36,40 @@
                         <Label Text="Artist(s):" FontSize="Medium" />
                         <Label Text="{Binding ArtistName}" FontSize="Small"/>
                     </StackLayout>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="0" Spacing="2">
-                        <Button Text="&#xf048;"
+                </StackLayout>
+                <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="FillAndExpand" Padding="10" Spacing="10">
+                    <Button Text="{StaticResource IconMediaPrevious}"
                                 FontSize="40"
                                 TextColor="SkyBlue"
                                 BackgroundColor="{StaticResource Primary}"
                                 VerticalOptions="Center" 
                                 HorizontalOptions="Center"
                                 FontFamily="FontAwesome5FreeSolid400"
-                                Command="{Binding OpenWebCommand}" />
-                        <Button Text="&#xf04b;"
+                                Command="{Binding Nothing}" />
+                    <Button Text="{StaticResource IconMediaPlay}"
                                 FontSize="40"
                                 TextColor="SkyBlue"
                                 BackgroundColor="{StaticResource Primary}"
                                 VerticalOptions="Center" 
                                 HorizontalOptions="Center"
                                 FontFamily="FontAwesome5FreeSolid400"
-                                Command="{Binding OpenWebCommand}" />
-                        <Button Text="&#xf04c;"
+                                Command="{Binding OpenWebCommand}" IsVisible="{Binding IsPaused}" />
+                    <Button Text="{StaticResource IconMediaPause}"
                                 FontSize="40"
                                 TextColor="SkyBlue"
                                 BackgroundColor="{StaticResource Primary}"
                                 VerticalOptions="Center" 
                                 HorizontalOptions="Center"
                                 FontFamily="FontAwesome5FreeSolid400"
-                                Command="{Binding OpenWebCommand}" />
-                        <Button Text="&#xf051;"
+                                Command="{Binding OpenWebCommand}" IsVisible="{Binding IsPlaying}" />
+                    <Button Text="{StaticResource IconMediaNext}"
                                 FontSize="40"
                                 TextColor="SkyBlue"
                                 BackgroundColor="{StaticResource Primary}"
                                 VerticalOptions="Center" 
                                 HorizontalOptions="Center"
                                 FontFamily="FontAwesome5FreeSolid400"
-                                Command="{Binding OpenWebCommand}" />
-                    </StackLayout>
+                                Command="{Binding Nothing}" />
                 </StackLayout>
             </Grid>
         </ScrollView>

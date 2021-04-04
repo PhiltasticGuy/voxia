@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using VoxIA.Mobile.Models;
 using VoxIA.Mobile.Services;
 using Xamarin.Forms;
@@ -13,12 +15,20 @@ namespace VoxIA.Mobile.ViewModels
     [QueryProperty(nameof(SongId), nameof(SongId))]
     public class CurrentSongViewModel : BaseViewModel
     {
+        public const string ICON_MEDIA_PLAY = "\uf04b";
+        public const string ICON_MEDIA_PAUSE = "\uf04c";
+        public const string ICON_MEDIA_PREVIOUS = "\uf048";
+        public const string ICON_MEDIA_NEXT = "\uf051";
+
+        public string Test => ICON_MEDIA_PLAY;
+
         private ISongProvider SongProvider => DependencyService.Get<ISongProvider>();
 
         private string _songId;
 
         private string _songTitle;
         private string _artistName;
+        private bool _isPlaying;
 
         public string SongId
         {
@@ -35,6 +45,13 @@ namespace VoxIA.Mobile.ViewModels
 
         public string Id { get; set; }
 
+        public bool IsPlaying
+        {
+            get => _isPlaying;
+            set => SetProperty(ref _isPlaying, value); 
+        }
+        public bool IsPaused => !IsPlaying;
+
         public string SongTitle
         {
             get => _songTitle;
@@ -50,7 +67,13 @@ namespace VoxIA.Mobile.ViewModels
         public CurrentSongViewModel()
         {
             Title = "Currently Playing";
+            OpenWebCommand = new Command(() => {
+                IsPlaying = !IsPlaying;
+                OnPropertyChanged(nameof(IsPaused));
+            });
         }
+
+        public ICommand OpenWebCommand { get; }
 
         private async void LoadSongById(string id)
         {
