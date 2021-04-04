@@ -45,7 +45,7 @@
                                 VerticalOptions="Center" 
                                 HorizontalOptions="Center"
                                 FontFamily="FontAwesome5FreeSolid400"
-                                Command="{Binding Nothing}" />
+                                Command="{Binding PreviousSongCommand}" />
                     <Button Text="{StaticResource IconMediaPlay}"
                                 FontSize="40"
                                 TextColor="SkyBlue"
@@ -53,7 +53,7 @@
                                 VerticalOptions="Center" 
                                 HorizontalOptions="Center"
                                 FontFamily="FontAwesome5FreeSolid400"
-                                Command="{Binding OpenWebCommand}" IsVisible="{Binding IsPaused}" />
+                                Command="{Binding PlaySongCommand}" IsVisible="{Binding IsPaused}" />
                     <Button Text="{StaticResource IconMediaPause}"
                                 FontSize="40"
                                 TextColor="SkyBlue"
@@ -61,7 +61,7 @@
                                 VerticalOptions="Center" 
                                 HorizontalOptions="Center"
                                 FontFamily="FontAwesome5FreeSolid400"
-                                Command="{Binding OpenWebCommand}" IsVisible="{Binding IsPlaying}" />
+                                Command="{Binding PauseSongCommand}" IsVisible="{Binding IsPlaying}" />
                     <Button Text="{StaticResource IconMediaNext}"
                                 FontSize="40"
                                 TextColor="SkyBlue"
@@ -69,7 +69,7 @@
                                 VerticalOptions="Center" 
                                 HorizontalOptions="Center"
                                 FontFamily="FontAwesome5FreeSolid400"
-                                Command="{Binding Nothing}" />
+                                Command="{Binding NextSongCommand}" />
                 </StackLayout>
             </Grid>
         </ScrollView>

@@ -20,7 +20,11 @@ namespace VoxIA.Mobile.Services
                 new Song { Id = Guid.NewGuid().ToString(), Title = "Third item", ArtistName="This is an item description." },
                 new Song { Id = Guid.NewGuid().ToString(), Title = "Fourth item", ArtistName="This is an item description." },
                 new Song { Id = Guid.NewGuid().ToString(), Title = "Fifth item", ArtistName="This is an item description." },
-                new Song { Id = Guid.NewGuid().ToString(), Title = "Sixth item", ArtistName="This is an item description." }
+                new Song { Id = Guid.NewGuid().ToString(), Title = "Sixth item", ArtistName="This is an item description." },
+                new Song { Id = Guid.NewGuid().ToString(), Title = "Seventh item", ArtistName="This is an item description." },
+                new Song { Id = Guid.NewGuid().ToString(), Title = "Eighth item", ArtistName="This is an item description." },
+                new Song { Id = Guid.NewGuid().ToString(), Title = "Ninth item", ArtistName="This is an item description." },
+                new Song { Id = Guid.NewGuid().ToString(), Title = "Tenth item", ArtistName="This is an item description." }
             };
         }
 
