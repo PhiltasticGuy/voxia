@@ -37,8 +37,14 @@
                         <Label Text="{Binding ArtistName}" FontSize="Small"/>
                     </StackLayout>
                 </StackLayout>
-                <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="FillAndExpand" Padding="10" Spacing="10">
-                    <Button Text="{StaticResource IconMediaPrevious}"
+                <StackLayout Grid.Row="2" Orientation="Vertical" Padding="15" Spacing="30">
+                    <StackLayout Orientation="Horizontal" Spacing="15">
+                        <Label Text="{Binding PositionText}"/>
+                        <ProgressBar HorizontalOptions="FillAndExpand" ProgressColor="{StaticResource Primary}" Progress="{Binding SongProgress}" />
+                        <Label Text="{Binding SongLength}"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="FillAndExpand" Spacing="10">
+                        <Button Text="{StaticResource IconMediaPrevious}"
                                 FontSize="40"
                                 TextColor="SkyBlue"
                                 BackgroundColor="{StaticResource Primary}"
@@ -46,7 +52,7 @@
                                 HorizontalOptions="Center"
                                 FontFamily="FontAwesome5FreeSolid400"
                                 Command="{Binding PreviousSongCommand}" />
-                    <Button Text="{StaticResource IconMediaPlay}"
+                        <Button Text="{StaticResource IconMediaPlay}"
                                 FontSize="40"
                                 TextColor="SkyBlue"
                                 BackgroundColor="{StaticResource Primary}"
@@ -54,7 +60,7 @@
                                 HorizontalOptions="Center"
                                 FontFamily="FontAwesome5FreeSolid400"
                                 Command="{Binding PlaySongCommand}" IsVisible="{Binding IsPaused}" />
-                    <Button Text="{StaticResource IconMediaPause}"
+                        <Button Text="{StaticResource IconMediaPause}"
                                 FontSize="40"
                                 TextColor="SkyBlue"
                                 BackgroundColor="{StaticResource Primary}"
@@ -62,7 +68,7 @@
                                 HorizontalOptions="Center"
                                 FontFamily="FontAwesome5FreeSolid400"
                                 Command="{Binding PauseSongCommand}" IsVisible="{Binding IsPlaying}" />
-                    <Button Text="{StaticResource IconMediaNext}"
+                        <Button Text="{StaticResource IconMediaNext}"
                                 FontSize="40"
                                 TextColor="SkyBlue"
                                 BackgroundColor="{StaticResource Primary}"
@@ -70,6 +76,7 @@
                                 HorizontalOptions="Center"
                                 FontFamily="FontAwesome5FreeSolid400"
                                 Command="{Binding NextSongCommand}" />
+                    </StackLayout>
                 </StackLayout>
             </Grid>
         </ScrollView>
