@@ -15,5 +15,6 @@ namespace VoxIA.Mobile.Models
         public string AlbumCover { get; set; }
 
         public int Length { get; set; }
+        public string Url { get; internal set; }
     }
 }

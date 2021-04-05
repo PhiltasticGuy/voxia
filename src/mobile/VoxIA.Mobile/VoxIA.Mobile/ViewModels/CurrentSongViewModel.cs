@@ -21,6 +21,7 @@ namespace VoxIA.Mobile.ViewModels
         private string _songTitle;
         private string _artistName;
         private string _albumCover;
+        private string _url;
         private bool _isPlaying;
 
         private readonly Timer _timer = new Timer(1000);
@@ -59,6 +60,12 @@ namespace VoxIA.Mobile.ViewModels
         {
             get => _albumCover;
             set => SetProperty(ref _albumCover, value);
+        }
+
+        public string Url
+        {
+            get => _url;
+            set => SetProperty(ref _url, value);
         }
 
         public bool IsPlaying
@@ -146,7 +153,7 @@ namespace VoxIA.Mobile.ViewModels
                 _timer.Start();
 
                 var x = DependencyService.Get<IMediaPlayer>();
-                x.Play();
+                x.Play(Url);
             }
             else
             {
@@ -176,7 +183,8 @@ namespace VoxIA.Mobile.ViewModels
                     SongTitle = song.Title;
                     ArtistName = song.ArtistName;
                     AlbumCover = song.AlbumCover;
-                    Length = song.Length;
+                    Url = song.Url;
+                    //Length = song.Length;
 
                     Application.Current.Properties["currentSongId"] = id;
                 }

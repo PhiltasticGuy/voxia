@@ -87,17 +87,14 @@
     </FlyoutItem>-->
     <FlyoutItem Title="Home" Icon="home_solid.png">
         <Tab Title="Library" Icon="book_solid.png">
-            <!--<ShellContent ContentTemplate="{DataTemplate views:CatsPage}" />-->
             <ShellContent Route="SongsPage" ContentTemplate="{DataTemplate local:SongsPage}" />
         </Tab>
         <Tab Title="Playing Now" Icon="music_solid.png">
-            <!--<ShellContent ContentTemplate="{DataTemplate views:DogsPage}" />-->
             <ShellContent Route="CurrentlyPlayingPage" ContentTemplate="{DataTemplate local:CurrentlyPlayingPage}" />
         </Tab>
-        <Tab Title="Voice Command" Icon="microphone_solid.png">
-            <!--<ShellContent ContentTemplate="{DataTemplate views:DogsPage}" />-->
+        <!--<Tab Title="Voice Command" Icon="microphone_solid.png">
             <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
-        </Tab>
+        </Tab>-->
     </FlyoutItem>
     <FlyoutItem Title="About" Icon="icon_about.png">
         <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />

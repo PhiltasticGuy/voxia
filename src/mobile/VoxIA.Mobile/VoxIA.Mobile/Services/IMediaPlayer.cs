@@ -6,7 +6,7 @@ namespace VoxIA.Mobile.Services
 {
     public interface IMediaPlayer
     {
-        void Play();
+        void Play(string url);
 
         void Pause();
     }

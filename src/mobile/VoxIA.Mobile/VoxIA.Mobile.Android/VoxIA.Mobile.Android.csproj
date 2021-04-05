@@ -103,9 +103,6 @@
     <AndroidResource Include="Resources\drawable\album_cover_generic.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\raw\PaulCantrell_Chopin_PreludeOp28No4.mp3" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\book_solid.png" />
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +113,24 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\music_solid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\raw\Beat_Thee.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\raw\Hold_on_a_Sec.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\raw\Spring_Chicken.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\raw\Study_and_Relax.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\raw\The_Celebrated_Minuet.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\raw\Wakka_Wakka.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
