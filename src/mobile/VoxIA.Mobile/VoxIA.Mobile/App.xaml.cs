@@ -1,8 +1,5 @@
-﻿using System;
-using VoxIA.Mobile.Services;
-using VoxIA.Mobile.Views;
+﻿using VoxIA.Mobile.Services;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace VoxIA.Mobile
 {
@@ -15,6 +12,7 @@ namespace VoxIA.Mobile
 
             DependencyService.Register<MockDataStore>();
             DependencyService.Register<ISongProvider, MockSongProvider>();
+            
             MainPage = new AppShell();
         }
 

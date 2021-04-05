@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading;
@@ -13,24 +12,42 @@ namespace VoxIA.Mobile.ViewModels
 {
     public class SongsViewModel : BaseViewModel
     {
+        private static readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
+
         private ISongProvider SongProvider => DependencyService.Get<ISongProvider>();
+
+        public Command LoadSongs { get; }
+        public Command<Song> SongTapped { get; }
+        public Command PerformSearch { get; }
+
+        public ObservableCollection<Song> Songs { get; }
 
         private Song _selectedSong;
 
-        public ObservableCollection<Song> Songs { get; }
-        public Command LoadSongsCommand { get; }
-        public Command<Song> SongTapped { get; }
-        public Command PerformSearch { get; }
+        public Song SelectedSong
+        {
+            get => _selectedSong;
+            set
+            {
+                SetProperty(ref _selectedSong, value);
+                OnSongSelected(value);
+            }
+        }
 
         public SongsViewModel()
         {
             Title = "Song Library";
             Songs = new ObservableCollection<Song>();
-            //OnLoadSongs().Wait();
 
-            LoadSongsCommand = new Command(async () => await OnLoadSongs());
+            LoadSongs = new Command(async () => await OnLoadSongs());
             SongTapped = new Command<Song>(OnSongSelected);
             PerformSearch = new Command<string>(async (string query) => await OnPerformSearch(query));
+        }
+
+        public void OnAppearing()
+        {
+            IsBusy = true;
+            SelectedSong = null;
         }
 
         public async Task OnPerformSearch(string query)
@@ -45,6 +62,7 @@ namespace VoxIA.Mobile.ViewModels
 
             try
             {
+                await _semaphoreSlim.WaitAsync();
                 Songs.Clear();
                 var songs = await SongProvider.GetSongsByQueryAsync(query);
                 foreach (var song in songs)
@@ -58,6 +76,7 @@ namespace VoxIA.Mobile.ViewModels
             }
             finally
             {
+                _semaphoreSlim.Release();
                 IsBusy = false;
             }
         }
@@ -68,6 +87,7 @@ namespace VoxIA.Mobile.ViewModels
 
             try
             {
+                await _semaphoreSlim.WaitAsync();
                 Songs.Clear();
                 var songs = await SongProvider.GetAllSongsAsync();
                 foreach (var song in songs)
@@ -81,32 +101,12 @@ namespace VoxIA.Mobile.ViewModels
             }
             finally
             {
+                _semaphoreSlim.Release();
                 IsBusy = false;
             }
         }
 
-        public void OnAppearing()
-        {
-            IsBusy = true;
-            SelectedSong = null;
-        }
-
-        public Song SelectedSong
-        {
-            get => _selectedSong;
-            set
-            {
-                SetProperty(ref _selectedSong, value);
-                OnSongSelected(value);
-            }
-        }
-
-        private async void OnAddSong(object obj)
-        {
-            await Shell.Current.GoToAsync(nameof(NewItemPage));
-        }
-
-        async void OnSongSelected(Song song)
+        private async void OnSongSelected(Song song)
         {
             if (song == null)
                 return;

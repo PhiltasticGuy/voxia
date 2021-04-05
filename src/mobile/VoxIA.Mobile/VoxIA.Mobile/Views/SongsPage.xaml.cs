@@ -33,18 +33,18 @@ namespace VoxIA.Mobile.Views
             {
                 //SongsListView.ItemsSource = await SongProvider.GetAllSongsAsync();
                 //await _viewModel.OnLoadSongs();
-                if (_viewModel.LoadSongsCommand.CanExecute(null))
+                if (_viewModel.LoadSongs.CanExecute(null))
                 {
-                    _viewModel.LoadSongsCommand.Execute(null);
+                    _viewModel.LoadSongs.Execute(null);
                 }
             }
             else
             {
                 //SongsListView.ItemsSource = await SongProvider.GetSongsByQueryAsync(e.NewTextValue);
                 //await _viewModel.OnPerformSearch(e.NewTextValue);
-                if (_viewModel.LoadSongsCommand.CanExecute(e.NewTextValue))
+                if (_viewModel.LoadSongs.CanExecute(e.NewTextValue))
                 {
-                    _viewModel.PerformSearch.Execute(e.NewTextValue);
+                    _viewModel.LoadSongs.Execute(e.NewTextValue);
                 }
             }
         }

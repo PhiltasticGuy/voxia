@@ -11,7 +11,7 @@ namespace VoxIA.Mobile.ViewModels
     {
         private ISongProvider SongProvider => DependencyService.Get<ISongProvider>();
 
-        public Command PlayNowCommand { get; }
+        public Command PlayNow { get; }
 
         public string SongId
         {
@@ -49,7 +49,7 @@ namespace VoxIA.Mobile.ViewModels
 
         public SongDetailsViewModel()
         {
-            PlayNowCommand = new Command(OnPlayNowClicked);
+            PlayNow = new Command(OnPlayNowClicked);
         }
 
         public async void OnPlayNowClicked()

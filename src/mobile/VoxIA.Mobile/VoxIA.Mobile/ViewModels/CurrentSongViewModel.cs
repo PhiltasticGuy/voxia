@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
-using VoxIA.Mobile.Models;
 using VoxIA.Mobile.Services;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace VoxIA.Mobile.ViewModels
 {
-    // TODO: Should be a difference between CurrentlyPlaying and SongDetails! Split this up...
-
     [QueryProperty(nameof(SongId), nameof(SongId))]
     public class CurrentSongViewModel : BaseViewModel
     {

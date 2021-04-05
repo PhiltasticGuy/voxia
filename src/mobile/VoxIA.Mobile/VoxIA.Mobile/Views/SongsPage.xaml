@@ -30,7 +30,7 @@
           x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
           https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
         -->
-        <RefreshView x:DataType="local:SongsViewModel" Command="{Binding LoadSongsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Padding="10">
+        <RefreshView x:DataType="local:SongsViewModel" Command="{Binding LoadSongs}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Padding="10">
             <CollectionView x:Name="SongsListView"
                 ItemsSource="{Binding Songs}"
                 SelectionMode="None">
