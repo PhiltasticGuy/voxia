@@ -35,7 +35,7 @@
                         </StackLayout>
                     <StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
                         <Button Margin="0,10,0,0" Text="PLAY NOW"
-                        Command="{Binding PlaySongCommand}"
+                        Command="{Binding PlayNowCommand}"
                         CommandParameter="{Binding SongId}"
                         BackgroundColor="{StaticResource Primary}"
                         TextColor="White" />

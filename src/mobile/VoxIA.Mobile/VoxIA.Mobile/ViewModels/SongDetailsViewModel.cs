@@ -11,7 +11,7 @@ namespace VoxIA.Mobile.ViewModels
     {
         private ISongProvider SongProvider => DependencyService.Get<ISongProvider>();
 
-        public Command PlaySongCommand { get; }
+        public Command PlayNowCommand { get; }
 
         public string SongId
         {
@@ -49,10 +49,10 @@ namespace VoxIA.Mobile.ViewModels
 
         public SongDetailsViewModel()
         {
-            PlaySongCommand = new Command(OnPlaySongClicked);
+            PlayNowCommand = new Command(OnPlayNowClicked);
         }
 
-        public async void OnPlaySongClicked()
+        public async void OnPlayNowClicked()
         {
             // Remove the current page from the navigation stack because we
             // don't want the users to return to the details page when they
