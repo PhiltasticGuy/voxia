@@ -7,6 +7,7 @@ using System.Timers;
 using System.Windows.Input;
 using VoxIA.Mobile.Models;
 using VoxIA.Mobile.Services;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace VoxIA.Mobile.ViewModels
@@ -30,7 +31,7 @@ namespace VoxIA.Mobile.ViewModels
         private bool _isPlaying;
 
         private readonly Timer _timer = new Timer(1000);
-        private readonly int _length = 10;
+        private int _length = 60;
         private int _position = 0;
         private float _progress = 0f;
 
@@ -96,6 +97,16 @@ namespace VoxIA.Mobile.ViewModels
             set => SetProperty(ref _progress, value);
         }
 
+        public int Length
+        {
+            get => _length;
+            set
+            {
+                SetProperty(ref _length, value);
+                OnPropertyChanged(nameof(SongLength));
+            }
+        }
+
         public string SongLength
         {
             get => TimeSpan.FromSeconds(_length).ToString(@"mm\:ss");
@@ -114,7 +125,7 @@ namespace VoxIA.Mobile.ViewModels
             {
                 Position += 1;
 
-                if (Position == _length)
+                if (Position == Length)
                 {
                     _timer.Stop();
 
@@ -125,7 +136,7 @@ namespace VoxIA.Mobile.ViewModels
                 }
                 else
                 {
-                    SongProgress = (float)Position / _length;
+                    SongProgress = (float)Position / Length;
                 }
             };
         }
@@ -140,10 +151,15 @@ namespace VoxIA.Mobile.ViewModels
             if (IsPlaying)
             {
                 _timer.Start();
+
+                var x = DependencyService.Get<IMediaPlayer>();
+                x.Play();
             }
             else
             {
                 _timer.Stop();
+                var x = DependencyService.Get<IMediaPlayer>();
+                x.Pause();
             }
         }
 
@@ -166,6 +182,8 @@ namespace VoxIA.Mobile.ViewModels
                     Id = song.Id;
                     SongTitle = song.Title;
                     ArtistName = song.ArtistName;
+                    AlbumCover = song.AlbumCover;
+                    Length = song.Length;
 
                     Application.Current.Properties["currentSongId"] = id;
                 }

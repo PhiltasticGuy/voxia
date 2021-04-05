@@ -25,7 +25,7 @@
                 <StackLayout BackgroundColor="{StaticResource Accent}" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
                         <ContentView Padding="0,40,0,40" VerticalOptions="FillAndExpand">
-                            <Image Source="album_cover_generic.png" VerticalOptions="Center" HeightRequest="128" />
+                            <Image Source="{Binding AlbumCover}" VerticalOptions="Center" HeightRequest="128" />
                         </ContentView>
                     </StackLayout>
                 </StackLayout>
