@@ -11,5 +11,7 @@ namespace VoxIA.Mobile.Services
         Task<Song> GetSongByIdAsync(string id);
 
         Task<IReadOnlyList<Song>> GetAllSongsAsync();
+
+        Task<IReadOnlyList<Song>> GetSongsByQueryAsync(string query);
     }
 }
