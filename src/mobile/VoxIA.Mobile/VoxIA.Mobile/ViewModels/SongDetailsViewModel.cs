@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
-using VoxIA.Mobile.Models;
 using VoxIA.Mobile.Services;
+using VoxIA.Mobile.Views;
 using Xamarin.Forms;
 
 namespace VoxIA.Mobile.ViewModels
@@ -12,6 +10,8 @@ namespace VoxIA.Mobile.ViewModels
     public class SongDetailsViewModel : BaseViewModel
     {
         private ISongProvider SongProvider => DependencyService.Get<ISongProvider>();
+
+        public Command PlaySongCommand { get; }
 
         public string SongId
         {
@@ -45,6 +45,22 @@ namespace VoxIA.Mobile.ViewModels
         {
             get => _albumCover;
             set => SetProperty(ref _albumCover, value);
+        }
+
+        public SongDetailsViewModel()
+        {
+            PlaySongCommand = new Command(OnPlaySongClicked);
+        }
+
+        public async void OnPlaySongClicked()
+        {
+            // Remove the current page from the navigation stack because we
+            // don't want the users to return to the details page when they
+            // go back to the song library.
+            Shell.Current.Navigation.RemovePage(Shell.Current.CurrentPage);
+
+            // Navigate to the Currently Playing page.
+            await Shell.Current.GoToAsync($"///{nameof(CurrentlyPlayingPage)}?{nameof(CurrentSongViewModel.SongId)}={SongId}");
         }
 
         public async void LoadSongById(string id)
