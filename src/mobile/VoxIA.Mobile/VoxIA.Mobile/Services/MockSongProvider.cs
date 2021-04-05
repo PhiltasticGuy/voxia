@@ -85,13 +85,13 @@ namespace VoxIA.Mobile.Services
 
         public async Task<IReadOnlyList<Song>> GetSongsByQueryAsync(string query)
         {
-            string cleanQuery = query.Trim().ToLower();
+            string sanitizedQuery = query?.Trim().ToLower() ?? "";
 
             return await Task.FromResult(
                 _songs.FindAll(song => {
                     return
-                        song.Title.ToLower().Contains(cleanQuery) ||
-                        song.ArtistName.ToLower().Contains(cleanQuery);
+                        song.Title.ToLower().Contains(sanitizedQuery) ||
+                        song.ArtistName.ToLower().Contains(sanitizedQuery);
                 }));
         }
 

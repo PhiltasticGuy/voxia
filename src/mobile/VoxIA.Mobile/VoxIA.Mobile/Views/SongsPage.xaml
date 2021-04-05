@@ -7,68 +7,85 @@
              xmlns:model="clr-namespace:VoxIA.Mobile.Models"  
              x:Name="BrowseSongsPage">
 
+    <!--
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Command="{Binding AddSongCommand}" />
     </ContentPage.ToolbarItems>
-    <!--
-      x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
-      https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
     -->
-    <RefreshView x:DataType="local:SongsViewModel" Command="{Binding LoadSongsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Padding="10">
-        <CollectionView x:Name="SongsListView"
+
+    <StackLayout Orientation="Vertical">
+        <!--<SearchBar x:Name="searchBar"
+                   Placeholder="Search"
+                   SearchCommand="{Binding PerformSearch}"
+                   SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
+                   />-->
+        <SearchBar x:Name="searchBar"
+                   HorizontalOptions="Fill"
+                   VerticalOptions="CenterAndExpand"
+                   Placeholder="Search"
+                   HorizontalTextAlignment="Start"
+                   TextChanged="OnTextChangedAsync" />
+        
+        <!--
+          x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
+          https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
+        -->
+        <RefreshView x:DataType="local:SongsViewModel" Command="{Binding LoadSongsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Padding="10">
+            <CollectionView x:Name="SongsListView"
                 ItemsSource="{Binding Songs}"
                 SelectionMode="None">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <!--<StackLayout Orientation="Horizontal" x:DataType="model:Song">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <!--<StackLayout Orientation="Horizontal" x:DataType="model:Song">
                         
                     </StackLayout>-->
-                    <Grid RowSpacing="10" x:DataType="model:Song">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                        <Grid RowSpacing="10" x:DataType="model:Song">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-                        <!--Source="{Binding ImageUrl}"-->
-                        <Frame Grid.Column="0"
+                            <!--Source="{Binding ImageUrl}"-->
+                            <Frame Grid.Column="0"
                                CornerRadius="100" 
                                HeightRequest="60"
                                WidthRequest="60"
                                HorizontalOptions="Center"
                                Padding="0"
                                IsClippedToBounds="True">
-                            <Image Source="{Binding AlbumCover}"
+                                <Image Source="{Binding AlbumCover}"
                                    Aspect="AspectFill"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center" />
-                        </Frame>
-                        <StackLayout Grid.Column="1" Padding="10">
-                            <Label Text="{Binding Title}" 
+                            </Frame>
+                            <StackLayout Grid.Column="1" Padding="10">
+                                <Label Text="{Binding Title}" 
                                    LineBreakMode="NoWrap" 
                                    Style="{DynamicResource ListItemTextStyle}" 
                                    FontSize="16"
                                    FontAttributes="Bold" />
-                            <Label Text="{Binding ArtistName}" 
+                                <Label Text="{Binding ArtistName}" 
                                    LineBreakMode="NoWrap"
                                    Style="{DynamicResource ListItemDetailTextStyle}"
                                    FontSize="13"
                                    FontAttributes="Italic" />
-                            <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer 
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer 
                                     NumberOfTapsRequired="1"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type local:SongsViewModel}}, Path=SongTapped}"		
                                     CommandParameter="{Binding .}">
-                                </TapGestureRecognizer>
-                            </StackLayout.GestureRecognizers>
-                        </StackLayout>
-                    </Grid>
-                    
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </RefreshView>
+                                    </TapGestureRecognizer>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </Grid>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </StackLayout>
 </ContentPage>

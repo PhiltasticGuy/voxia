@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace VoxIA.Mobile.ViewModels
         public Command LoadSongsCommand { get; }
         public Command AddSongCommand { get; }
         public Command<Song> SongTapped { get; }
+        public Command PerformSearch { get; }
 
         public SongsViewModel()
         {
@@ -28,6 +30,36 @@ namespace VoxIA.Mobile.ViewModels
             LoadSongsCommand = new Command(async () => await OnLoadSongs());
             SongTapped = new Command<Song>(OnSongSelected);
             AddSongCommand = new Command(OnAddSong);
+            PerformSearch = new Command<string>(async (string query) => await OnPerformSearch(query));
+        }
+
+        async Task OnPerformSearch(string query)
+        {
+            if (string.IsNullOrEmpty(query))
+            {
+                await OnLoadSongs();
+                return;
+            }
+
+            IsBusy = true;
+
+            try
+            {
+                Songs.Clear();
+                var songs = await SongProvider.GetSongsByQueryAsync(query);
+                foreach (var song in songs)
+                {
+                    Songs.Add(song);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         async Task OnLoadSongs()
