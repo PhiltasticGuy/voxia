@@ -7,25 +7,25 @@
              xmlns:model="clr-namespace:VoxIA.Mobile.Models"  
              x:Name="BrowseSongsPage">
 
-    <!--
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Command="{Binding AddSongCommand}" />
-    </ContentPage.ToolbarItems>
-    -->
-
     <StackLayout Orientation="Vertical">
         <!--<SearchBar x:Name="searchBar"
                    Placeholder="Search"
                    SearchCommand="{Binding PerformSearch}"
                    SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
                    />-->
+        <!--<SearchBar x:Name="searchBar"
+                   HorizontalOptions="Fill"
+                   VerticalOptions="CenterAndExpand"
+                   Placeholder="Search"
+                   HorizontalTextAlignment="Start"
+                   TextChanged="OnTextChanged" />-->
         <SearchBar x:Name="searchBar"
                    HorizontalOptions="Fill"
                    VerticalOptions="CenterAndExpand"
                    Placeholder="Search"
                    HorizontalTextAlignment="Start"
                    TextChanged="OnTextChangedAsync" />
-        
+
         <!--
           x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
           https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using VoxIA.Mobile.Models;
 
@@ -80,24 +81,30 @@ namespace VoxIA.Mobile.Services
 
         public async Task<IReadOnlyList<Song>> GetAllSongsAsync()
         {
-            return await Task.FromResult(_songs);
+            return await Task.Run(() => _songs);
         }
 
         public async Task<IReadOnlyList<Song>> GetSongsByQueryAsync(string query)
         {
             string sanitizedQuery = query?.Trim().ToLower() ?? "";
 
-            return await Task.FromResult(
-                _songs.FindAll(song => {
-                    return
-                        song.Title.ToLower().Contains(sanitizedQuery) ||
-                        song.ArtistName.ToLower().Contains(sanitizedQuery);
-                }));
+            return await Task.Run(() =>
+                {
+                    // Simulate long-running task.
+                    //Thread.Sleep(5000);
+
+                    return _songs.FindAll(song =>
+                    {
+                        return
+                            song.Title.ToLower().Contains(sanitizedQuery) ||
+                            song.ArtistName.ToLower().Contains(sanitizedQuery);
+                    });
+                });
         }
 
         public async Task<Song> GetSongByIdAsync(string id)
         {
-            return await Task.FromResult(_songs.FirstOrDefault(_ => _.Id == id));
+            return await Task.Run(() => _songs.FirstOrDefault(_ => _.Id == id));
         }
     }
 }

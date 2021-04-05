@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VoxIA.Mobile.Models;
-using VoxIA.Mobile.Services;
+﻿using VoxIA.Mobile.Services;
 using VoxIA.Mobile.ViewModels;
-using VoxIA.Mobile.Views;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace VoxIA.Mobile.Views
 {
     public partial class SongsPage : ContentPage
     {
+        //private ISongProvider SongProvider => DependencyService.Get<ISongProvider>();
         private readonly SongsViewModel _viewModel;
 
         public SongsPage()
@@ -24,24 +15,59 @@ namespace VoxIA.Mobile.Views
 
             BindingContext = _viewModel = new SongsViewModel();
 
-            SongsListView.ItemsSource = DependencyService.Get<ISongProvider>().GetSongsByQueryAsync(searchBar.Text).Result;
+            //SongsListView.ItemsSource = SongProvider.GetSongsByQueryAsync(searchBar.Text).Result;
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
             _viewModel.OnAppearing();
+
+            // Clear the SearchBar.
+            this.searchBar.Text = string.Empty;
+        }
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.NewTextValue))
+            {
+                //SongsListView.ItemsSource = await SongProvider.GetAllSongsAsync();
+                //await _viewModel.OnLoadSongs();
+                if (_viewModel.LoadSongsCommand.CanExecute(null))
+                {
+                    _viewModel.LoadSongsCommand.Execute(null);
+                }
+            }
+            else
+            {
+                //SongsListView.ItemsSource = await SongProvider.GetSongsByQueryAsync(e.NewTextValue);
+                //await _viewModel.OnPerformSearch(e.NewTextValue);
+                if (_viewModel.LoadSongsCommand.CanExecute(e.NewTextValue))
+                {
+                    _viewModel.PerformSearch.Execute(e.NewTextValue);
+                }
+            }
         }
 
         private async void OnTextChangedAsync(object sender, TextChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(e.NewTextValue))
             {
-                this.SongsListView.ItemsSource = await DependencyService.Get<ISongProvider>().GetAllSongsAsync();
+                //SongsListView.ItemsSource = await SongProvider.GetAllSongsAsync();
+                await _viewModel.OnLoadSongs();
+                //if (_viewModel.LoadSongsCommand.CanExecute(null))
+                //{
+                //    _viewModel.LoadSongsCommand.Execute(null);
+                //}
             }
             else
             {
-                this.SongsListView.ItemsSource = await DependencyService.Get<ISongProvider>().GetSongsByQueryAsync(e.NewTextValue);
+                //SongsListView.ItemsSource = await SongProvider.GetSongsByQueryAsync(e.NewTextValue);
+                await _viewModel.OnPerformSearch(e.NewTextValue);
+                //if (_viewModel.LoadSongsCommand.CanExecute(e.NewTextValue))
+                //{
+                //    _viewModel.PerformSearch.Execute(e.NewTextValue);
+                //}
             }
         }
     }
