@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Timers;
 using System.Windows.Input;
+using VoxIA.Mobile.Models;
 using VoxIA.Mobile.Services;
 using Xamarin.Forms;
 
@@ -25,7 +26,7 @@ namespace VoxIA.Mobile.ViewModels
         private bool _isPlaying;
 
         private readonly Timer _timer = new Timer(1000);
-        private int _length = 60;
+        private int _length = 0;
         private int _position = 0;
         private float _progress = 0f;
 
@@ -116,8 +117,8 @@ namespace VoxIA.Mobile.ViewModels
         {
             Title = "Currently Playing";
 
-            PlaySongCommand = new Command(TogglePlayState);
-            PauseSongCommand = new Command(TogglePlayState);
+            PlaySongCommand = new Command(TogglePlayStateAsync);
+            PauseSongCommand = new Command(TogglePlayStateAsync);
             PreviousSongCommand = new Command(PlayPreviousSong);
             NextSongCommand = new Command(PlayNextSong);
 
@@ -129,7 +130,7 @@ namespace VoxIA.Mobile.ViewModels
                 {
                     _timer.Stop();
 
-                    TogglePlayState();
+                    TogglePlayStateAsync();
 
                     Position = 0;
                     SongProgress = 0f;
@@ -141,7 +142,7 @@ namespace VoxIA.Mobile.ViewModels
             };
         }
 
-        private void TogglePlayState()
+        private async void TogglePlayStateAsync()
         {
             IsPlaying = !IsPlaying;
 
@@ -152,8 +153,21 @@ namespace VoxIA.Mobile.ViewModels
             {
                 _timer.Start();
 
+                var song = new Song()
+                {
+                    Id = Id,
+                    Url = Url
+                };
+
                 var x = DependencyService.Get<IMediaPlayer>();
-                x.Play(Url);
+                await x.PlayAsync(song);
+
+                Id = song.Id;
+                SongTitle = song.Title;
+                ArtistName = song.ArtistName;
+                AlbumCover = song.AlbumCover;
+                Url = song.Url;
+                Length = song.Length;
             }
             else
             {
@@ -180,11 +194,11 @@ namespace VoxIA.Mobile.ViewModels
                 if (song != null)
                 {
                     Id = song.Id;
-                    SongTitle = song.Title;
-                    ArtistName = song.ArtistName;
-                    AlbumCover = song.AlbumCover;
+                    //SongTitle = song.Title;
+                    //ArtistName = song.ArtistName;
+                    //AlbumCover = song.AlbumCover;
                     Url = song.Url;
-                    Length = song.Length;
+                    //Length = song.Length;
 
                     Application.Current.Properties["currentSongId"] = id;
                 }

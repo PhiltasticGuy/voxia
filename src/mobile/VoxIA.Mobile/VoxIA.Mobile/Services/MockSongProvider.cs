@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using VoxIA.Mobile.Models;
 
@@ -19,7 +16,7 @@ namespace VoxIA.Mobile.Services
                 new Song {
                     Id = "0",
                     Title = "Hold on a Sec",
-                    ArtistName = "Bryan Tech",
+                    ArtistName = "Bryan Teoh",
                     AlbumCover = "album_cover_generic.png",
                     Url = "https://freepd.com/music/Hold%20on%20a%20Sec.mp3",
                     Length = 125
@@ -35,7 +32,7 @@ namespace VoxIA.Mobile.Services
                 new Song {
                     Id = "2",
                     Title = "Spring Chicken",
-                    ArtistName = "Bryan Tech" ,
+                    ArtistName = "Bryan Teoh" ,
                     AlbumCover = "album_cover_generic.png",
                     Url = "https://freepd.com/music/Spring%20Chicken.mp3",
                     Length = 166
@@ -59,75 +56,20 @@ namespace VoxIA.Mobile.Services
                 new Song {
                     Id = "5",
                     Title = "Wakka Wakka",
-                    ArtistName="Bryan Tech",
+                    ArtistName="Bryan Teoh",
                     AlbumCover = "album_cover_generic.png",
                     Url = "https://freepd.com/music/Wakka%20Wakka.mp3",
                     Length = 121
+                },
+                new Song {
+                    Id = "6",
+                    Title = "Mysterious Lights",
+                    ArtistName="Bryan Teoh",
+                    AlbumCover = "album_cover_generic.png",
+                    Url = "https://freepd.com/music/Mysterious%20Lights.mp3",
+                    Length = 178
                 }
             };
-            //_songs = new List<Song>()
-            //{
-            //    new Song {
-            //        Id = Guid.NewGuid().ToString(),
-            //        Title = "First item",
-            //        ArtistName = "This is an item description.",
-            //        AlbumCover = "album_cover_generic.png"
-            //    },
-            //    new Song {
-            //        Id = Guid.NewGuid().ToString(),
-            //        Title = "Second item",
-            //        ArtistName = "This is an item description." ,
-            //        AlbumCover = "album_cover_generic.png"
-            //    },
-            //    new Song {
-            //        Id = Guid.NewGuid().ToString(),
-            //        Title = "Third item",
-            //        ArtistName = "This is an item description." ,
-            //        AlbumCover = "album_cover_generic.png"
-            //    },
-            //    new Song {
-            //        Id = Guid.NewGuid().ToString(),
-            //        Title = "Fourth item",
-            //        ArtistName = "This is an item description.",
-            //        AlbumCover = "album_cover_generic.png"
-            //    },
-            //    new Song {
-            //        Id = Guid.NewGuid().ToString(),
-            //        Title = "Fifth item",
-            //        ArtistName="This is an item description.",
-            //        AlbumCover = "album_cover_generic.png"
-            //    },
-            //    new Song {
-            //        Id = Guid.NewGuid().ToString(),
-            //        Title = "Sixth item",
-            //        ArtistName="This is an item description.",
-            //        AlbumCover = "album_cover_generic.png"
-            //    },
-            //    new Song {
-            //        Id = Guid.NewGuid().ToString(),
-            //        Title = "Seventh item",
-            //        ArtistName="This is an item description.",
-            //        AlbumCover = "album_cover_generic.png"
-            //    },
-            //    new Song {
-            //        Id = Guid.NewGuid().ToString(),
-            //        Title = "Eighth item",
-            //        ArtistName="This is an item description.",
-            //        AlbumCover = "album_cover_generic.png"
-            //    },
-            //    new Song {
-            //        Id = Guid.NewGuid().ToString(),
-            //        Title = "Ninth item",
-            //        ArtistName="This is an item description.",
-            //        AlbumCover = "album_cover_generic.png"
-            //    },
-            //    new Song {
-            //        Id = Guid.NewGuid().ToString(),
-            //        Title = "Tenth item",
-            //        ArtistName="This is an item description.",
-            //        AlbumCover = "album_cover_generic.png"
-            //    }
-            //};
         }
 
         public async Task<IReadOnlyList<Song>> GetAllSongsAsync()
