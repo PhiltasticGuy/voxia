@@ -4,6 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 *.mp3
+generated
 
 # User-specific files
 *.rsuser
