@@ -70,7 +70,13 @@ namespace VoxIA.Mobile.ViewModels
         public bool IsPlaying
         {
             get => _isPlaying;
-            set => SetProperty(ref _isPlaying, value);
+            set
+            {
+                SetProperty(ref _isPlaying, value);
+
+                // Don't forget to signal a change in 'IsPaused' too!
+                OnPropertyChanged(nameof(IsPaused));
+            }
         }
 
         public bool IsPaused => !IsPlaying;
@@ -115,8 +121,8 @@ namespace VoxIA.Mobile.ViewModels
         {
             Title = "Currently Playing";
 
-            PlaySongCommand = new Command(TogglePlayStateAsync);
-            PauseSongCommand = new Command(TogglePlayStateAsync);
+            PlaySongCommand = new Command(TogglePlayState);
+            PauseSongCommand = new Command(TogglePlayState);
             PreviousSongCommand = new Command(PlayPreviousSong);
             NextSongCommand = new Command(PlayNextSong);
         }
@@ -129,33 +135,20 @@ namespace VoxIA.Mobile.ViewModels
             });
             MessagingCenter.Subscribe<string, float>(MessengerKeys.App, MessengerKeys.Position, (app, position) => SongProgress = position);
             MessagingCenter.Subscribe<string, long>(MessengerKeys.App, MessengerKeys.Length, (app, length) => Length = (int)length);
+            MessagingCenter.Subscribe<string>(MessengerKeys.App, MessengerKeys.EndReached, app => EndReached());
         }
 
-        private async void TogglePlayStateAsync()
+        private void TogglePlayState()
         {
             IsPlaying = !IsPlaying;
 
-            // Don't forget to signal a change in 'IsPaused' too!
-            OnPropertyChanged(nameof(IsPaused));
-
+            var x = DependencyService.Get<IMediaPlayer>();
             if (IsPlaying)
             {
-                var song = new Song()
-                {
-                    Id = Id,
-                    Url = Url
-                };
-
-                var x = DependencyService.Get<IMediaPlayer>();
-                await x.PlayAsync(song);
-
-                SongTitle = song.Title;
-                ArtistName = song.ArtistName;
-                AlbumCover = song.AlbumCover;
+                x.Play();
             }
             else
             {
-                var x = DependencyService.Get<IMediaPlayer>();
                 x.Pause();
             }
         }
@@ -166,6 +159,13 @@ namespace VoxIA.Mobile.ViewModels
 
         private void PlayNextSong()
         {
+        }
+
+        private void EndReached()
+        {
+            SongProgress = 0;
+            Position = 0;
+            IsPlaying = false;
         }
 
         private async void LoadSongById(string id)
@@ -179,6 +179,16 @@ namespace VoxIA.Mobile.ViewModels
                     Id = song.Id;
                     Url = song.Url;
                 }
+
+                var x = DependencyService.Get<IMediaPlayer>();
+                await x.InitializeAsync(song);
+
+                SongTitle = song.Title;
+                ArtistName = song.ArtistName;
+                AlbumCover = song.AlbumCover;
+                IsPlaying = true;
+
+                x.Play();
             }
             catch (Exception)
             {

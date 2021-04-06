@@ -14,8 +14,11 @@ An open-source, voice-activated music player for your mobile devices.
 
 * .NET 5.0
 * Xamarin.Forms
+	* Xamarin.Forms MessagingCenter
 * Xamarin.Android
+	* MediaMetadataRetriever
 * LibVLCSharp
+	* 
 * ZeroC Ice
 
 ## Mobile Application

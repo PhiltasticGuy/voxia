@@ -5,7 +5,9 @@ namespace VoxIA.Mobile.Services
 {
     public interface IMediaPlayer
     {
-        Task PlayAsync(Song song);
+        Task InitializeAsync(Song song);
+
+        void Play();
 
         void Pause();
     }

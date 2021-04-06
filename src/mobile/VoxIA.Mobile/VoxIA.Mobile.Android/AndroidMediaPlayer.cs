@@ -23,12 +23,7 @@ namespace VoxIA.Mobile.Droid
             }
         }
 
-        public void Pause()
-        {
-            _player.Pause();
-        }
-
-        public async Task PlayAsync(Song song)
+        public async Task InitializeAsync(Song song)
         {
             Id3MetadataRetriever metadataRetriever = new Id3MetadataRetriever();
             await metadataRetriever.PopulateMetadataAsync(song);
@@ -36,6 +31,15 @@ namespace VoxIA.Mobile.Droid
             _player.Reset();
             await _player.SetDataSourceAsync(song.Url);
             _player.Prepare();
+        }
+
+        public void Pause()
+        {
+            _player.Pause();
+        }
+
+        public void Play()
+        {
             _player.Start();
         }
     }

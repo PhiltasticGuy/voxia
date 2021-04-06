@@ -19,12 +19,7 @@ namespace VoxIA.Mobile.Services
             _player = new MediaPlayer(_vlc);
         }
 
-        public void Pause()
-        {
-            _player.Pause();
-        }
-
-        public async Task PlayAsync(Song song)
+        public async Task InitializeAsync(Song song)
         {
             IMetadataRetriever metadataRetriever = DependencyService.Get<IMetadataRetriever>();
             await metadataRetriever.PopulateMetadataAsync(song);
@@ -38,7 +33,15 @@ namespace VoxIA.Mobile.Services
             _player.EndReached += EndReached;
             _player.Playing += Playing;
             _player.Paused += Paused;
+        }
 
+        public void Pause()
+        {
+            _player.Pause();
+        }
+
+        public void Play()
+        {
             _player.Play();
         }
 
@@ -59,6 +62,5 @@ namespace VoxIA.Mobile.Services
 
         private void TimeChanged(object sender, MediaPlayerTimeChangedEventArgs e) =>
             MessagingCenter.Send(MessengerKeys.App, MessengerKeys.Time, e.Time);
-
     }
 }
