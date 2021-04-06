@@ -1,20 +1,13 @@
-﻿using Android.App;
-using Android.Content;
-using Android.Media;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+﻿using Android.Media;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using VoxIA.Mobile.Models;
+using VoxIA.Mobile.Services;
 
 namespace VoxIA.Mobile.Droid
 {
-    public class Id3MetadataRetriever : MediaMetadataRetriever
+    public class Id3MetadataRetriever : IMetadataRetriever
     {
         public Id3MetadataRetriever()
         {
@@ -29,10 +22,11 @@ namespace VoxIA.Mobile.Droid
                 _metadataRetriever = new MediaMetadataRetriever();
                 _metadataRetriever.SetDataSourceAsync(url, new Dictionary<string, string>());
 
-                Song song = new Song();
-
-                song.Title = _metadataRetriever.ExtractMetadata(MetadataKey.Title);
-                song.ArtistName = _metadataRetriever.ExtractMetadata(MetadataKey.Artist);
+                Song song = new Song()
+                {
+                    Title = _metadataRetriever.ExtractMetadata(MetadataKey.Title),
+                    ArtistName = _metadataRetriever.ExtractMetadata(MetadataKey.Artist)
+                };
                 var album = _metadataRetriever.ExtractMetadata(MetadataKey.Album);
                 var duration = _metadataRetriever.ExtractMetadata(MetadataKey.Duration);
                 if (!string.IsNullOrEmpty(duration) && int.TryParse(duration, out int durationResult))
