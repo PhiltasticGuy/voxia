@@ -49,6 +49,7 @@ namespace VoxIA.Mobile.ViewModels
 
         public SongDetailsViewModel()
         {
+            Title = "Song Details";
             PlayNow = new Command(OnPlayNowClicked);
         }
 

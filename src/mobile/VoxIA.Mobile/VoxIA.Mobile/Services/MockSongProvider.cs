@@ -21,42 +21,48 @@ namespace VoxIA.Mobile.Services
                     Title = "Hold on a Sec",
                     ArtistName = "Bryan Tech",
                     AlbumCover = "album_cover_generic.png",
-                    Url = "https://freepd.com/music/Hold%20on%20a%20Sec.mp3"
+                    Url = "https://freepd.com/music/Hold%20on%20a%20Sec.mp3",
+                    Length = 125
                 },
                 new Song {
                     Id = "1",
                     Title = "Beat Thee",
                     ArtistName = "Alexander Nakarada" ,
                     AlbumCover = "album_cover_generic.png",
-                    Url = "https://freepd.com/music/Beat%20Thee.mp3"
+                    Url = "https://freepd.com/music/Beat%20Thee.mp3",
+                    Length = 191
                 },
                 new Song {
                     Id = "2",
                     Title = "Spring Chicken",
                     ArtistName = "Bryan Tech" ,
                     AlbumCover = "album_cover_generic.png",
-                    Url = "https://freepd.com/music/Spring%20Chicken.mp3"
+                    Url = "https://freepd.com/music/Spring%20Chicken.mp3",
+                    Length = 166
                 },
                 new Song {
                     Id = "3",
                     Title = "Study and Relax",
                     ArtistName = "Kevin MacLeod",
                     AlbumCover = "album_cover_generic.png",
-                    Url = "https://freepd.com/music/Study%20and%20Relax.mp3"
+                    Url = "https://freepd.com/music/Study%20and%20Relax.mp3",
+                    Length = 223
                 },
                 new Song {
                     Id = "4",
                     Title = "The Celebrated Minuit",
                     ArtistName="Rafael Krux",
                     AlbumCover = "album_cover_generic.png",
-                    Url = "https://freepd.com/music/The%20Celebrated%20Minuet.mp3"
+                    Url = "https://freepd.com/music/The%20Celebrated%20Minuet.mp3",
+                    Length = 216
                 },
                 new Song {
                     Id = "5",
                     Title = "Wakka Wakka",
                     ArtistName="Bryan Tech",
                     AlbumCover = "album_cover_generic.png",
-                    Url = "https://freepd.com/music/Wakka%20Wakka.mp3"
+                    Url = "https://freepd.com/music/Wakka%20Wakka.mp3",
+                    Length = 121
                 }
             };
             //_songs = new List<Song>()

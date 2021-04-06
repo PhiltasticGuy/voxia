@@ -6,12 +6,16 @@ An open-source, voice-activated music player for your mobile devices.
 
 ## Architecture
 
+### Project Structure
+
+![Project Structure](assets/project-structure.png)
+
 ### Technologies
 
 * .NET 5.0
 * Xamarin.Forms
-	* Xamarin.Android
-	* Xamarin.iOS
+* Xamarin.Android
+* LibVLCSharp
 * ZeroC Ice
 
 ## Mobile Application
@@ -27,6 +31,4 @@ An open-source, voice-activated music player for your mobile devices.
 	* [Stop]
 	* [Previous]
 	* [Next]
-* Upload Song
-	* [Upload]
 * About

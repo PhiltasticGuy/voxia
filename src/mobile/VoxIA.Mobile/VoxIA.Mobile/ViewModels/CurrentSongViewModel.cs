@@ -184,7 +184,7 @@ namespace VoxIA.Mobile.ViewModels
                     ArtistName = song.ArtistName;
                     AlbumCover = song.AlbumCover;
                     Url = song.Url;
-                    //Length = song.Length;
+                    Length = song.Length;
 
                     Application.Current.Properties["currentSongId"] = id;
                 }
