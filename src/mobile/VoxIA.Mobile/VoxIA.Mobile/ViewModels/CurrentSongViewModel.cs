@@ -167,7 +167,7 @@ namespace VoxIA.Mobile.ViewModels
                 }
                 while (current.Id != Id);
 
-                Song next = songs[(i == 0 ? songs.Count - 1 : i - 1)];
+                Song next = songs[(--i == 0 ? songs.Count - 1 : i - 1)];
 
                 var x = DependencyService.Get<IMediaPlayer>();
                 await x.InitializeAsync(next);
