@@ -28,6 +28,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "contracts", "contracts", "{
 		src\ice\contracts\Printer.ice = src\ice\contracts\Printer.ice
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{A52EF04E-9141-4AC3-A50E-A155747E1399}"
+	ProjectSection(SolutionItems) = preProject
+		assets\project-structure.png = assets\project-structure.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
