@@ -153,12 +153,73 @@ namespace VoxIA.Mobile.ViewModels
             }
         }
 
-        private void PlayPreviousSong()
+        private async void PlayPreviousSong()
         {
+            try
+            {
+                var songs = await SongProvider.GetAllSongsAsync();
+
+                int i = 0;
+                Song current;
+                do
+                {
+                    current = songs[i++];
+                }
+                while (current.Id != Id);
+
+                Song next = songs[(i == 0 ? songs.Count - 1 : i - 1)];
+
+                var x = DependencyService.Get<IMediaPlayer>();
+                await x.InitializeAsync(next);
+
+                Id = next.Id;
+                SongTitle = next.Title;
+                ArtistName = next.ArtistName;
+                AlbumCover = next.AlbumCover;
+                Url = next.Url;
+                IsPlaying = true;
+
+                x.Play();
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("Failed to Load Item");
+            }
         }
 
-        private void PlayNextSong()
+        private async void PlayNextSong()
         {
+
+            try
+            {
+                var songs = await SongProvider.GetAllSongsAsync();
+
+                int i = 0;
+                Song current;
+                do
+                {
+                    current = songs[i++];
+                }
+                while (current.Id != Id);
+
+                Song next = songs[(i) % songs.Count];
+
+                var x = DependencyService.Get<IMediaPlayer>();
+                await x.InitializeAsync(next);
+
+                Id = next.Id;
+                SongTitle = next.Title;
+                ArtistName = next.ArtistName;
+                AlbumCover = next.AlbumCover;
+                Url = next.Url;
+                IsPlaying = true;
+
+                x.Play();
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("Failed to Load Item");
+            }
         }
 
         private void EndReached()
