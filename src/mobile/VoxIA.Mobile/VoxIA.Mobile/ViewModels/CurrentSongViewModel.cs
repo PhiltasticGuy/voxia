@@ -251,9 +251,10 @@ namespace VoxIA.Mobile.ViewModels
 
                 x.Play();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Debug.WriteLine("Failed to Load Item");
+                Debug.WriteLine("Failed to Load Item!");
+                Debug.WriteLine(ex);
             }
         }
     }
