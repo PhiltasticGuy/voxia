@@ -1,16 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
     <SliceCompile Include="../contracts/Printer.ice" />
-    <PackageReference Include="zeroc.ice.net" Version="3.7.5" />
-    <PackageReference Include="zeroc.icebuilder.msbuild" Version="5.0.6" />
-    <Compile Update="generated\Printer.cs">
-      <SliceCompileSource>../contracts/Printer.ice</SliceCompileSource>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -24,7 +20,5 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
-  <ItemGroup />
 
 </Project>

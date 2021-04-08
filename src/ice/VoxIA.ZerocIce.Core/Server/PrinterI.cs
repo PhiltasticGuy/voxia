@@ -4,31 +4,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace IceSoup.Server
+namespace VoxIA.ZerocIce.Core.Server
 {
     public class PrinterI : Demo.PrinterDisp_
     {
-        private bool _isRunning = false;
-
-        public void Destroy()
-        {
-            lock (this)
-            {
-                _isRunning = false;
-            }
-        }
-
-        public void Run()
-        {
-            lock (this)
-            {
-                _isRunning = true;
-                while (_isRunning)
-                {
-                    
-                }
-            }
-        }
+        private readonly Mutex _mutex = new();
 
         public override string getLibraryContent(Ice.Current current = null)
         {
@@ -43,34 +23,10 @@ namespace IceSoup.Server
             return sb.ToString();
         }
 
-        //public override void uploadFile(Ice.Current current = null)
-        //{
-        //    var files = Directory.GetFiles($".\\stream-lib");
-
-        //    StringBuilder sb = new StringBuilder();
-        //    foreach (var f in files)
-        //    {
-        //        sb.AppendLine(f);
-        //    }
-        //}
-
         public override void printString(string s, Ice.Current current = null)
         {
             Console.WriteLine(s);
         }
-
-        //public override void uploadFile(byte[] file, Ice.Current current = null)
-        //{
-        //    MemoryStream ms = new MemoryStream(file);
-        //    StreamReader sr = new StreamReader(ms);
-        //    var content = sr.ReadToEnd();
-
-        //    File.WriteAllBytes("./upload-area/uploaded.txt", file);
-
-        //    Thread.Sleep(60000);
-
-        //    Console.WriteLine(content);
-        //}
 
         public override Task uploadFileAsync(byte[] file, Ice.Current current = null)
         {
@@ -81,13 +37,13 @@ namespace IceSoup.Server
 
                 File.WriteAllBytes("./upload-area/uploaded.txt", file);
 
-                Thread.Sleep(60000);
+                Thread.Sleep(5000);
 
+                _mutex.WaitOne();
                 Console.WriteLine(content);
+                _mutex.ReleaseMutex();
             });
         }
-
-        readonly Mutex _mutex = new();
 
         public override Task uploadFileChunkAsync(string filename, int offset, byte[] file, Ice.Current current = null)
         {
@@ -130,57 +86,6 @@ namespace IceSoup.Server
                 }
                 _mutex.ReleaseMutex();
             });
-        }
-    }
-
-    class Program
-    {
-        static int Main(string[] args)
-        {
-            try
-            {
-                using var communicator = Ice.Util.initialize(ref args);
-
-                //
-                // Destroy the communicator on Ctrl+C or Ctrl+Break
-                //
-                Console.CancelKeyPress += (sender, eventArgs) => communicator.destroy();
-
-                RunIceServer(communicator);
-            }
-            catch (Exception e)
-            {
-                Console.Error.WriteLine(e);
-                return 1;
-            }
-
-            return 0;
-        }
-
-        private static void RunIceServer(Ice.Communicator communicator)
-        {
-            // Create the upload area directory.
-            Directory.CreateDirectory("./upload-area");
-
-            var adapter =
-                communicator.createObjectAdapterWithEndpoints("SimplePrinterAdapter", "default -h localhost -p 10000");
-            var server = new PrinterI();
-            adapter.add(server, Ice.Util.stringToIdentity("SimplePrinter"));
-            adapter.activate();
-            //communicator.waitForShutdown();
-
-            var t = new Thread(new ThreadStart(server.Run));
-            t.Start();
-
-            try
-            {
-                communicator.waitForShutdown();
-            }
-            finally
-            {
-                server.Destroy();
-                t.Join();
-            }
         }
     }
 }

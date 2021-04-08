@@ -13,10 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D942BAB9-E6E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ice", "ice", "{AB62AE63-7A69-483D-BED2-84C1B3AD1152}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoxIA.IceServer", "src\ice\VoxIA.IceServer\VoxIA.IceServer.csproj", "{CD09873D-135B-42A4-85B7-36F62F4970C3}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoxIA.IceClient", "src\ice\VoxIA.IceClient\VoxIA.IceClient.csproj", "{F046D205-C164-4ED6-975C-00C979D3BD52}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "contracts", "contracts", "{8639760F-38A0-4906-92CC-88E4FFA31FF9}"
 	ProjectSection(SolutionItems) = preProject
 		src\ice\contracts\Printer.ice = src\ice\contracts\Printer.ice
@@ -27,29 +23,40 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{A52EF0
 		assets\project-structure.png = assets\project-structure.png
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoxIA.ZerocIce.Client", "src\ice\VoxIA.ZerocIce.Client\VoxIA.ZerocIce.Client.csproj", "{3335AD3E-2ACF-4093-B4D5-C5B6DA99C086}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoxIA.ZerocIce.Core", "src\ice\VoxIA.ZerocIce.Core\VoxIA.ZerocIce.Core.csproj", "{F87525D0-A1AA-4D03-9CDB-4F885CE25B85}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoxIA.ZerocIce.Server", "src\ice\VoxIA.ZerocIce.Server\VoxIA.ZerocIce.Server.csproj", "{614294C3-21D2-46F6-98B6-655041026CA6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CD09873D-135B-42A4-85B7-36F62F4970C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CD09873D-135B-42A4-85B7-36F62F4970C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CD09873D-135B-42A4-85B7-36F62F4970C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CD09873D-135B-42A4-85B7-36F62F4970C3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F046D205-C164-4ED6-975C-00C979D3BD52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F046D205-C164-4ED6-975C-00C979D3BD52}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F046D205-C164-4ED6-975C-00C979D3BD52}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F046D205-C164-4ED6-975C-00C979D3BD52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3335AD3E-2ACF-4093-B4D5-C5B6DA99C086}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3335AD3E-2ACF-4093-B4D5-C5B6DA99C086}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3335AD3E-2ACF-4093-B4D5-C5B6DA99C086}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3335AD3E-2ACF-4093-B4D5-C5B6DA99C086}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F87525D0-A1AA-4D03-9CDB-4F885CE25B85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F87525D0-A1AA-4D03-9CDB-4F885CE25B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F87525D0-A1AA-4D03-9CDB-4F885CE25B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F87525D0-A1AA-4D03-9CDB-4F885CE25B85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{614294C3-21D2-46F6-98B6-655041026CA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{614294C3-21D2-46F6-98B6-655041026CA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{614294C3-21D2-46F6-98B6-655041026CA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{614294C3-21D2-46F6-98B6-655041026CA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AB62AE63-7A69-483D-BED2-84C1B3AD1152} = {D942BAB9-E6EC-4EA1-961B-CA4800827BB2}
-		{CD09873D-135B-42A4-85B7-36F62F4970C3} = {AB62AE63-7A69-483D-BED2-84C1B3AD1152}
-		{F046D205-C164-4ED6-975C-00C979D3BD52} = {AB62AE63-7A69-483D-BED2-84C1B3AD1152}
 		{8639760F-38A0-4906-92CC-88E4FFA31FF9} = {AB62AE63-7A69-483D-BED2-84C1B3AD1152}
+		{3335AD3E-2ACF-4093-B4D5-C5B6DA99C086} = {AB62AE63-7A69-483D-BED2-84C1B3AD1152}
+		{F87525D0-A1AA-4D03-9CDB-4F885CE25B85} = {AB62AE63-7A69-483D-BED2-84C1B3AD1152}
+		{614294C3-21D2-46F6-98B6-655041026CA6} = {AB62AE63-7A69-483D-BED2-84C1B3AD1152}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3FA24D14-D770-452A-AE35-36AE834E103F}
