@@ -1,0 +1,78 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31019.35
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoxIA.Mobile.Android", "src\mobile\VoxIA.Mobile\VoxIA.Mobile.Android\VoxIA.Mobile.Android.csproj", "{7F9AF50C-4005-4A93-9222-81D980604D2D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoxIA.Mobile", "src\mobile\VoxIA.Mobile\VoxIA.Mobile\VoxIA.Mobile.csproj", "{9BD2EE52-FF51-40EF-811D-E2C292837737}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{643F5A1F-5694-417A-A838-A11C0A252C2C}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D942BAB9-E6EC-4EA1-961B-CA4800827BB2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mobile", "mobile", "{21640164-CFF6-4040-80DA-FD0914A3E7CB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ice", "ice", "{AB62AE63-7A69-483D-BED2-84C1B3AD1152}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoxIA.IceServer", "src\ice\VoxIA.IceServer\VoxIA.IceServer.csproj", "{CD09873D-135B-42A4-85B7-36F62F4970C3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoxIA.IceClient", "src\ice\VoxIA.IceClient\VoxIA.IceClient.csproj", "{F046D205-C164-4ED6-975C-00C979D3BD52}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "contracts", "contracts", "{8639760F-38A0-4906-92CC-88E4FFA31FF9}"
+	ProjectSection(SolutionItems) = preProject
+		src\ice\contracts\Printer.ice = src\ice\contracts\Printer.ice
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{A52EF04E-9141-4AC3-A50E-A155747E1399}"
+	ProjectSection(SolutionItems) = preProject
+		assets\project-structure.png = assets\project-structure.png
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F9AF50C-4005-4A93-9222-81D980604D2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F9AF50C-4005-4A93-9222-81D980604D2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F9AF50C-4005-4A93-9222-81D980604D2D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7F9AF50C-4005-4A93-9222-81D980604D2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F9AF50C-4005-4A93-9222-81D980604D2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F9AF50C-4005-4A93-9222-81D980604D2D}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{9BD2EE52-FF51-40EF-811D-E2C292837737}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BD2EE52-FF51-40EF-811D-E2C292837737}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BD2EE52-FF51-40EF-811D-E2C292837737}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9BD2EE52-FF51-40EF-811D-E2C292837737}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BD2EE52-FF51-40EF-811D-E2C292837737}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BD2EE52-FF51-40EF-811D-E2C292837737}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{CD09873D-135B-42A4-85B7-36F62F4970C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD09873D-135B-42A4-85B7-36F62F4970C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD09873D-135B-42A4-85B7-36F62F4970C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD09873D-135B-42A4-85B7-36F62F4970C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F046D205-C164-4ED6-975C-00C979D3BD52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F046D205-C164-4ED6-975C-00C979D3BD52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F046D205-C164-4ED6-975C-00C979D3BD52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F046D205-C164-4ED6-975C-00C979D3BD52}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7F9AF50C-4005-4A93-9222-81D980604D2D} = {21640164-CFF6-4040-80DA-FD0914A3E7CB}
+		{9BD2EE52-FF51-40EF-811D-E2C292837737} = {21640164-CFF6-4040-80DA-FD0914A3E7CB}
+		{21640164-CFF6-4040-80DA-FD0914A3E7CB} = {D942BAB9-E6EC-4EA1-961B-CA4800827BB2}
+		{AB62AE63-7A69-483D-BED2-84C1B3AD1152} = {D942BAB9-E6EC-4EA1-961B-CA4800827BB2}
+		{CD09873D-135B-42A4-85B7-36F62F4970C3} = {AB62AE63-7A69-483D-BED2-84C1B3AD1152}
+		{F046D205-C164-4ED6-975C-00C979D3BD52} = {AB62AE63-7A69-483D-BED2-84C1B3AD1152}
+		{8639760F-38A0-4906-92CC-88E4FFA31FF9} = {AB62AE63-7A69-483D-BED2-84C1B3AD1152}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3FA24D14-D770-452A-AE35-36AE834E103F}
+	EndGlobalSection
+EndGlobal
