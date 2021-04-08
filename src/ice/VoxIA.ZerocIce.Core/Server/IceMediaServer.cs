@@ -36,29 +36,22 @@ namespace VoxIA.ZerocIce.Core.Server
 
         private void RunIceServer(Ice.Communicator communicator)
         {
-            try
-            {
-                // Create the upload area directory.
-                Directory.CreateDirectory("./upload-area");
+            // Create the upload area directory.
+            Directory.CreateDirectory("./upload-area");
 
-                var adapter =
-                    communicator.createObjectAdapterWithEndpoints("SimplePrinterAdapter", "default -h localhost -p 10000");
-                var server = new PrinterI();
-                adapter.add(server, Ice.Util.stringToIdentity("SimplePrinter"));
-                adapter.activate();
+            var adapter =
+                communicator.createObjectAdapterWithEndpoints("SimplePrinterAdapter", "default -h localhost -p 10000");
+            var server = new PrinterI();
+            adapter.add(server, Ice.Util.stringToIdentity("SimplePrinter"));
+            adapter.activate();
 
-                // Ensure that communicator is notified of the stop signal.
-                ShutdownCommunicatorAction = () =>
-                {
-                    communicator.shutdown();
-                };
-
-                communicator.waitForShutdown();
-            }
-            finally
+            // Ensure that communicator is notified of the stop signal.
+            ShutdownCommunicatorAction = () =>
             {
                 communicator.destroy();
-            }
+            };
+
+            communicator.waitForShutdown();
         }
 
         public void Stop()

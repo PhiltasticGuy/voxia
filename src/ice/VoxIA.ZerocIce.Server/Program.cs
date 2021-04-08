@@ -16,7 +16,7 @@ namespace VoxIA.ZerocIce.Server
                 //
                 Console.CancelKeyPress += (sender, eventArgs) => server.Stop();
 
-                server.Start(args);
+                server.Start(args, "config.server");
             }
             catch (Exception e)
             {
