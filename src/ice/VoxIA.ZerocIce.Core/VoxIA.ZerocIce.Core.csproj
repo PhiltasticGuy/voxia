@@ -6,8 +6,10 @@
 
 	<ItemGroup>
 		<SliceCompile Include="../contracts/Printer.ice" />
+		<PackageReference Include="LibVLCSharp" Version="3.5.0" />
 		<PackageReference Include="zeroc.ice.net" Version="3.7.5" />
-		<PackageReference Include="zeroc.icebuilder.msbuild" Version="5.0.6" />
+		<PackageReference Include="zeroc.icebuilder.msbuild" Version="5.0.7" />
+		<ProjectReference Include="..\..\mobile\VoxIA.Mobile\VoxIA.Mobile\VoxIA.Mobile.csproj" />
 		<Compile Update="generated\Printer.cs">
 			<SliceCompileSource>../contracts/Printer.ice</SliceCompileSource>
 		</Compile>
