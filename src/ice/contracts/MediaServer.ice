@@ -22,8 +22,6 @@
             // Song Library
             ["amd"] SongArray GetAllSongs();
             ["amd"] SongArray FindSongs(string query);
-            StringArray FindSongsByTitle(string title);
-            StringArray FindSongsByArtist(string artist);
 
             // Playback Controls
             ["amd"] bool PlaySong(string clientId, string filename);
@@ -31,15 +29,10 @@
             bool StopSong(string clientId);
 
             // Song Management
-            bool AddSong(Song song);
-            bool UpdateSong(Song song);
+            ["amd"] void UploadSong(string filename, ByteArray content);
+            ["amd"] void UploadSongChunk(string filename, int offset, ByteArray content);
+            ["amd"] bool UpdateSong(Song song);
             bool DeleteSong(string filename);
-
-            void printString(string s);
-            string getLibraryContent();
-        
-            ["amd"] void uploadFile(ByteArray file);
-            ["amd"] void uploadFileChunk(string filename, int offset, ByteArray file);
         }
     }
 }

@@ -20,6 +20,7 @@ namespace VoxIA.ZerocIce.Core.Server
 
         public override async Task<Song[]> GetAllSongsAsync(Ice.Current current = null)
         {
+            //TODO: Remove hard-coded folder!
             var files = Directory.GetFiles($".\\tracks");
 
             using var vlc = new LibVLC();
@@ -54,17 +55,7 @@ namespace VoxIA.ZerocIce.Core.Server
             }).ToArray();
         }
 
-        public override string[] FindSongsByTitle(string title, Ice.Current current = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override string[] FindSongsByArtist(string artist, Ice.Current current = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override async Task<bool> PlaySongAsync(string clientId, string songUrl, Ice.Current current = null)
+        public override async Task<bool> PlaySongAsync(string clientId, string filename, Ice.Current current = null)
         {
             LibVlcPlaybackService service;
             if (_services.ContainsKey(clientId))
@@ -76,7 +67,7 @@ namespace VoxIA.ZerocIce.Core.Server
                 _services[clientId] = service = new LibVlcPlaybackService(false, "--no-video");
             }
 
-            var song = new Song() { Url = songUrl };
+            var song = new Song() { Url = filename };
 
             service.Playing += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Started the stream for client '{clientId}'.");
             service.Paused += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Paused the stream for client '{clientId}'.");
@@ -120,64 +111,15 @@ namespace VoxIA.ZerocIce.Core.Server
             return true;
         }
 
-        public override bool AddSong(Song song, Ice.Current current = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool UpdateSong(Song song, Ice.Current current = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool DeleteSong(string filename, Ice.Current current = null)
-        {
-            string path = "./tracks/" + filename;
-            if (!File.Exists(path))
-            {
-                return false;
-            }
-
-            File.Delete(path);
-            return true;
-        }
-
-        public override string getLibraryContent(Ice.Current current = null)
-        {
-            var files = Directory.GetFiles($".\\stream-lib");
-
-            StringBuilder sb = new();
-            foreach (var f in files)
-            {
-                sb.AppendLine(f);
-            }
-
-            return sb.ToString();
-        }
-
-        public override void printString(string s, Ice.Current current = null)
-        {
-            Console.WriteLine(s);
-        }
-
-        public override Task uploadFileAsync(byte[] file, Ice.Current current = null)
+        public override Task UploadSongAsync(string filename, byte[] content, Ice.Current current = null)
         {
             return Task.Run(() => {
-                MemoryStream ms = new(file);
-                StreamReader sr = new(ms);
-                var content = sr.ReadToEnd();
-
-                File.WriteAllBytes("./upload-area/uploaded.txt", file);
-
-                Thread.Sleep(5000);
-
-                _mutex.WaitOne();
-                Console.WriteLine(content);
-                _mutex.ReleaseMutex();
+                //TODO: Remove hard-coded folder!
+                File.WriteAllBytes("./tracks/" + filename, content);
             });
         }
 
-        public override Task uploadFileChunkAsync(string filename, int offset, byte[] file, Ice.Current current = null)
+        public override Task UploadSongChunkAsync(string filename, int offset, byte[] content, Ice.Current current = null)
         {
             return Task.Run(() =>
             {
@@ -188,36 +130,93 @@ namespace VoxIA.ZerocIce.Core.Server
                 //    content = sr.ReadToEnd();
                 //}
 
-                _mutex.WaitOne();
+                //_mutex.WaitOne();
                 //Console.WriteLine("###############################################################################");
                 //Console.WriteLine($"      Filename : {filename}");
                 //Console.WriteLine($"        Offset : {offset}");
-                //Console.WriteLine($" Buffer Length : {file.Length}");
+                //Console.WriteLine($" Buffer Length : {content.Length}");
                 //Console.WriteLine();
                 //Console.WriteLine($"       Content : {content}");
                 //Console.WriteLine("###############################################################################");
 
                 try
                 {
+                    //TODO: Remove hard-coded folder!
                     string filepath = $"./tracks/{filename}";
                     if (offset == 0)
                     {
                         File.Delete(filepath);
-                        File.WriteAllBytes(filepath, file);
+                        File.WriteAllBytes(filepath, content);
                     }
                     else
                     {
                         using FileStream fs = new(filepath, FileMode.Append);
                         using BinaryWriter bw = new(fs);
-                        bw.Write(file);
+                        bw.Write(content);
                     }
                 }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine(e.ToString());
                 }
-                _mutex.ReleaseMutex();
+                //_mutex.ReleaseMutex();
             });
+        }
+
+        public override Task<bool> UpdateSongAsync(Song song, Ice.Current current = null)
+        {
+            if (song == null)
+            {
+                //TODO: Log an error message!
+                return Task.FromResult(false);
+            }
+
+            if (string.IsNullOrEmpty(song?.Url))
+            {
+                //TODO: Log an error message!
+                return Task.FromResult(false);
+            }
+
+            if (string.IsNullOrEmpty(song?.Title))
+            {
+                //TODO: Log an error message!
+                return Task.FromResult(false);
+            }
+
+            if (string.IsNullOrEmpty(song?.Artist))
+            {
+                //TODO: Log an error message!
+                return Task.FromResult(false);
+            }
+
+            //TODO: Remove hard-coded folder!
+            var filePath = "./tracks/" + song?.Url;
+            if (!File.Exists(filePath))
+            {
+                //TODO: Log an error message!
+                return Task.FromResult(false);
+            }
+
+            using var vlc = new LibVLC();
+            using var media = new Media(vlc, filePath, FromType.FromPath);
+            media.SetMeta(MetadataType.Title, song?.Title);
+            media.SetMeta(MetadataType.Artist, song?.Artist);
+
+            return Task.FromResult(media.SaveMeta());
+        }
+
+        public override bool DeleteSong(string filename, Ice.Current current = null)
+        {
+            //TODO: Remove hard-coded folder!
+            string path = "./tracks/" + filename;
+            if (!File.Exists(path))
+            {
+                //TODO: Log an error message!
+                return false;
+            }
+
+            File.Delete(path);
+            return true;
         }
     }
 }

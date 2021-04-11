@@ -197,7 +197,7 @@ namespace VoxIA.ZerocIce.Core.Client
                 while (br.PeekChar() != -1)
                 {
                     byte[] chunk = br.ReadBytes(chunkSize);
-                    await mediaServer.uploadFileChunkAsync(filename, offset, chunk);
+                    await mediaServer.UploadSongChunkAsync(filename, offset, chunk);
                     offset += chunk.Length;
 
                     //string utfString = Encoding.UTF8.GetString(chunk, 0, chunk.Length);
@@ -208,7 +208,18 @@ namespace VoxIA.ZerocIce.Core.Client
 
         private void UpdateSong(MediaServerPrx mediaServer)
         {
-            mediaServer?.UpdateSong(new Song() { Title = "Test Title", Artist = "Test Artist" });
+            DisplayAvailableSongs(mediaServer);
+
+            Console.WriteLine();
+            Console.Write("> Enter filename of the song that you want to UPDATE: ");
+            string filename = Console.ReadLine();
+            Console.Write("> Enter updated 'title' for the song: ");
+            string title = Console.ReadLine();
+            Console.Write("> Enter updated 'artist' for the song: ");
+            string artist = Console.ReadLine();
+            Console.WriteLine();
+
+            mediaServer?.UpdateSong(new Song() { Title = title, Artist = artist, Url = "Test.mp3" });
         }
 
         private void DeleteSong(MediaServerPrx mediaServer)
@@ -225,9 +236,10 @@ namespace VoxIA.ZerocIce.Core.Client
 
         private void TestAsyncUploads(MediaServerPrx mediaServer)
         {
-            var content = File.ReadAllBytes($"./local-lib/lorem.txt");
-            var results = mediaServer.begin_uploadFile(content);
-            //mediaServer.uploadFileAsync(content);
+            var filename = "lorem.txt";
+            var content = File.ReadAllBytes($"./local-lib/" + filename);
+            var results = mediaServer.begin_UploadSong(filename, content);
+            mediaServer.begin_UploadSong(filename, content);
 
             Task.Run(() =>
             {
@@ -241,7 +253,7 @@ namespace VoxIA.ZerocIce.Core.Client
                 while (br.PeekChar() != -1)
                 {
                     byte[] chunk = br.ReadBytes(chunkSize);
-                    mediaServer.uploadFileChunkAsync(filename, offset, chunk);
+                    mediaServer.UploadSongChunkAsync(filename, offset, chunk);
                     offset += chunk.Length;
 
                     string utfString = Encoding.UTF8.GetString(chunk, 0, chunk.Length);
@@ -261,7 +273,7 @@ namespace VoxIA.ZerocIce.Core.Client
                 while (br.PeekChar() != -1)
                 {
                     byte[] chunk = br.ReadBytes(chunkSize);
-                    mediaServer.uploadFileChunkAsync(filename, offset, chunk);
+                    mediaServer.UploadSongChunkAsync(filename, offset, chunk);
                     offset += chunk.Length;
 
                     string utfString = Encoding.UTF8.GetString(chunk, 0, chunk.Length);
@@ -272,9 +284,8 @@ namespace VoxIA.ZerocIce.Core.Client
             Console.WriteLine("Test #1");
             Console.WriteLine("Test #2");
             Console.WriteLine("Test #3");
-            mediaServer.printString("Hello World!");
 
-            mediaServer.end_uploadFile(results);
+            mediaServer.end_UploadSong(results);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -291,13 +302,6 @@ namespace VoxIA.ZerocIce.Core.Client
                 disposedValue = true;
             }
         }
-
-        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-        // ~IceMediaClient()
-        // {
-        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-        //     Dispose(disposing: false);
-        // }
 
         public void Dispose()
         {
