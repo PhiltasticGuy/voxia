@@ -1,5 +1,4 @@
-﻿using LibVLCSharp;
-using LibVLCSharp.Shared;
+﻿using LibVLCSharp.Shared;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -15,6 +14,14 @@ namespace VoxIA.ZerocIce.Core.Server
         private MediaPlayer _player;
         //private readonly MediaList _medias;
         private Media _media;
+
+        public event EventHandler<EventArgs> TimeChanged;
+        public event EventHandler<EventArgs> PositionChanged;
+        public event EventHandler<EventArgs> LengthChanged;
+        public event EventHandler<EventArgs> EndReached;
+        public event EventHandler<EventArgs> Paused;
+        public event EventHandler<EventArgs> Stopped;
+        public event EventHandler<EventArgs> Playing;
 
         private bool disposedValue;
 
@@ -74,19 +81,12 @@ namespace VoxIA.ZerocIce.Core.Server
             _player.Media = _media;
 
             //_player.TimeChanged += TimeChanged;
-            //_player.PositionChanged += PositionChanged;
+            //_player.PositionChanged += (sender, e) => Console.WriteLine("Position: " + e.Position);
             //_player.LengthChanged += LengthChanged;
             //_player.EndReached += EndReached;
-            //_player.Playing += Playing;
-            //_player.Paused += Paused;
-            _player.PositionChanged += (sender, e) =>
-            {
-                Console.WriteLine("Position: " + e.Position);
-            };
-            _player.Stopped += (sender, e) =>
-            {
-                Console.WriteLine("STOPPED!");
-            };
+            _player.Playing += (sender, e) => Playing?.Invoke(sender, e);
+            _player.Paused += (sender, e) => Paused?.Invoke(sender, e);
+            _player.Stopped += (sender, e) => Stopped?.Invoke(sender, e);
 
             return true;
         }

@@ -14,6 +14,11 @@ namespace VoxIA.ZerocIce.Server
                 var client = new IceClient();
                 var song = new Song() { Url = "The_Celebrated_Minuet.mp3" };
                 var service = new LibVlcPlaybackService(false, "--no-video");
+
+                service.Playing += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Started the stream for client '{client.Id}'.");
+                service.Paused += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Paused the stream for client '{client.Id}'.");
+                service.Stopped += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Stopped the stream for client '{client.Id}'.");
+
                 await service.InitializeAsync(client, song);
 
                 string choice;
