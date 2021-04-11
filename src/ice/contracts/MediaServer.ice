@@ -26,14 +26,14 @@
             StringArray FindSongsByArtist(string artist);
 
             // Playback Controls
-            ["amd"] bool PlaySong(string clientId, string songUrl);
+            ["amd"] bool PlaySong(string clientId, string filename);
             bool PauseSong(string clientId);
             bool StopSong(string clientId);
 
             // Song Management
             bool AddSong(Song song);
             bool UpdateSong(Song song);
-            bool DeleteSong(string songUrl);
+            bool DeleteSong(string filename);
 
             void printString(string s);
             string getLibraryContent();

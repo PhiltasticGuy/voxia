@@ -61,12 +61,15 @@ namespace VoxIA.ZerocIce.Core.Client
                 {
                     Console.WriteLine("################################################################################");
                     Console.WriteLine("Choose an action from the following list:");
-                    Console.WriteLine("\tlist  - List available songs in the library.");
-                    Console.WriteLine("\tfind  - Find songs by Title or by Artist.");
-                    Console.WriteLine("\tplay  - Play (Stream) the selected song.");
-                    Console.WriteLine("\tpause - Pause the currently playing (streaming) song.");
-                    Console.WriteLine("\tstop  - Stop the playback (stream).");
-                    Console.WriteLine("\tquit  - Quit");
+                    Console.WriteLine("\tlist   - List available songs in the library.");
+                    Console.WriteLine("\tfind   - Find songs by Title or by Artist.");
+                    Console.WriteLine("\tplay   - Play (Stream) the selected song.");
+                    Console.WriteLine("\tpause  - Pause the currently playing (streaming) song.");
+                    Console.WriteLine("\tstop   - Stop the playback (stream).");
+                    Console.WriteLine("\tupload - Add new song to the library.");
+                    Console.WriteLine("\tupdate - Edit existing song in the library.");
+                    Console.WriteLine("\tdelete - Delete existing song from the library.");
+                    Console.WriteLine("\tquit   - Quit");
                     Console.WriteLine();
                     Console.Write("> What do you want to do? ");
                     choice = Console.ReadLine();
@@ -83,29 +86,27 @@ namespace VoxIA.ZerocIce.Core.Client
                             break;
 
                         case "play":
-                            DisplayAvailableSongs(mediaServer);
-
-                            Console.WriteLine();
-                            Console.Write("> Enter filename of the song that you want to play: ");
-                            choice = Console.ReadLine();
-                            Console.WriteLine();
-
-                            if (mediaServer.PlaySong("1", choice))
-                            {
-                                _player.Play(_media);
-                            }
-                            else
-                            {
-                                Console.WriteLine($"Could not play the song '{choice}'. Please try again.");
-                            }
+                            PlaySong(mediaServer);
                             break;
 
                         case "pause":
-                            mediaServer.PauseSong("1");
+                            PauseSong(mediaServer);
                             break;
 
                         case "stop":
-                            mediaServer.StopSong("1");
+                            StopSong(mediaServer);
+                            break;
+
+                        case "upload":
+                            UploadSong(mediaServer);
+                            break;
+
+                        case "update":
+                            UpdateSong(mediaServer);
+                            break;
+
+                        case "delete":
+                            DeleteSong(mediaServer);
                             break;
 
                         case "quit":
@@ -121,69 +122,19 @@ namespace VoxIA.ZerocIce.Core.Client
                     Console.WriteLine("################################################################################");
                     Console.WriteLine();
                 }
-
-                //var obj = communicator.stringToProxy("SimplePrinter:default -h localhost -p 10000");
-                //var printer = MediaServerPrxHelper.checkedCast(obj);
-                //if (printer == null)
-                //{
-                //    throw new ApplicationException("Invalid proxy");
-                //}
-
-                //var content = File.ReadAllBytes($"./local-lib/lorem.txt");
-                //var results = printer.begin_uploadFile(content);
-                ////printer.uploadFileAsync(content);
-
-                //Task.Run(() =>
-                //{
-                //    string filename = "lorem.txt";
-                //    string filepath = $"./local-lib/{filename}";
-                //    const int chunkSize = 1140;
-                //    int offset = 0;
-                //    using var fs = File.OpenRead(filepath);
-                //    using var br = new BinaryReader(fs);
-
-                //    while (br.PeekChar() != -1)
-                //    {
-                //        byte[] chunk = br.ReadBytes(chunkSize);
-                //        printer.uploadFileChunkAsync(filename, offset, chunk);
-                //        offset += chunk.Length;
-
-                //        string utfString = Encoding.UTF8.GetString(chunk, 0, chunk.Length);
-                //        Console.WriteLine(utfString);
-                //    }
-                //});
-
-                //Task.Run(() =>
-                //{
-                //    string filename = "lorem2.txt";
-                //    string filepath = $"./local-lib/{filename}";
-                //    const int chunkSize = 1026;
-                //    int offset = 0;
-                //    using var fs = File.OpenRead(filepath);
-                //    using var br = new BinaryReader(fs);
-
-                //    while (br.PeekChar() != -1)
-                //    {
-                //        byte[] chunk = br.ReadBytes(chunkSize);
-                //        printer.uploadFileChunkAsync(filename, offset, chunk);
-                //        offset += chunk.Length;
-
-                //        string utfString = Encoding.UTF8.GetString(chunk, 0, chunk.Length);
-                //        Console.WriteLine(utfString);
-                //    }
-                //});
-
-                //Console.WriteLine("Test #1");
-                //Console.WriteLine("Test #2");
-                //Console.WriteLine("Test #3");
-                //printer.printString("Hello World!");
-                ////Console.WriteLine(printer.getLibraryContent());
-
-                //printer.end_uploadFile(results);
             }
             finally
             {
                 communicator.destroy();
+            }
+        }
+
+        private static void DisplayAvailableSongs(MediaServerPrx mediaServer)
+        {
+            var songs = mediaServer.GetAllSongs();
+            foreach (Song song in songs)
+            {
+                Console.WriteLine($"  * {song.Title} - {song.Artist} ({song.Url})");
             }
         }
 
@@ -200,13 +151,130 @@ namespace VoxIA.ZerocIce.Core.Client
             }
         }
 
-        private static void DisplayAvailableSongs(MediaServerPrx mediaServer)
+        private void PlaySong(MediaServerPrx mediaServer)
         {
-            var songs = mediaServer.GetAllSongs();
-            foreach (Song song in songs)
+            DisplayAvailableSongs(mediaServer);
+
+            Console.WriteLine();
+            Console.Write("> Enter filename of the song that you want to PLAY: ");
+            string choice = Console.ReadLine();
+            Console.WriteLine();
+
+            if (mediaServer?.PlaySong("1", choice) == true)
             {
-                Console.WriteLine($"  * {song.Title} - {song.Artist} ({song.Url})");
+                _player.Play(_media);
             }
+            else
+            {
+                Console.WriteLine($"Could not play the song '{choice}'. Please try again.");
+            }
+        }
+
+        private void PauseSong(MediaServerPrx mediaServer)
+        {
+            mediaServer?.PauseSong("1");
+        }
+
+        private void StopSong(MediaServerPrx mediaServer)
+        {
+            mediaServer?.StopSong("1");
+        }
+
+        private void UploadSong(MediaServerPrx mediaServer)
+        {
+            Console.Write("> Enter path to the new song's local file: ");
+            string filepath = Console.ReadLine();
+            Console.WriteLine();
+
+            Task.Run(async () =>
+            {
+                string filename = Path.GetFileName(filepath);
+                const int chunkSize = 2048;
+                int offset = 0;
+                using var fs = File.OpenRead(filepath);
+                using var br = new BinaryReader(fs);
+
+                while (br.PeekChar() != -1)
+                {
+                    byte[] chunk = br.ReadBytes(chunkSize);
+                    await mediaServer.uploadFileChunkAsync(filename, offset, chunk);
+                    offset += chunk.Length;
+
+                    //string utfString = Encoding.UTF8.GetString(chunk, 0, chunk.Length);
+                    //Console.WriteLine(utfString);
+                }
+            });
+        }
+
+        private void UpdateSong(MediaServerPrx mediaServer)
+        {
+            mediaServer?.UpdateSong(new Song() { Title = "Test Title", Artist = "Test Artist" });
+        }
+
+        private void DeleteSong(MediaServerPrx mediaServer)
+        {
+            DisplayAvailableSongs(mediaServer);
+
+            Console.WriteLine();
+            Console.Write("> Enter filename of the song that you want to DELETE: ");
+            string filepath = Console.ReadLine();
+            Console.WriteLine();
+
+            mediaServer?.DeleteSong(Path.GetFileName(filepath));
+        }
+
+        private void TestAsyncUploads(MediaServerPrx mediaServer)
+        {
+            var content = File.ReadAllBytes($"./local-lib/lorem.txt");
+            var results = mediaServer.begin_uploadFile(content);
+            //mediaServer.uploadFileAsync(content);
+
+            Task.Run(() =>
+            {
+                string filename = "lorem.txt";
+                string filepath = $"./local-lib/{filename}";
+                const int chunkSize = 1140;
+                int offset = 0;
+                using var fs = File.OpenRead(filepath);
+                using var br = new BinaryReader(fs);
+
+                while (br.PeekChar() != -1)
+                {
+                    byte[] chunk = br.ReadBytes(chunkSize);
+                    mediaServer.uploadFileChunkAsync(filename, offset, chunk);
+                    offset += chunk.Length;
+
+                    string utfString = Encoding.UTF8.GetString(chunk, 0, chunk.Length);
+                    Console.WriteLine(utfString);
+                }
+            });
+
+            Task.Run(() =>
+            {
+                string filename = "lorem2.txt";
+                string filepath = $"./local-lib/{filename}";
+                const int chunkSize = 1026;
+                int offset = 0;
+                using var fs = File.OpenRead(filepath);
+                using var br = new BinaryReader(fs);
+
+                while (br.PeekChar() != -1)
+                {
+                    byte[] chunk = br.ReadBytes(chunkSize);
+                    mediaServer.uploadFileChunkAsync(filename, offset, chunk);
+                    offset += chunk.Length;
+
+                    string utfString = Encoding.UTF8.GetString(chunk, 0, chunk.Length);
+                    Console.WriteLine(utfString);
+                }
+            });
+
+            Console.WriteLine("Test #1");
+            Console.WriteLine("Test #2");
+            Console.WriteLine("Test #3");
+            mediaServer.printString("Hello World!");
+
+            mediaServer.end_uploadFile(results);
         }
 
         protected virtual void Dispose(bool disposing)

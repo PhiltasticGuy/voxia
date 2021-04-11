@@ -130,9 +130,16 @@ namespace VoxIA.ZerocIce.Core.Server
             throw new NotImplementedException();
         }
 
-        public override bool DeleteSong(string songUrl, Ice.Current current = null)
+        public override bool DeleteSong(string filename, Ice.Current current = null)
         {
-            throw new NotImplementedException();
+            string path = "./tracks/" + filename;
+            if (!File.Exists(path))
+            {
+                return false;
+            }
+
+            File.Delete(path);
+            return true;
         }
 
         public override string getLibraryContent(Ice.Current current = null)
@@ -174,25 +181,25 @@ namespace VoxIA.ZerocIce.Core.Server
         {
             return Task.Run(() =>
             {
-                string content = string.Empty;
-                {
-                    using MemoryStream ms = new(file);
-                    using StreamReader sr = new(ms);
-                    content = sr.ReadToEnd();
-                }
+                //string content = string.Empty;
+                //{
+                //    using MemoryStream ms = new(file);
+                //    using StreamReader sr = new(ms);
+                //    content = sr.ReadToEnd();
+                //}
 
                 _mutex.WaitOne();
-                Console.WriteLine("###############################################################################");
-                Console.WriteLine($"      Filename : {filename}");
-                Console.WriteLine($"        Offset : {offset}");
-                Console.WriteLine($" Buffer Length : {file.Length}");
-                Console.WriteLine();
-                Console.WriteLine($"       Content : {content}");
-                Console.WriteLine("###############################################################################");
+                //Console.WriteLine("###############################################################################");
+                //Console.WriteLine($"      Filename : {filename}");
+                //Console.WriteLine($"        Offset : {offset}");
+                //Console.WriteLine($" Buffer Length : {file.Length}");
+                //Console.WriteLine();
+                //Console.WriteLine($"       Content : {content}");
+                //Console.WriteLine("###############################################################################");
 
                 try
                 {
-                    string filepath = $"./upload-area/{filename}";
+                    string filepath = $"./tracks/{filename}";
                     if (offset == 0)
                     {
                         File.Delete(filepath);
