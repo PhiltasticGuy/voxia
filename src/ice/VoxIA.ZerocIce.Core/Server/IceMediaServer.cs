@@ -41,7 +41,7 @@ namespace VoxIA.ZerocIce.Core.Server
 
             var adapter =
                 communicator.createObjectAdapterWithEndpoints("SimplePrinterAdapter", "default -h localhost -p 10000");
-            var server = new PrinterI();
+            var server = new MediaServer();
             adapter.add(server, Ice.Util.stringToIdentity("SimplePrinter"));
             adapter.activate();
 

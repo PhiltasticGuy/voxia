@@ -15,10 +15,12 @@ namespace VoxIA.ZerocIce.Client
             catch (Exception e)
             {
                 Console.Error.WriteLine(e);
+
+                // Allow the user to read the error message.
+                Console.ReadLine();
+
                 return 1;
             }
-
-            Console.ReadLine();
 
             return 0;
         }

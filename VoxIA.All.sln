@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ice", "ice", "{AB62AE63-7A6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "contracts", "contracts", "{8639760F-38A0-4906-92CC-88E4FFA31FF9}"
 	ProjectSection(SolutionItems) = preProject
-		src\ice\contracts\Printer.ice = src\ice\contracts\Printer.ice
+		src\ice\contracts\MediaServer.ice = src\ice\contracts\MediaServer.ice
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{A52EF04E-9141-4AC3-A50E-A155747E1399}"

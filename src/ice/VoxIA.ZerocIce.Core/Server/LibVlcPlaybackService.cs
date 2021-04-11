@@ -2,7 +2,6 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using VoxIA.Mobile.Models;
 
 namespace VoxIA.ZerocIce.Core.Server
 {
@@ -74,7 +73,7 @@ namespace VoxIA.ZerocIce.Core.Server
             var media = new Media(_vlc, mediaPath, FromType.FromPath);
             await media.Parse(MediaParseOptions.ParseLocal);
             song.Title = media.Meta(MetadataType.Title);
-            song.ArtistName = media.Meta(MetadataType.Artist);
+            song.Artist = media.Meta(MetadataType.Artist);
 
             _player = new MediaPlayer(_vlc);
             _media = new Media(_vlc, mediaPath, FromType.FromPath, BuildVlcStreamingOptions(client), ":no-sout-all", ":sout-keep");

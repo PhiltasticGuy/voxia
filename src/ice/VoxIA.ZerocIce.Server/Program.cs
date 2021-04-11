@@ -1,84 +1,30 @@
 ﻿using System;
-using System.Threading.Tasks;
-using VoxIA.Mobile.Models;
 using VoxIA.ZerocIce.Core.Server;
 
 namespace VoxIA.ZerocIce.Server
 {
     class Program
     {
-        static async Task<int> Main(string[] args)
+        static int Main(string[] args)
         {
             try
             {
-                var client = new IceClient();
-                var song = new Song() { Url = "The_Celebrated_Minuet.mp3" };
-                var service = new LibVlcPlaybackService(false, "--no-video");
+                var server = new IceMediaServer();
 
-                service.Playing += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Started the stream for client '{client.Id}'.");
-                service.Paused += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Paused the stream for client '{client.Id}'.");
-                service.Stopped += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Stopped the stream for client '{client.Id}'.");
+                //
+                // Destroy the communicator on Ctrl+C or Ctrl+Break
+                //
+                Console.CancelKeyPress += (sender, eventArgs) => server.Stop();
 
-                await service.InitializeAsync(client, song);
-
-                string choice;
-                bool isRunning = true;
-                while (isRunning)
-                {
-                    Console.WriteLine("################################################################################");
-                    Console.WriteLine("Choose an action from the following list:");
-                    Console.WriteLine("\tplay - Play (Stream) the selected song.");
-                    Console.WriteLine("\tpause - Pause the currently playing (streaming) song.");
-                    Console.WriteLine("\tstop - Stop the playback (stream).");
-                    Console.WriteLine("\tquit - Quit");
-                    Console.WriteLine();
-                    Console.Write("> What do you want to do? ");
-                    choice = Console.ReadLine();
-                    Console.WriteLine();
-
-                    switch (choice.Trim().ToLower())
-                    {
-                        case "play":
-                            //await service.PlayAsync(client, song);
-                            service.Play();
-                            break;
-
-                        case "pause":
-                            service.Pause();
-                            break;
-
-                        case "stop":
-                            service.Stop();
-                            break;
-
-                        case "quit":
-                        case "exit":
-                            isRunning = false;
-                            break;
-
-                        default:
-                            Console.WriteLine("That action doesn't exist...");
-                            break;
-                    };
-
-                    Console.WriteLine("################################################################################");
-                    Console.WriteLine();
-                }
-
-                //var server = new IceMediaServer();
-
-                ////
-                //// Destroy the communicator on Ctrl+C or Ctrl+Break
-                ////
-                //Console.CancelKeyPress += (sender, eventArgs) => server.Stop();
-
-                //server.Start(args, "config.server");
-
-                //service.Stop();
+                server.Start(args, "config.server");
             }
             catch (Exception e)
             {
                 Console.Error.WriteLine(e);
+
+                // Allow the user to read the error message.
+                Console.ReadLine();
+
                 return 1;
             }
 
