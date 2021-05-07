@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  ice.server:
+    image: ${DOCKER_REGISTRY-}voxia/ice-server:latest
+    build:
+      context: .
+      dockerfile: src/ice/VoxIA.ZerocIce.Server/Dockerfile

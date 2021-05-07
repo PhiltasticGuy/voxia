@@ -6,6 +6,10 @@
 *.mp3
 generated
 
+# [NLU/RASA]
+nlu/rasa/
+!nlu/rasa/requirements.txt
+
 # User-specific files
 *.rsuser
 *.suo
