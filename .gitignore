@@ -7,8 +7,8 @@
 generated
 
 # [NLU/RASA]
-nlu/rasa/
-!nlu/rasa/requirements.txt
+src/nlu/rasa/
+!src/nlu/rasa/requirements.txt
 
 # User-specific files
 *.rsuser
