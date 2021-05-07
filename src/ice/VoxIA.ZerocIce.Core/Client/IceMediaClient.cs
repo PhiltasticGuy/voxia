@@ -47,7 +47,7 @@ namespace VoxIA.ZerocIce.Core.Client
         {
             try
             {
-                var obj = communicator.stringToProxy("SimplePrinter:default -h localhost -p 10000");
+                var obj = communicator.stringToProxy("SimplePrinter:tcp -h 127.0.0.1 -p 10000");
                 var mediaServer = MediaServerPrxHelper.checkedCast(obj);
 
                 if (mediaServer == null)

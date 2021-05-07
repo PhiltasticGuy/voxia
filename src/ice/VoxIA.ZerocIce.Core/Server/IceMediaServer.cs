@@ -40,7 +40,7 @@ namespace VoxIA.ZerocIce.Core.Server
             Directory.CreateDirectory("./upload-area");
 
             var adapter =
-                communicator.createObjectAdapterWithEndpoints("SimplePrinterAdapter", "default -h localhost -p 10000");
+                communicator.createObjectAdapterWithEndpoints("SimplePrinterAdapter", "default -h ice.server -p 10000");
             var server = new MediaServer();
             adapter.add(server, Ice.Util.stringToIdentity("SimplePrinter"));
             adapter.activate();

@@ -45,7 +45,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{C6071319-BA3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rasa", "rasa", "{9C4C4D6D-0E4A-4FE3-89C7-AF73CDB6B4D4}"
 	ProjectSection(SolutionItems) = preProject
-		src\nlu\rasa\.gitignore = src\nlu\rasa\.gitignore
+		src\nlu\rasa\.dockerignore = src\nlu\rasa\.dockerignore
+		src\nlu\rasa\Dockerfile = src\nlu\rasa\Dockerfile
 		src\nlu\rasa\requirements.txt = src\nlu\rasa\requirements.txt
 	EndProjectSection
 EndProject

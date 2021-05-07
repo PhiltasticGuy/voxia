@@ -6,3 +6,11 @@ services:
     build:
       context: .
       dockerfile: src/ice/VoxIA.ZerocIce.Server/Dockerfile
+    ports:
+      - "10000:10000"
+
+  rasa.api:
+    image: ${DOCKER_REGISTRY-}voxia/rasa-nlu:latest
+    build:
+      context: .
+      dockerfile: src/nlu/rasa/Dockerfile
