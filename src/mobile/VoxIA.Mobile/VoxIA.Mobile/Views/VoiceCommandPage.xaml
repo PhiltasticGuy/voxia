@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VoxIA.Mobile.Views.VoiceCommandPage"
+             xmlns:vm="clr-namespace:VoxIA.Mobile.ViewModels"
+             Title="{Binding Title}">
+
+    <ContentPage.BindingContext>
+        <vm:VoiceCommandViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Accent">#96d1ff</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Welcome to Xamarin.Forms!"
+                HorizontalOptions="CenterAndExpand" />
+        </StackLayout>
+    </ContentPage.Content>
+
+
+    <ScrollView>
+    <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackLayout BackgroundColor="{StaticResource Accent}" 
+                         VerticalOptions="FillAndExpand" HorizontalOptions="CenterAndExpand" 
+                         Orientation="Horizontal">
+                <ContentView Padding="10,10,10,10" VerticalOptions="FillAndExpand">
+                    <!--<Image Source="philtasticguy_logo.png" VerticalOptions="Center" HeightRequest="64" />-->
+                    <Button Text="Record" 
+                                BorderColor="Blue" BorderRadius="5" BorderWidth="2"
+                                HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+                    <!--<ImageButton Source="microphone_solid.png"
+                    HorizontalOptions="Center"
+                    VerticalOptions="CenterAndExpand" />-->
+                    <!--<ImageButton Source="microphone_solid.png" 
+                        BackgroundColor="Transparent"
+                        WidthRequest="200"
+                        HeightRequest="200"
+                        FlexLayout.AlignSelf="Center"
+                        FlexLayout.Grow="1"
+                        Aspect="AspectFit">
+                    </ImageButton>-->
+                    <!--<Button Image="microphone_solid.png" HeightRequest="80"  WidthRequest="80" />-->
+                </ContentView>
+            </StackLayout>
+            <StackLayout Grid.Row="1" Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
+                <Label Text="VoxIA - Media Player" FontSize="Title"/>
+                <Label Text="This voice activated media player was created for a university project at Avignon Université. It uses .NET 5, Xamarin Forms, LibVLC, Zeroc Ice and Kaldi." FontSize="16" Padding="0,0,0,0"/>
+                <Label Text="Check out the source code at:" FontSize="16" Padding="0,24,0,0" />
+                <Label FontSize="16">
+                    <Label.FormattedText>
+                        <FormattedString >
+                            <FormattedString.Spans>
+                                <Span Text="https://gitlab.com/uapv/voxia" FontAttributes="Bold" />
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </StackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>
