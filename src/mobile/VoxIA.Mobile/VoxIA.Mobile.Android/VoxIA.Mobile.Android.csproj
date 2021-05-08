@@ -58,6 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Plugin.AudioRecorder">
+      <Version>1.1.0</Version>
+    </PackageReference>
     <PackageReference Include="VideoLAN.LibVLC.Android">
       <Version>3.2.0</Version>
     </PackageReference>
@@ -65,6 +68,7 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AndroidMediaRecorder.cs" />
     <Compile Include="AndroidMediaPlayer.cs" />
     <Compile Include="Id3MetadataRetriever.cs" />
     <Compile Include="MainActivity.cs" />

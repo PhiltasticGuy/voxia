@@ -8,6 +8,9 @@ using Android.Widget;
 using Android.OS;
 using Xamarin.Forms;
 using VoxIA.Mobile.Services;
+using Android;
+using AndroidX.Core.Content;
+using AndroidX.Core.App;
 
 namespace VoxIA.Mobile.Droid
 {
@@ -27,6 +30,12 @@ namespace VoxIA.Mobile.Droid
             //DependencyService.Register<IMediaPlayer, AndroidMediaPlayer>();
             DependencyService.Register<IMediaPlayer, LibVlcMediaPlayer>();
             DependencyService.Register<IMetadataRetriever, Id3MetadataRetriever>();
+            DependencyService.Register<IMediaRecorder, AndroidMediaRecorder>();
+
+            if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.RecordAudio) != Permission.Granted)
+            {
+                ActivityCompat.RequestPermissions(this, new String[] { Manifest.Permission.RecordAudio }, 1);
+            }
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {

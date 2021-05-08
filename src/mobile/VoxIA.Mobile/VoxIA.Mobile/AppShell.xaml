@@ -86,14 +86,14 @@
         <ShellContent Route="CurrentlyPlayingPage" ContentTemplate="{DataTemplate local:CurrentlyPlayingPage}" />
     </FlyoutItem>-->
     <FlyoutItem Title="Home" Icon="home_solid.png">
+        <Tab Title="Voice Command" Icon="microphone_solid.png">
+            <ShellContent Route="VoiceCommandPage" ContentTemplate="{DataTemplate local:VoiceCommandPage}" />
+        </Tab>
         <Tab Title="Library" Icon="book_solid.png">
             <ShellContent Route="SongsPage" ContentTemplate="{DataTemplate local:SongsPage}" />
         </Tab>
         <Tab Title="Playing Now" Icon="music_solid.png">
             <ShellContent Route="CurrentlyPlayingPage" ContentTemplate="{DataTemplate local:CurrentlyPlayingPage}" />
-        </Tab>
-        <Tab Title="Voice Command" Icon="microphone_solid.png">
-            <ShellContent Route="VoiceCommandPage" ContentTemplate="{DataTemplate local:VoiceCommandPage}" />
         </Tab>
     </FlyoutItem>
     <FlyoutItem Title="About" Icon="icon_about.png">

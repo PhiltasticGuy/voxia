@@ -21,50 +21,35 @@
                 HorizontalOptions="CenterAndExpand" />
         </StackLayout>
     </ContentPage.Content>
-
-
+    
     <ScrollView>
-    <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <StackLayout BackgroundColor="{StaticResource Accent}" 
-                         VerticalOptions="FillAndExpand" HorizontalOptions="CenterAndExpand" 
-                         Orientation="Horizontal">
-                <ContentView Padding="10,10,10,10" VerticalOptions="FillAndExpand">
-                    <!--<Image Source="philtasticguy_logo.png" VerticalOptions="Center" HeightRequest="64" />-->
-                    <Button Text="Record" 
-                                BorderColor="Blue" BorderRadius="5" BorderWidth="2"
-                                HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
-                    <!--<ImageButton Source="microphone_solid.png"
-                    HorizontalOptions="Center"
-                    VerticalOptions="CenterAndExpand" />-->
-                    <!--<ImageButton Source="microphone_solid.png" 
-                        BackgroundColor="Transparent"
-                        WidthRequest="200"
-                        HeightRequest="200"
-                        FlexLayout.AlignSelf="Center"
-                        FlexLayout.Grow="1"
-                        Aspect="AspectFit">
-                    </ImageButton>-->
-                    <!--<Button Image="microphone_solid.png" HeightRequest="80"  WidthRequest="80" />-->
-                </ContentView>
+        <StackLayout BackgroundColor="#e8fbe1" Padding="10,10,10,10">
+            <StackLayout Orientation="Horizontal" Padding="0,0,0,20">
+                <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                    <Image Source="microphone_solid.png" HeightRequest="128" />
+                </StackLayout>
+                <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                    <Label Text="Ready!" FontSize="21"/>
+                    <StackLayout Orientation="Horizontal">
+                        <Label x:Name="lblMinutes" Text="{Binding MinutesDisplay}" FontSize="70"/>
+                        <Label Text=":" FontSize = "70"/>
+                        <Label x:Name="lblSeconds" Text="{Binding SecondsDisplay}" FontSize="70"/>
+                    </StackLayout>
+                    <!--<StackLayout Orientation="Horizontal">
+                        <Label Text="Detect silence:" FontSize="21"/>
+                        <Switch x:Name="IsSilence" IsToggled="true" />
+                    </StackLayout>-->
+                </StackLayout>
             </StackLayout>
-            <StackLayout Grid.Row="1" Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
-                <Label Text="VoxIA - Media Player" FontSize="Title"/>
-                <Label Text="This voice activated media player was created for a university project at Avignon Université. It uses .NET 5, Xamarin Forms, LibVLC, Zeroc Ice and Kaldi." FontSize="16" Padding="0,0,0,0"/>
-                <Label Text="Check out the source code at:" FontSize="16" Padding="0,24,0,0" />
-                <Label FontSize="16">
-                    <Label.FormattedText>
-                        <FormattedString >
-                            <FormattedString.Spans>
-                                <Span Text="https://gitlab.com/uapv/voxia" FontAttributes="Bold" />
-                            </FormattedString.Spans>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-            </StackLayout>
-        </Grid>
+            <FlexLayout JustifyContent="SpaceAround">
+                <Button x:Name="bntRecord" Text="Record" WidthRequest="100" IsEnabled="{Binding IsRecordEnabled}" Clicked="bntRecord_Clicked" />
+                <Button x:Name="bntStop" Text="Stop" WidthRequest="100" IsEnabled="{Binding IsStopEnabled}" Clicked="bntStop_Clicked"/>
+                <Button x:Name="bntPlay" Text="Play" WidthRequest="100" IsEnabled="{Binding IsPlayEnabled}" Clicked="bntPlay_Clicked" />
+            </FlexLayout>
+
+            <FlexLayout JustifyContent="SpaceAround" HorizontalOptions="Center">
+                <Button x:Name="bntExecute" Text="Execute" WidthRequest="100" IsEnabled="{Binding IsExecuteEnabled}" Clicked="bntExecute_Clicked" />
+            </FlexLayout>
+        </StackLayout>
     </ScrollView>
 </ContentPage>
