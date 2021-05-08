@@ -44,7 +44,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{C6071319-BA39-4B7D-A1B3-717817BEFE06}"
 	ProjectSection(SolutionItems) = preProject
 		src\asr\speechbrain\app\main.py = src\asr\speechbrain\app\main.py
-		src\asr\speechbrain\app\rec.py = src\asr\speechbrain\app\rec.py
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rasa", "rasa", "{9C4C4D6D-0E4A-4FE3-89C7-AF73CDB6B4D4}"

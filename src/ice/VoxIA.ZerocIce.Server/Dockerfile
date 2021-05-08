@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/runtime:5.0 AS base
 EXPOSE 10000
 WORKDIR /app
 
-# Install the prerequisites for RUNNING Zeroc Ice and LibVLC.
+# Update the existing packages, install dependencies and clean-up lists.
 RUN mkdir -p /usr/share/man/man1
 RUN apt-get update \
     && apt-get install -y gnupg2 \
@@ -22,13 +22,10 @@ RUN apt-get update \
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 
-# Install the prerequisites for BUILDING Zeroc Ice and LibVLC.
+# Update the existing packages, install dependencies and clean-up lists.
 RUN mkdir -p /usr/share/man/man1
 RUN apt-get update \
     && apt-get install -y gnupg2 \
-         apt-utils \
-         libx11-dev \
-         libvlc-dev \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv B6391CB2CFBA643D \
     && echo "deb http://download.zeroc.com/Ice/3.7/debian10 stable main" >> /etc/apt/sources.list.d/ice.list \
     && apt-get update \
