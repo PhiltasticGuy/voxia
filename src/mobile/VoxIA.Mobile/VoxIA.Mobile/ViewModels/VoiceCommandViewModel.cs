@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+using System.IO;
 using System.Threading.Tasks;
-using VoxIA.Mobile.Models;
-using VoxIA.Mobile.Services;
+using VoxIA.Mobile.Services.Api;
+using VoxIA.Mobile.Services.Media;
 using Xamarin.Forms;
 
 namespace VoxIA.Mobile.ViewModels
@@ -12,6 +10,7 @@ namespace VoxIA.Mobile.ViewModels
     class VoiceCommandViewModel : BaseViewModel
     {
         private IMediaRecorder MediaRecorder => DependencyService.Get<IMediaRecorder>();
+        private ITranscriptionService TranscriptionService => DependencyService.Get<ITranscriptionService>();
 
         private bool _isTimerRunning = false;
         private int _seconds = 0;
@@ -24,6 +23,8 @@ namespace VoxIA.Mobile.ViewModels
         private bool _isStopEnabled = false;
         private bool _isPlayEnabled = false;
         private bool _isExecuteEnabled = false;
+
+        private string _transcript = "";
 
         public string SecondsDisplay
         {
@@ -55,6 +56,11 @@ namespace VoxIA.Mobile.ViewModels
         {
             get => _isExecuteEnabled;
             set => SetProperty(ref _isExecuteEnabled, value);
+        }
+        public string Transcript
+        {
+            get => _transcript;
+            set => SetProperty(ref _transcript, value);
         }
 
         public VoiceCommandViewModel()
@@ -160,7 +166,7 @@ namespace VoxIA.Mobile.ViewModels
             MediaRecorder.PlayLastRecording();
         }
 
-        public void OnExecuteClicked()
+        public async Task OnExecuteClickedAsync()
         {
             _isTimerRunning = false;
             IsRecordEnabled = true;
@@ -173,6 +179,12 @@ namespace VoxIA.Mobile.ViewModels
             //bntStop.BackgroundColor = Color.Silver;
             SecondsDisplay = "00";
             MinutesDisplay = "00";
+
+            Transcript = 
+                await TranscriptionService.TranscribeRecording(
+                    Path.GetFileName(MediaRecorder.RecordingFilePath), 
+                    File.ReadAllBytes(MediaRecorder.RecordingFilePath)
+                );
         }
     }
 }

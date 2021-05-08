@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using VoxIA.Mobile.Models;
 using Xamarin.Forms;
 
-namespace VoxIA.Mobile.Services
+namespace VoxIA.Mobile.Services.Media
 {
     public class LibVlcMediaPlayer : IMediaPlayer
     {
@@ -24,7 +24,7 @@ namespace VoxIA.Mobile.Services
             IMetadataRetriever metadataRetriever = DependencyService.Get<IMetadataRetriever>();
             await metadataRetriever.PopulateMetadataAsync(song);
 
-            using (var media = new Media(_vlc, new Uri(song.Url), ":no-video"))
+            using (var media = new LibVLCSharp.Shared.Media(_vlc, new Uri(song.Url), ":no-video"))
                 _player.Media = media;
 
             _player.TimeChanged += TimeChanged;

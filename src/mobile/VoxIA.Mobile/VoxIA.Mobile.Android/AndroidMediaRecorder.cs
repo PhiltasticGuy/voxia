@@ -1,9 +1,7 @@
-﻿using Android.Media;
-using Plugin.AudioRecorder;
+﻿using Plugin.AudioRecorder;
 using System;
-using System.IO;
 using System.Threading.Tasks;
-using VoxIA.Mobile.Services;
+using VoxIA.Mobile.Services.Media;
 
 namespace VoxIA.Mobile.Droid
 {

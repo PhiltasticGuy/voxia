@@ -102,12 +102,6 @@
     <AndroidResource Include="Resources\drawable\icon_feed.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VoxIA.Mobile\VoxIA.Mobile.csproj">
-      <Project>{46B49C13-F59A-4E6E-B6AB-07C75D0E53B1}</Project>
-      <Name>VoxIA.Mobile</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\album_cover_generic.png" />
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +121,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\raw\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VoxIA.Mobile\VoxIA.Mobile.csproj">
+      <Project>{9bd2ee52-ff51-40ef-811d-e2c292837737}</Project>
+      <Name>VoxIA.Mobile</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

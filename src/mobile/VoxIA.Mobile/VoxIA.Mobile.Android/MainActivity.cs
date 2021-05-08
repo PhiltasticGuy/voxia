@@ -1,16 +1,14 @@
-﻿using System;
-
+﻿using Android;
 using Android.App;
 using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
-using Xamarin.Forms;
-using VoxIA.Mobile.Services;
-using Android;
-using AndroidX.Core.Content;
+using Android.Runtime;
 using AndroidX.Core.App;
+using AndroidX.Core.Content;
+using System;
+using VoxIA.Mobile.Services.Api;
+using VoxIA.Mobile.Services.Media;
+using Xamarin.Forms;
 
 namespace VoxIA.Mobile.Droid
 {
@@ -31,6 +29,7 @@ namespace VoxIA.Mobile.Droid
             DependencyService.Register<IMediaPlayer, LibVlcMediaPlayer>();
             DependencyService.Register<IMetadataRetriever, Id3MetadataRetriever>();
             DependencyService.Register<IMediaRecorder, AndroidMediaRecorder>();
+            DependencyService.Register<ITranscriptionService, SpeechBrainService>();
 
             if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.RecordAudio) != Permission.Granted)
             {

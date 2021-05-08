@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using VoxIA.Mobile.Models;
 
-namespace VoxIA.Mobile.Services
+namespace VoxIA.Mobile.Services.Data
 {
     public class MockDataStore : ISongProvider<Item>
     {

@@ -1,7 +1,7 @@
 ﻿using Android.Media;
 using System.Threading.Tasks;
 using VoxIA.Mobile.Models;
-using VoxIA.Mobile.Services;
+using VoxIA.Mobile.Services.Media;
 
 namespace VoxIA.Mobile.Droid
 {

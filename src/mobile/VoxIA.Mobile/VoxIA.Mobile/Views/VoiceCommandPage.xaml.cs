@@ -32,6 +32,6 @@ namespace VoxIA.Mobile.Views
 
         private void bntPlay_Clicked(object sender, EventArgs e) => _viewModel.OnPlayClicked();
 
-        private void bntExecute_Clicked(object sender, EventArgs e) => _viewModel.OnExecuteClicked();
+        private void bntExecute_Clicked(object sender, EventArgs e) => _viewModel.OnExecuteClickedAsync();
     }
 }

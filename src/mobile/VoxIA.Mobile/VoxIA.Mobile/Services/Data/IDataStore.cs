@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace VoxIA.Mobile.Services
+namespace VoxIA.Mobile.Services.Data
 {
     public interface ISongProvider<T>
     {
