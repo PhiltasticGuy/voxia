@@ -30,7 +30,8 @@ namespace VoxIA.ZerocIce.Core.Client
             }
 
             _player = new MediaPlayer(_vlc);
-            _media = new Media(_vlc, new Uri("http://localhost:5000/stream.mp3"));
+            //TODO: Port must be assigned from server after registering!
+            _media = new Media(_vlc, new Uri("http://localhost:6000/stream.mp3"));
         }
 
         public void Start(string[] args)

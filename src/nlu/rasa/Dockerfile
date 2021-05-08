@@ -9,4 +9,6 @@ USER root
 
 COPY src/nlu/rasa .
 
+RUN rasa train nlu
+
 ENTRYPOINT rasa run --enable-api -m models/${MODEL_FILE}

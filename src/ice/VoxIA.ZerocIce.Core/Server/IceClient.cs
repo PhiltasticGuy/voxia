@@ -18,7 +18,8 @@ namespace VoxIA.ZerocIce.Core.Server
         {
             this.Id = Guid.NewGuid().ToString();
             this.Url = "127.0.0.1";
-            this.Port = 5000;
+            //TODO: Port must be assigned from server after registering!
+            this.Port = 6000;
         }
     }
 }
