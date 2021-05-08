@@ -7,7 +7,8 @@ namespace VoxIA.ZerocIce.Core.Server
 {
     public class LibVlcPlaybackService : IDisposable
     {
-        private const string MediaFolder = @"D:\sources\uapv2101376\m2\m2-archi-distribuee\mp3\";
+        //TODO: Read MediaFolder from configs or environment variables.
+        private const string MediaFolder = @"/app/tracks/";
 
         private readonly LibVLC _vlc;
         private MediaPlayer _player;

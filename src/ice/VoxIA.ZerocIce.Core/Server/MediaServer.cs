@@ -21,7 +21,7 @@ namespace VoxIA.ZerocIce.Core.Server
         public override async Task<Song[]> GetAllSongsAsync(Ice.Current current = null)
         {
             //TODO: Remove hard-coded folder!
-            var files = Directory.GetFiles($".\\tracks");
+            var files = Directory.GetFiles($"tracks");
 
             using var vlc = new LibVLC();
 

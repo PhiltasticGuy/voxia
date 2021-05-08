@@ -8,9 +8,17 @@ services:
       dockerfile: src/ice/VoxIA.ZerocIce.Server/Dockerfile
     ports:
       - "10000:10000"
+      - "5000-5025:5000-5025"
+    volumes:
+      - ./data/tracks:/app/tracks
 
   rasa.api:
     image: ${DOCKER_REGISTRY-}voxia/rasa-nlu:latest
     build:
       context: .
       dockerfile: src/nlu/rasa/Dockerfile
+    environment:
+      - MODEL_FILE="nlu-20210507-144512.tar.gz"
+
+volumes:
+  data-tracks:
