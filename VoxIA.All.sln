@@ -42,15 +42,35 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asr", "asr", "{0E4895A9-47FE-4AF6-9908-47EF3932C024}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{C6071319-BA39-4B7D-A1B3-717817BEFE06}"
+	ProjectSection(SolutionItems) = preProject
+		src\asr\speechbrain\app\main.py = src\asr\speechbrain\app\main.py
+		src\asr\speechbrain\app\rec.py = src\asr\speechbrain\app\rec.py
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rasa", "rasa", "{9C4C4D6D-0E4A-4FE3-89C7-AF73CDB6B4D4}"
 	ProjectSection(SolutionItems) = preProject
 		src\nlu\rasa\.dockerignore = src\nlu\rasa\.dockerignore
+		src\nlu\rasa\config.yml = src\nlu\rasa\config.yml
+		src\nlu\rasa\credentials.yml = src\nlu\rasa\credentials.yml
 		src\nlu\rasa\Dockerfile = src\nlu\rasa\Dockerfile
+		src\nlu\rasa\domain.yml = src\nlu\rasa\domain.yml
+		src\nlu\rasa\endpoints.yml = src\nlu\rasa\endpoints.yml
 		src\nlu\rasa\requirements.txt = src\nlu\rasa\requirements.txt
 	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{D1EDB4E0-A20D-4DE3-B4F9-29A408E7F3C1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{8468B6E7-8131-4E1C-9EA4-637CDA3DED3C}"
+	ProjectSection(SolutionItems) = preProject
+		src\nlu\rasa\data\nlu.yml = src\nlu\rasa\data\nlu.yml
+		src\nlu\rasa\data\rules.yml = src\nlu\rasa\data\rules.yml
+		src\nlu\rasa\data\stories.yml = src\nlu\rasa\data\stories.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "speechbrain", "speechbrain", "{087C1DB0-C6F9-4670-B69D-DBB7026C0AEF}"
+	ProjectSection(SolutionItems) = preProject
+		src\asr\speechbrain\Dockerfile = src\asr\speechbrain\Dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -106,8 +126,10 @@ Global
 		{B7DD2A60-C336-4F3B-AB8B-46A3CDFE7B07} = {AB62AE63-7A69-483D-BED2-84C1B3AD1152}
 		{E3049B8B-EF63-4982-B221-AF2452EE3340} = {D942BAB9-E6EC-4EA1-961B-CA4800827BB2}
 		{0E4895A9-47FE-4AF6-9908-47EF3932C024} = {D942BAB9-E6EC-4EA1-961B-CA4800827BB2}
-		{C6071319-BA39-4B7D-A1B3-717817BEFE06} = {0E4895A9-47FE-4AF6-9908-47EF3932C024}
+		{C6071319-BA39-4B7D-A1B3-717817BEFE06} = {087C1DB0-C6F9-4670-B69D-DBB7026C0AEF}
 		{9C4C4D6D-0E4A-4FE3-89C7-AF73CDB6B4D4} = {E3049B8B-EF63-4982-B221-AF2452EE3340}
+		{8468B6E7-8131-4E1C-9EA4-637CDA3DED3C} = {9C4C4D6D-0E4A-4FE3-89C7-AF73CDB6B4D4}
+		{087C1DB0-C6F9-4670-B69D-DBB7026C0AEF} = {0E4895A9-47FE-4AF6-9908-47EF3932C024}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3FA24D14-D770-452A-AE35-36AE834E103F}

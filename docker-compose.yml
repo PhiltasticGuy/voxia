@@ -13,7 +13,7 @@ services:
       - ./data/tracks:/app/tracks
 
   rasa.api:
-    image: ${DOCKER_REGISTRY-}voxia/rasa-nlu:latest
+    image: ${DOCKER_REGISTRY-}voxia/rasa-nlu-api:latest
     build:
       context: .
       dockerfile: src/nlu/rasa/Dockerfile
@@ -22,5 +22,10 @@ services:
     environment:
       - MODEL_FILE="nlu-20210507-144512.tar.gz"
 
-volumes:
-  data-tracks:
+  speechbrain.api:
+    image: ${DOCKER_REGISTRY-}voxia/speechbrain-api:latest
+    build:
+      context: .
+      dockerfile: src/asr/speechbrain/Dockerfile
+    ports:
+      - "5000:80"
