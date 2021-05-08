@@ -7,8 +7,10 @@
 generated
 
 # [NLU/RASA]
-src/nlu/rasa/
-!src/nlu/rasa/requirements.txt
+src/nlu/rasa/Lib
+src/nlu/rasa/Scripts
+src/nlu/rasa/share
+src/nlu/rasa/pyvenv.cfg
 
 # User-specific files
 *.rsuser
