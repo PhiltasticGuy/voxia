@@ -87,9 +87,6 @@ namespace VoxIA.Mobile.ViewModels
 
         public void OnAppearing()
         {
-            //MediaRecorder.Record();
-            //Thread.Sleep(5000);
-            //MediaRecorder.Stop();
         }
 
         public async Task OnRecordClickedAsync()
@@ -100,6 +97,7 @@ namespace VoxIA.Mobile.ViewModels
                 _seconds = 0;
                 _minutes = 0;
                 _isTimerRunning = true;
+
                 Device.StartTimer(TimeSpan.FromSeconds(1), () => {
                     if(_isTimerRunning) {
                         _seconds++;
@@ -133,19 +131,10 @@ namespace VoxIA.Mobile.ViewModels
                     return _isTimerRunning;
                 });
 
-                //recorder.StopRecordingOnSilence = IsSilence.IsToggled;
-                //var audioRecordTask = await recorder.StartRecording();
-
                 IsRecordEnabled = false;
-                //bntRecord.BackgroundColor = Color.Silver;
                 IsPlayEnabled = false;
-                //bntPlay.BackgroundColor = Color.Silver;
                 IsStopEnabled = true;
-                //bntStop.BackgroundColor = Color.FromHex("#7cbb45");
                 IsExecuteEnabled = false;
-                //bntPlay.BackgroundColor = Color.Silver;
-
-                //await audioRecordTask;
 
                 await MediaRecorder.Record();
             }
@@ -156,14 +145,11 @@ namespace VoxIA.Mobile.ViewModels
             MediaRecorder.Stop();
 
             _isTimerRunning = false;
+
             IsRecordEnabled = true;
-            //bntRecord.BackgroundColor = Color.FromHex("#7cbb45");
             IsPlayEnabled = true;
-            //bntPlay.BackgroundColor = Color.FromHex("#7cbb45");
             IsStopEnabled = false;
-            //bntStop.BackgroundColor = Color.Silver;
             IsExecuteEnabled = true;
-            //bntPlay.BackgroundColor = Color.FromHex("#7cbb45");
             SecondsDisplay = "00";
             MinutesDisplay = "00";
         }
@@ -176,14 +162,11 @@ namespace VoxIA.Mobile.ViewModels
         public async Task OnExecuteClickedAsync()
         {
             _isTimerRunning = false;
+
             IsRecordEnabled = true;
-            //bntRecord.BackgroundColor = Color.FromHex("#7cbb45");
             IsPlayEnabled = false;
-            //bntPlay.BackgroundColor = Color.FromHex("#7cbb45");
             IsStopEnabled = false;
-            //bntStop.BackgroundColor = Color.Silver;
             IsExecuteEnabled = false;
-            //bntStop.BackgroundColor = Color.Silver;
             SecondsDisplay = "00";
             MinutesDisplay = "00";
 
