@@ -6,12 +6,8 @@ using Android.Runtime;
 using AndroidX.Core.App;
 using AndroidX.Core.Content;
 using System;
-using VoxIA.Core.Intents;
 using VoxIA.Core.Media;
-using VoxIA.Core.Transcription;
 using VoxIA.Mobile.Services.Media;
-using VoxIA.Mobile.Services.Streaming;
-using VoxIA.ZerocIce.Core.Client;
 using Xamarin.Forms;
 
 namespace VoxIA.Mobile.Droid
@@ -30,16 +26,8 @@ namespace VoxIA.Mobile.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
             //DependencyService.Register<IMediaPlayer, AndroidMediaPlayer>();
-            DependencyService.Register<IMediaPlayer, LibVlcMediaPlayer>();
             DependencyService.Register<IMetadataRetriever, Id3MetadataRetriever>();
             DependencyService.Register<IMediaRecorder, AndroidMediaRecorder>();
-            DependencyService.Register<ITranscriptionService, SpeechBrainService>();
-            DependencyService.Register<IIntentClassificationService, RasaService>();
-            DependencyService.Register<IStreamingService, IceStreamingService>();
-
-            var client = new GenericIceClient();
-            client.Start(new string[] { });
-            DependencyService.RegisterSingleton<GenericIceClient>(client);
 
             if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.RecordAudio) != Permission.Granted)
             {

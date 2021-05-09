@@ -90,8 +90,8 @@ namespace VoxIA.ZerocIce.Core.Server
 
         public override async Task<Song[]> GetAllSongsAsync(Ice.Current current = null)
         {
-            //TODO: Remove hard-coded folder!
-            var files = Directory.GetFiles($"tracks");
+            //TODO: Add more music extensions?
+            var files = Directory.GetFiles($"tracks", "*.mp3");
 
             using var vlc = new LibVLC();
 
@@ -101,8 +101,10 @@ namespace VoxIA.ZerocIce.Core.Server
                 using var media = new Media(vlc, file, FromType.FromPath);
                 await media.Parse();
                 songs.Add(
+                    //TODO: Could include AlbumCover here?
                     new Song()
                     {
+                        Id = songs.Count.ToString(),
                         Title = media.Meta(MetadataType.Title),
                         Artist = media.Meta(MetadataType.Artist),
                         Url = Path.GetFileName(file)
