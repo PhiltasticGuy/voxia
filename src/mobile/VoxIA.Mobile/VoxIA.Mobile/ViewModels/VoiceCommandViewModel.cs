@@ -11,6 +11,7 @@ namespace VoxIA.Mobile.ViewModels
     {
         private IMediaRecorder MediaRecorder => DependencyService.Get<IMediaRecorder>();
         private ITranscriptionService TranscriptionService => DependencyService.Get<ITranscriptionService>();
+        private IIntentClassificationService IntentClassificationService => DependencyService.Get<IIntentClassificationService>();
 
         private bool _isTimerRunning = false;
         private int _seconds = 0;
@@ -25,6 +26,7 @@ namespace VoxIA.Mobile.ViewModels
         private bool _isExecuteEnabled = false;
 
         private string _transcript = "";
+        private string _intent = "";
 
         public string SecondsDisplay
         {
@@ -61,6 +63,11 @@ namespace VoxIA.Mobile.ViewModels
         {
             get => _transcript;
             set => SetProperty(ref _transcript, value);
+        }
+        public string Intent
+        {
+            get => _intent;
+            set => SetProperty(ref _intent, value);
         }
 
         public VoiceCommandViewModel()
@@ -185,6 +192,9 @@ namespace VoxIA.Mobile.ViewModels
                     Path.GetFileName(MediaRecorder.RecordingFilePath), 
                     File.ReadAllBytes(MediaRecorder.RecordingFilePath)
                 );
+
+            var intent = await IntentClassificationService.ParseIntent(Transcript);
+            Intent = $"{{{intent.intent.name} : {intent.intent.confidence}}}";
         }
     }
 }

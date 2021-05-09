@@ -51,7 +51,8 @@
                 <Button x:Name="bntExecute" Text="Execute" WidthRequest="100" IsEnabled="{Binding IsExecuteEnabled}" Clicked="bntExecute_Clicked" />
             </FlexLayout>
             <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand">
-                <Label Text = "{Binding Transcript, StringFormat='Transcript:{0:F0}'}" LineBreakMode="WordWrap"/>
+                <Label Text = "{Binding Transcript, StringFormat='Transcript: {0:F0}'}" LineBreakMode="WordWrap"/>
+                <Label Text = "{Binding Intent, StringFormat='Intent: {0:F0}'}" LineBreakMode="WordWrap"/>
             </StackLayout>
         </StackLayout>
     </ScrollView>

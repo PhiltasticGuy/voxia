@@ -30,6 +30,7 @@ namespace VoxIA.Mobile.Droid
             DependencyService.Register<IMetadataRetriever, Id3MetadataRetriever>();
             DependencyService.Register<IMediaRecorder, AndroidMediaRecorder>();
             DependencyService.Register<ITranscriptionService, SpeechBrainService>();
+            DependencyService.Register<IIntentClassificationService, RasaService>();
 
             if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.RecordAudio) != Permission.Granted)
             {
