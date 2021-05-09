@@ -127,6 +127,10 @@
       <Project>{D2FBFAF7-8D3D-4A34-AD5A-C400B46A52D2}</Project>
       <Name>VoxIA.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\ice\VoxIA.ZerocIce.Core\VoxIA.ZerocIce.Core.csproj">
+      <Project>{5F4E6E7C-2CC8-48B2-9596-F8F362438BA4}</Project>
+      <Name>VoxIA.ZerocIce.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VoxIA.Mobile\VoxIA.Mobile.csproj">
       <Project>{9bd2ee52-ff51-40ef-811d-e2c292837737}</Project>
       <Name>VoxIA.Mobile</Name>
