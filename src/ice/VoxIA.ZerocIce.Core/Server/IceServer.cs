@@ -3,11 +3,11 @@ using System.IO;
 
 namespace VoxIA.ZerocIce.Core.Server
 {
-    public class IceMediaServer : IMediaServer
+    public class IceServer : IIceServer
     {
         private Action ShutdownCommunicatorAction { get; set; }
 
-        public IceMediaServer()
+        public IceServer()
         {
         }
 

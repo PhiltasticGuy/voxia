@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace VoxIA.ZerocIce.Core.Server
+namespace VoxIA.Core.Streaming
 {
-    public class IceClient
+    public class Client
     {
         public string Id { get; }
 
@@ -14,7 +10,7 @@ namespace VoxIA.ZerocIce.Core.Server
 
         public int Port { get; }
 
-        public IceClient()
+        public Client()
         {
             this.Id = Guid.NewGuid().ToString();
             this.Url = "127.0.0.1";

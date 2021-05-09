@@ -26,6 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\core\VoxIA.Core\VoxIA.Core.csproj" />
+    <ProjectReference Include="..\..\..\ice\VoxIA.ZerocIce.Core\VoxIA.ZerocIce.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Views\SongsPage.xaml.cs">
       <DependentUpon>SongsPage.xaml</DependentUpon>
     </Compile>

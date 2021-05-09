@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using VoxIA.Core.Data;
 using VoxIA.Mobile.Models;
-using VoxIA.Mobile.Services;
-using VoxIA.Mobile.Services.Data;
 using Xamarin.Forms;
 
 namespace VoxIA.Mobile.ViewModels

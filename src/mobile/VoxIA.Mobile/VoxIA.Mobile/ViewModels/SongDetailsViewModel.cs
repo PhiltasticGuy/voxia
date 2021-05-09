@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using VoxIA.Mobile.Services;
-using VoxIA.Mobile.Services.Data;
+using VoxIA.Core.Data;
 using VoxIA.Mobile.Views;
 using Xamarin.Forms;
 

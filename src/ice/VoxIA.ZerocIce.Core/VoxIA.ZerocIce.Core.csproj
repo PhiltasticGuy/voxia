@@ -1,15 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
+		<TargetFramework>netstandard2.1</TargetFramework>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<SliceCompile Include="../contracts/MediaServer.ice" />
-		<PackageReference Include="LibVLCSharp" Version="3.5.0" />
 		<PackageReference Include="zeroc.ice.net" Version="3.7.5" />
 		<PackageReference Include="zeroc.icebuilder.msbuild" Version="5.0.7" />
-		<ProjectReference Include="..\..\mobile\VoxIA.Mobile\VoxIA.Mobile\VoxIA.Mobile.csproj" />
+		<ProjectReference Include="..\..\core\VoxIA.Core\VoxIA.Core.csproj" />
 		<Compile Update="generated\MediaServer.cs">
 			<SliceCompileSource>../contracts/MediaServer.ice</SliceCompileSource>
 		</Compile>

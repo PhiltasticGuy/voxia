@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace VoxIA.Mobile.Services.Api
+namespace VoxIA.Core.Intents
 {
     public partial class RasaService : IIntentClassificationService
     {

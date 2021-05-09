@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VoxIA.ZerocIce.Core.Client
 {
-    public class IceMediaClient : IMediaClient, IDisposable
+    public class IceClient : IIceClient, IDisposable
     {
         private readonly LibVLC _vlc;
         private readonly MediaPlayer _player;
@@ -14,11 +14,11 @@ namespace VoxIA.ZerocIce.Core.Client
 
         private bool disposedValue;
 
-        public IceMediaClient() : this(false, "--no-video")
+        public IceClient() : this(false, "--no-video")
         {
         }
 
-        public IceMediaClient(bool enableDebugLogs, params string[] options)
+        public IceClient(bool enableDebugLogs, params string[] options)
         {
             LibVLCSharp.Shared.Core.Initialize();
 

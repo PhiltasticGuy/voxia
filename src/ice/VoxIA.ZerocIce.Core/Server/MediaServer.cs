@@ -2,16 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using VoxIA.Core.Media;
 
 namespace VoxIA.ZerocIce.Core.Server
 {
     public class MediaServer : MediaServerDisp_
     {
-        private readonly Mutex _mutex = new();
-        private readonly Dictionary<string, LibVlcPlaybackService> _services = new();
+        private readonly Mutex _mutex = new Mutex();
+        private readonly Dictionary<string, LibVlcPlaybackService> _services = new Dictionary<string, LibVlcPlaybackService>();
 
         public MediaServer()
         {
@@ -25,7 +25,7 @@ namespace VoxIA.ZerocIce.Core.Server
 
             using var vlc = new LibVLC();
 
-            List<Song> songs = new();
+            List<Song> songs = new List<Song>();
             foreach (var file in files)
             {
                 using var media = new Media(vlc, file, FromType.FromPath);
@@ -67,13 +67,13 @@ namespace VoxIA.ZerocIce.Core.Server
                 _services[clientId] = service = new LibVlcPlaybackService(false, "--no-video");
             }
 
-            var song = new Song() { Url = filename };
+            var song = new VoxIA.Core.Media.Song() { Url = filename };
 
             service.Playing += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Started the stream for client '{clientId}'.");
             service.Paused += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Paused the stream for client '{clientId}'.");
             service.Stopped += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Stopped the stream for client '{clientId}'.");
 
-            await service.InitializeAsync(new IceClient(), song);
+            await service.InitializeAsync(new VoxIA.Core.Streaming.Client(), song);
             return service?.Play() == true;
         }
 
@@ -150,8 +150,8 @@ namespace VoxIA.ZerocIce.Core.Server
                     }
                     else
                     {
-                        using FileStream fs = new(filepath, FileMode.Append);
-                        using BinaryWriter bw = new(fs);
+                        using FileStream fs = new FileStream(filepath, FileMode.Append);
+                        using BinaryWriter bw = new BinaryWriter(fs);
                         bw.Write(content);
                     }
                 }

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using VoxIA.Mobile.Models;
+using VoxIA.Core.Data;
+using VoxIA.Core.Media;
 
 namespace VoxIA.Mobile.Services.Data
 {

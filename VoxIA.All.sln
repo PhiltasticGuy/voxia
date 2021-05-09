@@ -71,6 +71,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "speechbrain", "speechbrain"
 		src\asr\speechbrain\Dockerfile = src\asr\speechbrain\Dockerfile
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{1739D143-BBD7-4450-A11B-79923835992F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoxIA.Core", "src\core\VoxIA.Core\VoxIA.Core.csproj", "{D2FBFAF7-8D3D-4A34-AD5A-C400B46A52D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,6 +113,10 @@ Global
 		{D1EDB4E0-A20D-4DE3-B4F9-29A408E7F3C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1EDB4E0-A20D-4DE3-B4F9-29A408E7F3C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1EDB4E0-A20D-4DE3-B4F9-29A408E7F3C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2FBFAF7-8D3D-4A34-AD5A-C400B46A52D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2FBFAF7-8D3D-4A34-AD5A-C400B46A52D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2FBFAF7-8D3D-4A34-AD5A-C400B46A52D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2FBFAF7-8D3D-4A34-AD5A-C400B46A52D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -129,6 +137,8 @@ Global
 		{9C4C4D6D-0E4A-4FE3-89C7-AF73CDB6B4D4} = {E3049B8B-EF63-4982-B221-AF2452EE3340}
 		{8468B6E7-8131-4E1C-9EA4-637CDA3DED3C} = {9C4C4D6D-0E4A-4FE3-89C7-AF73CDB6B4D4}
 		{087C1DB0-C6F9-4670-B69D-DBB7026C0AEF} = {0E4895A9-47FE-4AF6-9908-47EF3932C024}
+		{1739D143-BBD7-4450-A11B-79923835992F} = {D942BAB9-E6EC-4EA1-961B-CA4800827BB2}
+		{D2FBFAF7-8D3D-4A34-AD5A-C400B46A52D2} = {1739D143-BBD7-4450-A11B-79923835992F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3FA24D14-D770-452A-AE35-36AE834E103F}

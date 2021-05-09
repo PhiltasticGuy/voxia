@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace VoxIA.Mobile.Services.Api
+namespace VoxIA.Core.Intents
 {
 
     public class RasaRoot

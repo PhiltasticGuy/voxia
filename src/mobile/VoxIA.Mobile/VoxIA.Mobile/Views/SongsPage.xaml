@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="VoxIA.Mobile.Views.SongsPage"
              Title="{Binding Title}"
-             xmlns:local="clr-namespace:VoxIA.Mobile.ViewModels"  
-             xmlns:model="clr-namespace:VoxIA.Mobile.Models"  
+             xmlns:local="clr-namespace:VoxIA.Mobile.ViewModels"
+             xmlns:song="clr-namespace:VoxIA.Core.Media;assembly=VoxIA.Core"
              x:Name="BrowseSongsPage">
 
     <StackLayout Orientation="Vertical">
@@ -39,7 +39,7 @@
                         <!--<StackLayout Orientation="Horizontal" x:DataType="model:Song">
                         
                     </StackLayout>-->
-                        <Grid RowSpacing="10" x:DataType="model:Song">
+                        <Grid RowSpacing="10" x:DataType="song:Song">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />

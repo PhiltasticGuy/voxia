@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace VoxIA.Mobile.Models
+﻿namespace VoxIA.Core.Media
 {
     public class Song
     {
+
         public string Id { get; set; }
-        
+
         public string Title { get; set; }
 
         public string ArtistName { get; set; }
@@ -17,5 +14,15 @@ namespace VoxIA.Mobile.Models
         public int Length { get; set; }
 
         public string Url { get; set; }
+
+        public Song()
+        {
+            Id = "";
+            Title = "";
+            ArtistName = "";
+            AlbumCover = "";
+            Length = 0;
+            Url = "";
+        }
     }
 }

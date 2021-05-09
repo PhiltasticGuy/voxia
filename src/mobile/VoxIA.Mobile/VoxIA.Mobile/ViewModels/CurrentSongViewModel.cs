@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Input;
-using VoxIA.Mobile.Models;
+using VoxIA.Core.Data;
+using VoxIA.Core.Media;
 using VoxIA.Mobile.Services;
-using VoxIA.Mobile.Services.Data;
-using VoxIA.Mobile.Services.Media;
 using Xamarin.Forms;
 
 namespace VoxIA.Mobile.ViewModels

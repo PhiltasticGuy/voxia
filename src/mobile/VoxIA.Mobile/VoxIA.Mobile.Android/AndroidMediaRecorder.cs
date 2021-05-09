@@ -1,7 +1,7 @@
 ﻿using Plugin.AudioRecorder;
 using System;
 using System.Threading.Tasks;
-using VoxIA.Mobile.Services.Media;
+using VoxIA.Core.Media;
 
 namespace VoxIA.Mobile.Droid
 {

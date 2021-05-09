@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using VoxIA.Mobile.Services.Api;
-using VoxIA.Mobile.Services.Media;
+using VoxIA.Core.Intents;
+using VoxIA.Core.Media;
+using VoxIA.Core.Transcription;
+using VoxIA.Mobile.Services.Streaming;
 using Xamarin.Forms;
 
 namespace VoxIA.Mobile.ViewModels
@@ -12,6 +14,7 @@ namespace VoxIA.Mobile.ViewModels
         private IMediaRecorder MediaRecorder => DependencyService.Get<IMediaRecorder>();
         private ITranscriptionService TranscriptionService => DependencyService.Get<ITranscriptionService>();
         private IIntentClassificationService IntentClassificationService => DependencyService.Get<IIntentClassificationService>();
+        private IStreamingService StreamingService => DependencyService.Get<IStreamingService>();
 
         private bool _isTimerRunning = false;
         private int _seconds = 0;
@@ -178,6 +181,8 @@ namespace VoxIA.Mobile.ViewModels
 
             var intent = await IntentClassificationService.ParseIntent(Transcript);
             Intent = $"{{{intent.intent.name} : {intent.intent.confidence}}}";
+
+
         }
     }
 }

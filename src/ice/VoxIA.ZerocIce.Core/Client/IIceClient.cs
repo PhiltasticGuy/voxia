@@ -1,6 +1,6 @@
 ﻿namespace VoxIA.ZerocIce.Core.Client
 {
-    public interface IMediaClient
+    public interface IIceClient
     {
         void Start(string[] args);
         void Stop();

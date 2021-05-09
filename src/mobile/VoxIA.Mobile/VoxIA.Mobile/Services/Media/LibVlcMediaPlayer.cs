@@ -1,7 +1,7 @@
 ﻿using LibVLCSharp.Shared;
 using System;
 using System.Threading.Tasks;
-using VoxIA.Mobile.Models;
+using VoxIA.Core.Media;
 using Xamarin.Forms;
 
 namespace VoxIA.Mobile.Services.Media
@@ -13,13 +13,13 @@ namespace VoxIA.Mobile.Services.Media
 
         public LibVlcMediaPlayer()
         {
-            Core.Initialize();
+            LibVLCSharp.Shared.Core.Initialize();
 
             _vlc = new LibVLC();
             _player = new MediaPlayer(_vlc);
         }
 
-        public async Task InitializeAsync(Song song)
+        public async Task InitializeAsync(VoxIA.Core.Media.Song song)
         {
             IMetadataRetriever metadataRetriever = DependencyService.Get<IMetadataRetriever>();
             await metadataRetriever.PopulateMetadataAsync(song);

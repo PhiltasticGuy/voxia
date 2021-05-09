@@ -2,8 +2,9 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using VoxIA.Core.Streaming;
 
-namespace VoxIA.ZerocIce.Core.Server
+namespace VoxIA.Core.Media
 {
     public class LibVlcPlaybackService : IDisposable
     {
@@ -13,7 +14,7 @@ namespace VoxIA.ZerocIce.Core.Server
         private readonly LibVLC _vlc;
         private MediaPlayer _player;
         //private readonly MediaList _medias;
-        private Media _media;
+        private LibVLCSharp.Shared.Media _media;
 
         public event EventHandler<EventArgs> TimeChanged;
         public event EventHandler<EventArgs> PositionChanged;
@@ -50,10 +51,10 @@ namespace VoxIA.ZerocIce.Core.Server
             //_medias = new MediaList();
         }
 
-        private string BuildVlcStreamingOptions(IceClient client) =>
+        private string BuildVlcStreamingOptions(Client client) =>
             $":sout=#transcode{{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100,scodec=none}}:http{{dst=:{client.Port}/stream.mp3}}";
 
-        public async Task<bool> InitializeAsync(IceClient client, Song song)
+        public async Task<bool> InitializeAsync(Client client, Song song)
         {
             string mediaPath = MediaFolder + song.Url;
             if (!File.Exists(mediaPath))
@@ -71,13 +72,20 @@ namespace VoxIA.ZerocIce.Core.Server
             //   main debug: using timeshift granularity of 50 MiB
             //   main debug: using timeshift path: <...>\AppData\Local\Temp
             //   main debug: `file:///<...>/local-file.mp3' 
-            var media = new Media(_vlc, mediaPath, FromType.FromPath);
+            var media = new LibVLCSharp.Shared.Media(_vlc, mediaPath, FromType.FromPath);
             await media.Parse(MediaParseOptions.ParseLocal);
             song.Title = media.Meta(MetadataType.Title);
-            song.Artist = media.Meta(MetadataType.Artist);
+            song.ArtistName = media.Meta(MetadataType.Artist);
 
             _player = new MediaPlayer(_vlc);
-            _media = new Media(_vlc, mediaPath, FromType.FromPath, BuildVlcStreamingOptions(client), ":no-sout-all", ":sout-keep");
+            _media = new LibVLCSharp.Shared.Media(
+                _vlc, 
+                mediaPath, 
+                FromType.FromPath, 
+                BuildVlcStreamingOptions(client), 
+                ":no-sout-all", 
+                ":sout-keep"
+            );
             _player.Media = _media;
 
             //_player.TimeChanged += TimeChanged;
@@ -99,8 +107,8 @@ namespace VoxIA.ZerocIce.Core.Server
                 return false;
             }
 
-            //using var media1 = new Media(_vlc, new Uri("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"));
-            //using var media2 = new Media(_vlc, new Uri("https://archive.org/download/ImagineDragons_201410/imagine%20dragons.mp4"));
+            //using var media1 = new LibVLCSharp.Shared.Media(_vlc, new Uri("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"));
+            //using var media2 = new LibVLCSharp.Shared.Media(_vlc, new Uri("https://archive.org/download/ImagineDragons_201410/imagine%20dragons.mp4"));
             //_medias.AddMedia(media2);
             //_medias.AddMedia(media1);
             //_medias.SetMedia(media1);

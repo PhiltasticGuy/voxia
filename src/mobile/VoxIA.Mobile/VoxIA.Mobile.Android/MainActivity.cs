@@ -6,8 +6,11 @@ using Android.Runtime;
 using AndroidX.Core.App;
 using AndroidX.Core.Content;
 using System;
-using VoxIA.Mobile.Services.Api;
+using VoxIA.Core.Intents;
+using VoxIA.Core.Media;
+using VoxIA.Core.Transcription;
 using VoxIA.Mobile.Services.Media;
+using VoxIA.Mobile.Services.Streaming;
 using Xamarin.Forms;
 
 namespace VoxIA.Mobile.Droid
@@ -31,6 +34,7 @@ namespace VoxIA.Mobile.Droid
             DependencyService.Register<IMediaRecorder, AndroidMediaRecorder>();
             DependencyService.Register<ITranscriptionService, SpeechBrainService>();
             DependencyService.Register<IIntentClassificationService, RasaService>();
+            DependencyService.Register<IStreamingService, IceStreamingService>();
 
             if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.RecordAudio) != Permission.Granted)
             {

@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace VoxIA.Mobile.Services.Api
+namespace VoxIA.Core.Transcription
 {
     public class SpeechBrainService : ITranscriptionService
     {

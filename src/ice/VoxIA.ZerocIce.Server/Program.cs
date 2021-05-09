@@ -9,7 +9,7 @@ namespace VoxIA.ZerocIce.Server
         {
             try
             {
-                var server = new IceMediaServer();
+                var server = new IceServer();
 
                 //
                 // Destroy the communicator on Ctrl+C or Ctrl+Break
