@@ -8,11 +8,20 @@ namespace VoxIA.Mobile.Services.Streaming
 {
     public class IceStreamingService : IStreamingService
     {
-        private readonly IIceClient _client;
+        private readonly GenericIceClient _client = new GenericIceClient();
+        private readonly Guid _clientId = Guid.NewGuid();
 
         public IceStreamingService()
         {
 
+        }
+
+        ~IceStreamingService()
+        {
+            if (_client != null)
+            {
+                _client.Stop();
+            }
         }
 
         public Task RegisterClient(Client client)
@@ -25,14 +34,18 @@ namespace VoxIA.Mobile.Services.Streaming
             return Task.CompletedTask;
         }
 
-        public Task StartStreaming(Song song)
+        public async Task<string> StartStreaming(Song song)
         {
-            throw new NotImplementedException();
+            _client.Start(new string[] { });
+            await _client._mediaServer.PlaySongAsync("1", song.Url);
+            return await Task.FromResult("http://192.168.0.11:6000/stream.mp3");
         }
 
         public Task StopStreaming()
         {
-            throw new NotImplementedException();
+            _client.Stop();
+
+            return Task.CompletedTask;
         }
     }
 }

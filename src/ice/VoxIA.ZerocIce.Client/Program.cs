@@ -9,7 +9,7 @@ namespace VoxIA.ZerocIce.Client
         {
             try
             {
-                using var client = new IceClient();
+                using var client = new ConsoleIceClient();
                 client.Start(args);
             }
             catch (Exception e)

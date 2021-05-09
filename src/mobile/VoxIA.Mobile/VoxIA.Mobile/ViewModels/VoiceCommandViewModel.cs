@@ -182,7 +182,14 @@ namespace VoxIA.Mobile.ViewModels
             var intent = await IntentClassificationService.ParseIntent(Transcript);
             Intent = $"{{{intent.intent.name} : {intent.intent.confidence}}}";
 
-
+            if (intent.intent.name == "play_song")
+            {
+                var song = new Song() { Url = "The_Celebrated_Minuet.mp3" };
+                var url = await StreamingService.StartStreaming(song);
+                var player = DependencyService.Get<IMediaPlayer>();
+                await player.InitializeAsync(new Song() { Url = url });
+                player.Play();
+            }
         }
     }
 }

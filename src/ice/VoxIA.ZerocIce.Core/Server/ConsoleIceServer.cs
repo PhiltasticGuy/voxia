@@ -3,11 +3,11 @@ using System.IO;
 
 namespace VoxIA.ZerocIce.Core.Server
 {
-    public class IceServer : IIceServer
+    public class ConsoleIceServer : IIceServer
     {
         private Action ShutdownCommunicatorAction { get; set; }
 
-        public IceServer()
+        public ConsoleIceServer()
         {
         }
 

@@ -7,7 +7,7 @@ namespace VoxIA.Mobile.Services.Streaming
     public interface IStreamingService
     {
         Task RegisterClient(Client client);
-        Task StartStreaming(Song song);
+        Task<string> StartStreaming(Song song);
         Task StopStreaming();
 
         //Task UploadSong(Song song);

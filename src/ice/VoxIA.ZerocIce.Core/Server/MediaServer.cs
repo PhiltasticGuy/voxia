@@ -10,12 +10,82 @@ namespace VoxIA.ZerocIce.Core.Server
 {
     public class MediaServer : MediaServerDisp_
     {
+        private readonly List<int> _availablePorts = new List<int>();
         private readonly Mutex _mutex = new Mutex();
         private readonly Dictionary<string, LibVlcPlaybackService> _services = new Dictionary<string, LibVlcPlaybackService>();
 
         public MediaServer()
         {
             LibVLCSharp.Shared.Core.Initialize();
+
+            _mutex.WaitOne();
+            //TODO: Port range should be read from configurations!
+            for (int i = 6000; i <= 6000; i++)
+            {
+                _availablePorts.Add(i);
+            }
+            _mutex.ReleaseMutex();
+        }
+
+        private int NextAvailablePort()
+        {
+            int port = -1;
+
+            _mutex.WaitOne();
+            if (_availablePorts.Count == 0)
+            {
+                port = _availablePorts[0];
+                _availablePorts.RemoveAt(0);
+            }
+            _mutex.ReleaseMutex();
+            
+            return port;
+        }
+
+        public override Task<RegisterResponse> RegisterClientAsync(string clientId, Ice.Current current = null)
+        {
+            LibVlcPlaybackService service;
+            if (_services.ContainsKey(clientId))
+            {
+                return Task.FromResult(
+                    new RegisterResponse(RegisterResult.AlreadyRegistered, string.Empty)
+                );
+            }
+            else
+            {
+                int port = NextAvailablePort();
+                if (port == -1)
+                {
+                    return Task.FromResult(
+                        new RegisterResponse(RegisterResult.MaxClientsReached, string.Empty)
+                    );
+                }
+
+                _services[clientId] = service = new LibVlcPlaybackService(false, "--no-video");
+
+                return Task.FromResult(
+                    new RegisterResponse(RegisterResult.Success, $"http://{"192.168.0.11"}:{NextAvailablePort()}")
+                );
+            }
+        }
+
+        public override Task<bool> UnregisterClientAsync(string clientId, Ice.Current current = null)
+        {
+            LibVlcPlaybackService service;
+            if (_services.ContainsKey(clientId))
+            {
+                service = _services[clientId];
+
+                _mutex.WaitOne();
+                _availablePorts.Add(6000);
+                _mutex.ReleaseMutex();
+
+                return Task.FromResult(true);
+            }
+            else
+            {
+                return Task.FromResult(false);
+            }
         }
 
         public override async Task<Song[]> GetAllSongsAsync(Ice.Current current = null)
