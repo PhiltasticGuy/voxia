@@ -4,6 +4,7 @@ using System.Windows.Input;
 using VoxIA.Core.Data;
 using VoxIA.Core.Media;
 using VoxIA.Mobile.Services;
+using VoxIA.Mobile.Services.Streaming;
 using Xamarin.Forms;
 
 namespace VoxIA.Mobile.ViewModels
@@ -240,6 +241,11 @@ namespace VoxIA.Mobile.ViewModels
                     Id = song.Id;
                     Url = song.Url;
                 }
+
+                var streaming = DependencyService.Get<IStreamingService>();
+                await streaming.StopStreaming();
+                var url = await streaming.StartStreaming(song);
+                song.Url = url;
 
                 var x = DependencyService.Get<IMediaPlayer>();
                 await x.InitializeAsync(song);

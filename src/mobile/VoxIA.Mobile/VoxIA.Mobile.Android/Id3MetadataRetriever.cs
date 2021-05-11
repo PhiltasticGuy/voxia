@@ -35,6 +35,11 @@ namespace VoxIA.Mobile.Droid
 
                 return song;
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
             finally
             {
                 if (_metadataRetriever != null)
@@ -52,7 +57,8 @@ namespace VoxIA.Mobile.Droid
             try
             {
                 _metadataRetriever = new MediaMetadataRetriever();
-                await _metadataRetriever.SetDataSourceAsync(song.Url, new Dictionary<string, string>());
+                _metadataRetriever.SetDataSource(song.Url, new Dictionary<string, string>());
+                //await _metadataRetriever.SetDataSourceAsync(song.Url);
 
                 song.Title = _metadataRetriever.ExtractMetadata(MetadataKey.Title);
                 song.ArtistName = _metadataRetriever.ExtractMetadata(MetadataKey.Artist);
@@ -65,6 +71,11 @@ namespace VoxIA.Mobile.Droid
                 var album = _metadataRetriever.ExtractMetadata(MetadataKey.Album);
 
                 return song;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
             finally
             {

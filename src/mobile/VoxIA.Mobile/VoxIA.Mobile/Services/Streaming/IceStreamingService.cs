@@ -37,15 +37,14 @@ namespace VoxIA.Mobile.Services.Streaming
 
         public async Task<string> StartStreaming(Song song)
         {
+            //TODO: REMOVE HARDCODED URL.
             await _client._mediaServer.PlaySongAsync(_clientId.ToString(), song.Url);
             return await Task.FromResult("http://192.168.0.11:6000/stream.mp3");
         }
 
-        public Task StopStreaming()
+        public async Task StopStreaming()
         {
-            _client.Stop();
-
-            return Task.CompletedTask;
+            await _client._mediaServer.StopSongAsync(_clientId.ToString());
         }
     }
 }

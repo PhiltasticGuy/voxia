@@ -18,7 +18,7 @@ namespace VoxIA.Core.Media
 
         public event EventHandler<EventArgs> TimeChanged;
         public event EventHandler<EventArgs> PositionChanged;
-        public event EventHandler<EventArgs> LengthChanged;
+        public event EventHandler<MediaPlayerLengthChangedEventArgs> LengthChanged;
         public event EventHandler<EventArgs> EndReached;
         public event EventHandler<EventArgs> Paused;
         public event EventHandler<EventArgs> Stopped;
@@ -90,7 +90,7 @@ namespace VoxIA.Core.Media
 
             //_player.TimeChanged += TimeChanged;
             //_player.PositionChanged += (sender, e) => Console.WriteLine("Position: " + e.Position);
-            //_player.LengthChanged += LengthChanged;
+            _player.LengthChanged += (sender, e) => LengthChanged?.Invoke(sender, e);
             //_player.EndReached += EndReached;
             _player.Playing += (sender, e) => Playing?.Invoke(sender, e);
             _player.Paused += (sender, e) => Paused?.Invoke(sender, e);

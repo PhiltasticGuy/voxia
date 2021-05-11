@@ -141,6 +141,7 @@ namespace VoxIA.ZerocIce.Core.Server
 
             var song = new VoxIA.Core.Media.Song() { Url = filename };
 
+            service.LengthChanged += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Length '{e.Length}'.");
             service.Playing += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Started the stream for client '{clientId}'.");
             service.Paused += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Paused the stream for client '{clientId}'.");
             service.Stopped += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Stopped the stream for client '{clientId}'.");
