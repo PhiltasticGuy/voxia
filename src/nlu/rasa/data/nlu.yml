@@ -3,10 +3,26 @@ version: "2.0"
 nlu:
 - intent: play_song
   examples: |
-    - play [THE CELEBRATED MINUET](songs)
-    - play [CELEBRATED MINUET](songs)
-    - start [THE CELEBRATED MINUET](songs)
-    - start [CELEBRATED MINUET](songs)
+    #- play [](.mp3)
+    #- start [](.mp3)
+    - play [BEAT THEE](Beat_Thee.mp3)
+    - start [BEAT THEE](Beat_Thee.mp3)
+    - play [HOLD ON SEC](Hold_on_a_Sec.mp3)
+    - start [HOLD ON SEC](Hold_on_a_Sec.mp3)
+    - play [MYSTERIOUS LIGHTS](Mysterious Lights.mp3)
+    - start [MYSTERIOUS LIGHTS](Mysterious Lights.mp3)
+    - play [CHOPIN PRELUDE OP 28 NUMBER 4](Paul_Cantrell-Chopin_Prelude_Op28_No4.mp3)
+    - start [CHOPIN PRELUDE OP 28 NUMBER 4](Paul_Cantrell-Chopin_Prelude_Op28_No4.mp3)
+    - play [CHOPIN PRELUDE OPUS 28 NUMBER 4](Paul_Cantrell-Chopin_Prelude_Op28_No4.mp3)
+    - start [CHOPIN PRELUDE OPUS 28 NUMBER 4](Paul_Cantrell-Chopin_Prelude_Op28_No4.mp3)
+    - play [SPRING CHICKEN](Spring_Chicken.mp3)
+    - start [SPRING CHICKEN](Spring_Chicken.mp3)
+    - play [STUDY RELAX](Study_and_Relax.mp3)
+    - start [STUDY RELAX](Study_and_Relax.mp3)
+    - play [CELEBRATED MINUET](The_Celebrated_Minuet.mp3)
+    - start [CELEBRATED MINUET](The_Celebrated_Minuet.mp3)
+    - play [WAKKA WAKKA](Wakka_Wakka.mp3)
+    - start [WAKKA WAKKA](Wakka_Wakka.mp3)
     - play
     - play song
     - play a song
@@ -70,11 +86,11 @@ nlu:
 #    - The Celebrated Minuet
 #    - celebrated minuet
 
-- lookup: songs
-  examples: |
-    - The Celebrated Minuet
-    - Beat Thee
-    - Mysterious Lights
-    - Spring Chicken
-    - Study and Relax
-    - Wakka Wakka
+#- lookup: songs
+#  examples: |
+#    - The Celebrated Minuet
+#    - Beat Thee
+#    - Mysterious Lights
+#    - Spring Chicken
+#    - Study and Relax
+#    - Wakka Wakka
