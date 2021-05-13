@@ -1,6 +1,6 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 FROM mcr.microsoft.com/dotnet/runtime:5.0 AS base
-EXPOSE 10000
+EXPOSE 10000 10001
 WORKDIR /app
 
 # Update the existing packages, install dependencies and clean-up lists.

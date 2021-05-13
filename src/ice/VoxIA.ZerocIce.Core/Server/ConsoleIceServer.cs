@@ -18,7 +18,7 @@ namespace VoxIA.ZerocIce.Core.Server
         /// <param name="args">Parameters (i.e. Console Application 'args')</param>
         public void Start(string[] args)
         {
-            using var communicator = Ice.Util.initialize(ref args);
+            using var communicator = Ice.Util.initialize(ref args, "config.server");
             RunIceServer(communicator);
         }
 
@@ -39,10 +39,10 @@ namespace VoxIA.ZerocIce.Core.Server
             // Create the upload area directory.
             Directory.CreateDirectory("./upload-area");
 
-            var adapter =
-                communicator.createObjectAdapterWithEndpoints("SimplePrinterAdapter", "default -h ice.server -p 10000");
+            var adapter = communicator.createObjectAdapter("MediaServer");
+            //var adapter = communicator.createObjectAdapterWithEndpoints("SimplePrinterAdapter", "default -h ice.server -p 10000");
             var server = new MediaServer();
-            adapter.add(server, Ice.Util.stringToIdentity("SimplePrinter"));
+            adapter.add(server, Ice.Util.stringToIdentity("MediaServer"));
             adapter.activate();
 
             // Ensure that communicator is notified of the stop signal.

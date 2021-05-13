@@ -36,7 +36,7 @@ namespace VoxIA.ZerocIce.Core.Client
 
         public void Start(string[] args)
         {
-            using var communicator = Ice.Util.initialize(ref args);
+            using var communicator = Ice.Util.initialize(ref args, "config.client");
             RunIceClient(communicator);
         }
 
@@ -48,7 +48,8 @@ namespace VoxIA.ZerocIce.Core.Client
         {
             try
             {
-                var obj = communicator.stringToProxy("SimplePrinter:tcp -h 127.0.0.1 -p 10000");
+                //var obj = communicator.stringToProxy("SimplePrinter:tcp -h 127.0.0.1 -p 10000");
+                var obj = communicator.propertyToProxy("MediaServer.Proxy");
                 var mediaServer = MediaServerPrxHelper.checkedCast(obj);
 
                 if (mediaServer == null)

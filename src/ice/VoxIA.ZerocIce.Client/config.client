@@ -1,14 +1,14 @@
 ﻿#
-# The server creates one single object adapter with the name
-# "Hello". The following line sets the endpoints for this
-# adapter.
+# The client reads this property to create the reference to the
+# "hello" object in the server.
 #
-MediaServer.Endpoints=tcp -p 10000:ssl -p 10001
+MediaServer.Proxy=MediaServer:tcp -p 10000:ssl -p 10001
 
 #
-# Only listen on the localhost interface by default.
+# Only connect to the localhost interface by default.
 #
-Ice.Default.Host=ice.server
+Ice.Default.Host=192.168.0.11
+#Ice.Default.Host=127.0.0.1
 
 #
 # Warn about connection exceptions.
@@ -23,7 +23,7 @@ Ice.Warn.Connections=1
 # 2 = like 1, but more detailed
 # 3 = like 2, but also trace data transfer
 #
-Ice.Trace.Network=1
+Ice.Trace.Network=0
 
 #
 # Protocol Tracing
@@ -31,7 +31,7 @@ Ice.Trace.Network=1
 # 0 = no protocol tracing
 # 1 = trace protocol messages
 #
-Ice.Trace.Protocol=1
+#Ice.Trace.Protocol=1
 
 #
 # Security Tracing
@@ -42,12 +42,12 @@ Ice.Trace.Protocol=1
 IceSSL.Trace.Security=1
 
 #
-# SSL plug-in configuration
+# SSL Configuration
 #
 #Ice.Default.PreferSecure=1
 #Ice.Override.Secure=1
 Ice.Plugin.IceSSL=IceSSL:IceSSL.PluginFactory
-IceSSL.DefaultDir=certs
+IceSSL.DefaultDir=../../../data/certs
 IceSSL.CAs=cacert.pem
-IceSSL.CertFile=server.p12
+IceSSL.CertFile=client.p12
 IceSSL.Password=password

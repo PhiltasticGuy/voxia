@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <None Update="config.server">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
