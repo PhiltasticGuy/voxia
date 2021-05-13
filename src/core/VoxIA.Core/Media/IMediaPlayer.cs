@@ -1,13 +1,18 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace VoxIA.Core.Media
 {
     public interface IMediaPlayer
     {
-        Task InitializeAsync(Song song);
+        Task InitializeAsync(Uri uri);
 
         void Play();
 
         void Pause();
+
+        public void DeafenVolume();
+
+        public void ResetVolume();
     }
 }

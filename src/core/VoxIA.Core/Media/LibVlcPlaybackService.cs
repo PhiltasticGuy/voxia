@@ -49,17 +49,78 @@ namespace VoxIA.Core.Media
                 _vlc.Log += (sender, e) => { /* Do nothing! Don't log in the console... */ };
             }
             //_medias = new MediaList();
+
+            _player = new MediaPlayer(_vlc);
+
+            //_player.TimeChanged += TimeChanged;
+            //_player.PositionChanged += (sender, e) => Console.WriteLine("Position: " + e.Position);
+            _player.LengthChanged += (sender, e) => LengthChanged?.Invoke(sender, e);
+            //_player.EndReached += EndReached;
+            _player.Playing += (sender, e) => Playing?.Invoke(sender, e);
+            _player.Paused += (sender, e) => Paused?.Invoke(sender, e);
+            _player.Stopped += (sender, e) => Stopped?.Invoke(sender, e);
         }
 
         private string BuildVlcStreamingOptions(Client client) =>
             $":sout=#transcode{{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100,scodec=none}}:http{{dst=:{client.Port}/stream.mp3}}";
 
-        public async Task<bool> InitializeAsync(Client client, Song song)
+        //public async Task<bool> InitializeAsync(Client client, Song song)
+        //{
+        //    string mediaPath = MediaFolder + song.Url;
+        //    if (!File.Exists(mediaPath))
+        //    {
+        //        return false;
+        //    }
+
+        //    // BUG in LibVLCSharp:
+        //    // After parsing a media to¸extract its details, you are no longer
+        //    // able to play it through an HTTP stream. There are no errors or
+        //    // logs, but the clients are never able to connect to the stream.
+        //    //
+        //    // This is the last item in the VLC debug logs when this happens:
+        //    //   main debug: using sout stream module "stream_out_transcode"
+        //    //   main debug: using timeshift granularity of 50 MiB
+        //    //   main debug: using timeshift path: <...>\AppData\Local\Temp
+        //    //   main debug: `file:///<...>/local-file.mp3' 
+        //    var media = new LibVLCSharp.Shared.Media(_vlc, mediaPath, FromType.FromPath);
+        //    await media.Parse(MediaParseOptions.ParseLocal);
+        //    song.Title = media.Meta(MetadataType.Title);
+        //    song.ArtistName = media.Meta(MetadataType.Artist);
+
+        //    _player = new MediaPlayer(_vlc);
+        //    _media = new LibVLCSharp.Shared.Media(
+        //        _vlc,
+        //        mediaPath,
+        //        FromType.FromPath,
+        //        BuildVlcStreamingOptions(client),
+        //        ":no-sout-all",
+        //        ":sout-keep"
+        //    );
+        //    _player.Media = _media;
+
+        //    //_player.TimeChanged += TimeChanged;
+        //    //_player.PositionChanged += (sender, e) => Console.WriteLine("Position: " + e.Position);
+        //    _player.LengthChanged += (sender, e) => LengthChanged?.Invoke(sender, e);
+        //    //_player.EndReached += EndReached;
+        //    _player.Playing += (sender, e) => Playing?.Invoke(sender, e);
+        //    _player.Paused += (sender, e) => Paused?.Invoke(sender, e);
+        //    _player.Stopped += (sender, e) => Stopped?.Invoke(sender, e);
+
+        //    return true;
+        //}
+
+        public async Task<Song> PlayAsync(Client client, string filename)
         {
-            string mediaPath = MediaFolder + song.Url;
+            string mediaPath = MediaFolder + filename;
             if (!File.Exists(mediaPath))
             {
-                return false;
+                return null;
+            }
+
+            if (_player == null)
+            {
+                //TODO: Log an error and recommendation to call InitializeAsync() first!
+                return null;
             }
 
             // BUG in LibVLCSharp:
@@ -74,38 +135,30 @@ namespace VoxIA.Core.Media
             //   main debug: `file:///<...>/local-file.mp3' 
             var media = new LibVLCSharp.Shared.Media(_vlc, mediaPath, FromType.FromPath);
             await media.Parse(MediaParseOptions.ParseLocal);
-            song.Title = media.Meta(MetadataType.Title);
-            song.ArtistName = media.Meta(MetadataType.Artist);
 
-            _player = new MediaPlayer(_vlc);
+            var song = new Song()
+            {
+                Id = filename,
+                Title = media.Meta(MetadataType.Title),
+                ArtistName = media.Meta(MetadataType.Artist)
+            };
+
+            // Dispose of any existing media from previous playbacks.
+            if (_media != null)
+            {
+                _media.Dispose();
+            }
+
             _media = new LibVLCSharp.Shared.Media(
-                _vlc, 
-                mediaPath, 
-                FromType.FromPath, 
-                BuildVlcStreamingOptions(client), 
-                ":no-sout-all", 
+                _vlc,
+                mediaPath,
+                FromType.FromPath,
+                BuildVlcStreamingOptions(client),
+                ":no-sout-all",
                 ":sout-keep"
             );
             _player.Media = _media;
-
-            //_player.TimeChanged += TimeChanged;
-            //_player.PositionChanged += (sender, e) => Console.WriteLine("Position: " + e.Position);
-            _player.LengthChanged += (sender, e) => LengthChanged?.Invoke(sender, e);
-            //_player.EndReached += EndReached;
-            _player.Playing += (sender, e) => Playing?.Invoke(sender, e);
-            _player.Paused += (sender, e) => Paused?.Invoke(sender, e);
-            _player.Stopped += (sender, e) => Stopped?.Invoke(sender, e);
-
-            return true;
-        }
-
-        public bool Play()
-        {
-            if (_player == null)
-            {
-                //TODO: Log an error and recommendation to call InitializeAsync() first!
-                return false;
-            }
+            var playing = _player?.Play();
 
             //using var media1 = new LibVLCSharp.Shared.Media(_vlc, new Uri("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"));
             //using var media2 = new LibVLCSharp.Shared.Media(_vlc, new Uri("https://archive.org/download/ImagineDragons_201410/imagine%20dragons.mp4"));
@@ -114,7 +167,7 @@ namespace VoxIA.Core.Media
             //_medias.SetMedia(media1);
             //using var m = new Media(_medias);
 
-            return (_player?.Play() == true);
+            return (playing == true ? song : null);
         }
 
         public void Pause()

@@ -53,6 +53,7 @@
             <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand">
                 <Label Text = "{Binding Transcript, StringFormat='Transcript: {0:F0}'}" LineBreakMode="WordWrap"/>
                 <Label Text = "{Binding Intent, StringFormat='Intent: {0:F0}'}" LineBreakMode="WordWrap"/>
+                <Label Text = "{Binding Entity, StringFormat='Entity: {0:F0}'}" LineBreakMode="WordWrap"/>
             </StackLayout>
         </StackLayout>
     </ScrollView>

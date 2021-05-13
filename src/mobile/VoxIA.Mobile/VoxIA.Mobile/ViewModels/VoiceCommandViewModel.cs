@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using VoxIA.Core.Intents;
 using VoxIA.Core.Media;
 using VoxIA.Core.Transcription;
 using VoxIA.Mobile.Services.Streaming;
+using VoxIA.Mobile.Views;
 using Xamarin.Forms;
 
 namespace VoxIA.Mobile.ViewModels
@@ -30,6 +32,7 @@ namespace VoxIA.Mobile.ViewModels
 
         private string _transcript = "";
         private string _intent = "";
+        private string _entity = "";
 
         public string SecondsDisplay
         {
@@ -71,6 +74,11 @@ namespace VoxIA.Mobile.ViewModels
         {
             get => _intent;
             set => SetProperty(ref _intent, value);
+        }
+        public string Entity
+        {
+            get => _entity;
+            set => SetProperty(ref _entity, value);
         }
 
         public VoiceCommandViewModel()
@@ -139,6 +147,10 @@ namespace VoxIA.Mobile.ViewModels
                 IsStopEnabled = true;
                 IsExecuteEnabled = false;
 
+                // Ensure that the audio recording is audible.
+                var player = DependencyService.Get<IMediaPlayer>();
+                player.DeafenVolume();
+
                 await MediaRecorder.Record();
             }
         }
@@ -146,6 +158,10 @@ namespace VoxIA.Mobile.ViewModels
         public void OnStopClicked()
         {
             MediaRecorder.Stop();
+
+            // Reset the audio volume.
+            var player = DependencyService.Get<IMediaPlayer>();
+            player.ResetVolume();
 
             _isTimerRunning = false;
 
@@ -184,11 +200,31 @@ namespace VoxIA.Mobile.ViewModels
 
             if (intent.intent.name == "play_song")
             {
-                var song = new Song() { Url = "The_Celebrated_Minuet.mp3" };
-                var url = await StreamingService.StartStreaming(song);
+                if (intent.entities.Count > 0)
+                {
+                    var entity = intent.entities.Aggregate((first, second) => 
+                        first.confidence_entity > second.confidence_entity ? first : second
+                    );
+                    Entity = $"{{{entity.entity} : {entity.confidence_entity}}}";
+
+                    var url = await StreamingService.StartStreaming(entity.entity);
+
+                    var player = DependencyService.Get<IMediaPlayer>();
+                    await player.InitializeAsync(url);
+                    player.Play();
+
+                    // Navigate to the Currently Playing page.
+                    await Shell.Current.GoToAsync($"///{nameof(CurrentlyPlayingPage)}?{nameof(CurrentSongViewModel.SongId)}={entity.entity}");
+                }
+            }
+            else if (intent.intent.name == "pause_song")
+            {
                 var player = DependencyService.Get<IMediaPlayer>();
-                await player.InitializeAsync(new Song() { Url = url });
-                player.Play();
+                player.Pause();
+            }
+            else if (intent.intent.name == "stop_song")
+            {
+                await StreamingService.StopStreaming();
             }
         }
     }

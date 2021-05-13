@@ -15,6 +15,7 @@ namespace VoxIA.Mobile.Services
         public const string Rewind = "Rewind";
         public const string Forward = "Forward";
         public const string Playing = "Playing";
+        public const string MetadataLoaded = "MetadataLoaded";
     }
 
 }

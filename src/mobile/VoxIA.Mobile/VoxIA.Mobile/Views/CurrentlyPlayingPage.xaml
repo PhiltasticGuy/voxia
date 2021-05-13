@@ -38,11 +38,11 @@
                     </StackLayout>
                 </StackLayout>
                 <StackLayout Grid.Row="2" Orientation="Vertical" Padding="15" Spacing="30">
-                    <StackLayout Orientation="Horizontal" Spacing="15">
+                    <!--<StackLayout Orientation="Horizontal" Spacing="15">
                         <Label Text="{Binding PositionText}"/>
                         <ProgressBar HorizontalOptions="FillAndExpand" ProgressColor="{StaticResource Primary}" Progress="{Binding SongProgress}" />
                         <Label Text="{Binding SongLength}"/>
-                    </StackLayout>
+                    </StackLayout>-->
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="FillAndExpand" Spacing="10">
                         <Button Text="{StaticResource IconMediaPrevious}"
                                 FontSize="40"

@@ -50,16 +50,17 @@ namespace VoxIA.Mobile.Droid
             }
         }
 
-        public async Task<Song> PopulateMetadataAsync(Song song)
+        public async Task<Song> PopulateMetadataAsync(Uri uri)
         {
             MediaMetadataRetriever _metadataRetriever = null;
 
             try
             {
                 _metadataRetriever = new MediaMetadataRetriever();
-                _metadataRetriever.SetDataSource(song.Url, new Dictionary<string, string>());
+                _metadataRetriever.SetDataSource(uri.AbsoluteUri, new Dictionary<string, string>());
                 //await _metadataRetriever.SetDataSourceAsync(song.Url);
 
+                Song song = new Song();
                 song.Title = _metadataRetriever.ExtractMetadata(MetadataKey.Title);
                 song.ArtistName = _metadataRetriever.ExtractMetadata(MetadataKey.Artist);
                 var duration = _metadataRetriever.ExtractMetadata(MetadataKey.Duration);

@@ -13,7 +13,7 @@
 
         public int Length { get; set; }
 
-        public string Url { get; set; }
+        //public string Filename { get; set; }
 
         public Song()
         {
@@ -22,7 +22,7 @@
             ArtistName = "";
             AlbumCover = "";
             Length = 0;
-            Url = "";
+            //Filename = "";
         }
     }
 }

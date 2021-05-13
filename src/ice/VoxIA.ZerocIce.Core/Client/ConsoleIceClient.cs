@@ -135,7 +135,7 @@ namespace VoxIA.ZerocIce.Core.Client
             var songs = mediaServer.GetAllSongs();
             foreach (Song song in songs)
             {
-                Console.WriteLine($"  * {song.Title} - {song.Artist} ({song.Url})");
+                Console.WriteLine($"  * {song.Title} - {song.Artist} ({song.Id})");
             }
         }
 
@@ -148,7 +148,7 @@ namespace VoxIA.ZerocIce.Core.Client
             var songs = mediaServer.FindSongs(choice);
             foreach (Song song in songs)
             {
-                Console.WriteLine($"  * {song.Title} - {song.Artist} ({song.Url})");
+                Console.WriteLine($"  * {song.Title} - {song.Artist} ({song.Id})");
             }
         }
 
@@ -161,7 +161,7 @@ namespace VoxIA.ZerocIce.Core.Client
             string choice = Console.ReadLine();
             Console.WriteLine();
 
-            if (mediaServer?.PlaySong("1", choice) == true)
+            if (mediaServer?.PlaySong("1", choice) != null)
             {
                 _player.Play(_media);
             }
@@ -220,7 +220,7 @@ namespace VoxIA.ZerocIce.Core.Client
             string artist = Console.ReadLine();
             Console.WriteLine();
 
-            mediaServer?.UpdateSong(new Song() { Title = title, Artist = artist, Url = "Test.mp3" });
+            mediaServer?.UpdateSong(new Song() { Id = "Test.mp3", Title = title, Artist = artist });
         }
 
         private void DeleteSong(MediaServerPrx mediaServer)

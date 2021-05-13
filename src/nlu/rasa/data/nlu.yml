@@ -81,10 +81,9 @@ nlu:
 #    - start song
 #    - start music
 
-#- synonym: songs
-#  examples: |
-#    - The Celebrated Minuet
-#    - celebrated minuet
+- synonym: The_Celebrated_Minuet.mp3
+  examples: |
+    - CELEBRATED MANUEL
 
 #- lookup: songs
 #  examples: |

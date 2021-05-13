@@ -12,7 +12,6 @@
             string Id;
             string Title;
             string Artist;
-            string Url;
         }
 
         sequence<Song> SongArray;
@@ -41,7 +40,7 @@
             ["amd"] SongArray FindSongs(string query);
 
             // Playback Controls
-            ["amd"] bool PlaySong(string clientId, string filename);
+            ["amd"] Song PlaySong(string clientId, string filename);
             bool PauseSong(string clientId);
             bool StopSong(string clientId);
 

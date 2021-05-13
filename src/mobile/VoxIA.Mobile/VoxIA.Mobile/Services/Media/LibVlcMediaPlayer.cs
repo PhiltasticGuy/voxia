@@ -1,5 +1,6 @@
 ﻿using LibVLCSharp.Shared;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using VoxIA.Core.Media;
 using Xamarin.Forms;
@@ -10,6 +11,7 @@ namespace VoxIA.Mobile.Services.Media
     {
         private readonly MediaPlayer _player;
         private readonly LibVLC _vlc;
+        private int _volume;
 
         public LibVlcMediaPlayer()
         {
@@ -19,13 +21,18 @@ namespace VoxIA.Mobile.Services.Media
             _player = new MediaPlayer(_vlc);
         }
 
-        public async Task InitializeAsync(VoxIA.Core.Media.Song song)
+        public async Task InitializeAsync(Uri uri)
         {
-            IMetadataRetriever metadataRetriever = DependencyService.Get<IMetadataRetriever>();
-            await metadataRetriever.PopulateMetadataAsync(song);
+            Task.Run(() => {
+                IMetadataRetriever metadataRetriever = DependencyService.Get<IMetadataRetriever>();
+                var song = metadataRetriever.PopulateMetadataAsync(uri);
+                MessagingCenter.Send(MessengerKeys.App, MessengerKeys.MetadataLoaded, song);
+            });
 
-            using (var media = new LibVLCSharp.Shared.Media(_vlc, new Uri(song.Url), ":no-video"))
+            using (var media = new LibVLCSharp.Shared.Media(_vlc, uri, ":no-video"))
+            {
                 _player.Media = media;
+            }
 
             _player.TimeChanged += TimeChanged;
             _player.PositionChanged += PositionChanged;
@@ -43,6 +50,17 @@ namespace VoxIA.Mobile.Services.Media
         public void Play()
         {
             _player.Play();
+        }
+
+        public void DeafenVolume()
+        {
+            _volume = _player.Volume;
+            _player.Volume = 10;
+        }
+
+        public void ResetVolume()
+        {
+            _player.Volume = _volume;
         }
 
         private void PositionChanged(object sender, MediaPlayerPositionChangedEventArgs e) =>

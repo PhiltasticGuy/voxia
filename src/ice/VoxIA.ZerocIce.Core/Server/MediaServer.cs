@@ -104,10 +104,9 @@ namespace VoxIA.ZerocIce.Core.Server
                     //TODO: Could include AlbumCover here?
                     new Song()
                     {
-                        Id = songs.Count.ToString(),
+                        Id = Path.GetFileName(file),
                         Title = media.Meta(MetadataType.Title),
-                        Artist = media.Meta(MetadataType.Artist),
-                        Url = Path.GetFileName(file)
+                        Artist = media.Meta(MetadataType.Artist)
                     }
                 );
             }
@@ -127,7 +126,7 @@ namespace VoxIA.ZerocIce.Core.Server
             }).ToArray();
         }
 
-        public override async Task<bool> PlaySongAsync(string clientId, string filename, Ice.Current current = null)
+        public override async Task<Song> PlaySongAsync(string clientId, string filename, Ice.Current current = null)
         {
             LibVlcPlaybackService service;
             if (_services.ContainsKey(clientId))
@@ -139,15 +138,19 @@ namespace VoxIA.ZerocIce.Core.Server
                 _services[clientId] = service = new LibVlcPlaybackService(false, "--no-video");
             }
 
-            var song = new VoxIA.Core.Media.Song() { Url = filename };
-
             service.LengthChanged += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Length '{e.Length}'.");
             service.Playing += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Started the stream for client '{clientId}'.");
             service.Paused += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Paused the stream for client '{clientId}'.");
             service.Stopped += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Stopped the stream for client '{clientId}'.");
 
-            await service.InitializeAsync(new VoxIA.Core.Streaming.Client(), song);
-            return service?.Play() == true;
+            //await service.InitializeAsync(new VoxIA.Core.Streaming.Client(), song);
+            var song = await service?.PlayAsync(new VoxIA.Core.Streaming.Client(), filename);
+            return new Song()
+            {
+                Id = song.Id,
+                Artist = song.ArtistName,
+                Title = song.Title
+            };
         }
 
         public override bool PauseSong(string clientId, Ice.Current current = null)
@@ -244,7 +247,7 @@ namespace VoxIA.ZerocIce.Core.Server
                 return Task.FromResult(false);
             }
 
-            if (string.IsNullOrEmpty(song?.Url))
+            if (string.IsNullOrEmpty(song?.Id))
             {
                 //TODO: Log an error message!
                 return Task.FromResult(false);
@@ -263,7 +266,7 @@ namespace VoxIA.ZerocIce.Core.Server
             }
 
             //TODO: Remove hard-coded folder!
-            var filePath = "./tracks/" + song?.Url;
+            var filePath = "./tracks/" + song?.Id;
             if (!File.Exists(filePath))
             {
                 //TODO: Log an error message!

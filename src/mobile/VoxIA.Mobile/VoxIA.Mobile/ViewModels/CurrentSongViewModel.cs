@@ -23,11 +23,10 @@ namespace VoxIA.Mobile.ViewModels
         private string _songTitle;
         private string _artistName;
         private string _albumCover;
-        private string _url;
         private bool _isPlaying;
-        private int _length = 0;
-        private int _position = 0;
-        private float _progress = 0f;
+        //private int _length = 0;
+        //private int _position = 0;
+        //private float _progress = 0f;
 
         public string SongId
         {
@@ -62,12 +61,6 @@ namespace VoxIA.Mobile.ViewModels
             set => SetProperty(ref _albumCover, value);
         }
 
-        public string Url
-        {
-            get => _url;
-            set => SetProperty(ref _url, value);
-        }
-
         public bool IsPlaying
         {
             get => _isPlaying;
@@ -82,41 +75,41 @@ namespace VoxIA.Mobile.ViewModels
 
         public bool IsPaused => !IsPlaying;
 
-        public string PositionText
-        {
-            get => TimeSpan.FromSeconds(_position).ToString(@"mm\:ss");
-        }
+        //public string PositionText
+        //{
+        //    get => TimeSpan.FromSeconds(_position).ToString(@"mm\:ss");
+        //}
 
-        public int Position
-        {
-            get => _position;
-            set
-            {
-                SetProperty(ref _position, value);
-                OnPropertyChanged(nameof(PositionText));
-            }
-        }
+        //public int Position
+        //{
+        //    get => _position;
+        //    set
+        //    {
+        //        SetProperty(ref _position, value);
+        //        OnPropertyChanged(nameof(PositionText));
+        //    }
+        //}
 
-        public float SongProgress
-        {
-            get => _progress;
-            set => SetProperty(ref _progress, value);
-        }
+        //public float SongProgress
+        //{
+        //    get => _progress;
+        //    set => SetProperty(ref _progress, value);
+        //}
 
-        public int Length
-        {
-            get => _length;
-            set
-            {
-                SetProperty(ref _length, value);
-                OnPropertyChanged(nameof(SongLength));
-            }
-        }
+        //public int Length
+        //{
+        //    get => _length;
+        //    set
+        //    {
+        //        SetProperty(ref _length, value);
+        //        OnPropertyChanged(nameof(SongLength));
+        //    }
+        //}
 
-        public string SongLength
-        {
-            get => TimeSpan.FromSeconds(_length).ToString(@"mm\:ss");
-        }
+        //public string SongLength
+        //{
+        //    get => TimeSpan.FromSeconds(_length).ToString(@"mm\:ss");
+        //}
 
         public CurrentSongViewModel()
         {
@@ -130,13 +123,17 @@ namespace VoxIA.Mobile.ViewModels
 
         public void OnAppearing()
         {
-            MessagingCenter.Subscribe<string, long>(MessengerKeys.App, MessengerKeys.Time, (app, time) =>
-            {
-                Position = (int)TimeSpan.FromMilliseconds(time).TotalSeconds;
-            });
-            MessagingCenter.Subscribe<string, float>(MessengerKeys.App, MessengerKeys.Position, (app, position) => SongProgress = position);
-            MessagingCenter.Subscribe<string, long>(MessengerKeys.App, MessengerKeys.Length, (app, length) => Length = (int)length);
+            //MessagingCenter.Subscribe<string, long>(MessengerKeys.App, MessengerKeys.Time, (app, time) =>
+            //{
+            //    Position = (int)TimeSpan.FromMilliseconds(time).TotalSeconds;
+            //});
+            //MessagingCenter.Subscribe<string, float>(MessengerKeys.App, MessengerKeys.Position, (app, position) => SongProgress = position);
+            //MessagingCenter.Subscribe<string, long>(MessengerKeys.App, MessengerKeys.Length, (app, length) => Length = (int)length);
             MessagingCenter.Subscribe<string>(MessengerKeys.App, MessengerKeys.EndReached, app => EndReached());
+            MessagingCenter.Subscribe<Song>(MessengerKeys.App, MessengerKeys.MetadataLoaded, metadata => {
+                SongTitle = metadata.Title;
+                ArtistName = metadata.ArtistName;
+            });
         }
 
         private void TogglePlayState()
@@ -156,77 +153,77 @@ namespace VoxIA.Mobile.ViewModels
 
         private async void PlayPreviousSong()
         {
-            try
-            {
-                var songs = await SongProvider.GetAllSongsAsync();
+            //try
+            //{
+            //    var songs = await SongProvider.GetAllSongsAsync();
 
-                int i = 0;
-                Song current;
-                do
-                {
-                    current = songs[i++];
-                }
-                while (current.Id != Id);
+            //    int i = 0;
+            //    Song current;
+            //    do
+            //    {
+            //        current = songs[i++];
+            //    }
+            //    while (current.Id != Id);
 
-                Song next = songs[(--i == 0 ? songs.Count - 1 : i - 1)];
+            //    Song next = songs[(--i == 0 ? songs.Count - 1 : i - 1)];
 
-                var x = DependencyService.Get<IMediaPlayer>();
-                await x.InitializeAsync(next);
+            //    var x = DependencyService.Get<IMediaPlayer>();
+            //    await x.InitializeAsync(next.Id);
 
-                Id = next.Id;
-                SongTitle = next.Title;
-                ArtistName = next.ArtistName;
-                AlbumCover = next.AlbumCover;
-                Url = next.Url;
-                IsPlaying = true;
+            //    Id = next.Id;
+            //    SongTitle = next.Title;
+            //    ArtistName = next.ArtistName;
+            //    AlbumCover = next.AlbumCover;
+            //    Url = next.Filename;
+            //    IsPlaying = true;
 
-                x.Play();
-            }
-            catch (Exception)
-            {
-                Debug.WriteLine("Failed to Load Item");
-            }
+            //    x.Play();
+            //}
+            //catch (Exception)
+            //{
+            //    Debug.WriteLine("Failed to Load Item");
+            //}
         }
 
         private async void PlayNextSong()
         {
 
-            try
-            {
-                var songs = await SongProvider.GetAllSongsAsync();
+            //try
+            //{
+            //    var songs = await SongProvider.GetAllSongsAsync();
 
-                int i = 0;
-                Song current;
-                do
-                {
-                    current = songs[i++];
-                }
-                while (current.Id != Id);
+            //    int i = 0;
+            //    Song current;
+            //    do
+            //    {
+            //        current = songs[i++];
+            //    }
+            //    while (current.Id != Id);
 
-                Song next = songs[(i) % songs.Count];
+            //    Song next = songs[(i) % songs.Count];
 
-                var x = DependencyService.Get<IMediaPlayer>();
-                await x.InitializeAsync(next);
+            //    var x = DependencyService.Get<IMediaPlayer>();
+            //    await x.InitializeAsync(next);
 
-                Id = next.Id;
-                SongTitle = next.Title;
-                ArtistName = next.ArtistName;
-                AlbumCover = next.AlbumCover;
-                Url = next.Url;
-                IsPlaying = true;
+            //    Id = next.Id;
+            //    SongTitle = next.Title;
+            //    ArtistName = next.ArtistName;
+            //    AlbumCover = next.AlbumCover;
+            //    Url = next.Filename;
+            //    IsPlaying = true;
 
-                x.Play();
-            }
-            catch (Exception)
-            {
-                Debug.WriteLine("Failed to Load Item");
-            }
+            //    x.Play();
+            //}
+            //catch (Exception)
+            //{
+            //    Debug.WriteLine("Failed to Load Item");
+            //}
         }
 
         private void EndReached()
         {
-            SongProgress = 0;
-            Position = 0;
+            //SongProgress = 0;
+            //Position = 0;
             IsPlaying = false;
         }
 
@@ -239,16 +236,14 @@ namespace VoxIA.Mobile.ViewModels
                 if (song != null)
                 {
                     Id = song.Id;
-                    Url = song.Url;
                 }
 
                 var streaming = DependencyService.Get<IStreamingService>();
                 await streaming.StopStreaming();
-                var url = await streaming.StartStreaming(song);
-                song.Url = url;
+                var url = await streaming.StartStreaming(song.Id);
 
                 var x = DependencyService.Get<IMediaPlayer>();
-                await x.InitializeAsync(song);
+                await x.InitializeAsync(url);
 
                 SongTitle = song.Title;
                 ArtistName = song.ArtistName;

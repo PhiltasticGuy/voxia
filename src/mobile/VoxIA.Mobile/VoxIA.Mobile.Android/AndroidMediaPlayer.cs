@@ -1,4 +1,5 @@
 ﻿using Android.Media;
+using System;
 using System.Threading.Tasks;
 using VoxIA.Core.Media;
 
@@ -22,13 +23,13 @@ namespace VoxIA.Mobile.Droid
             }
         }
 
-        public async Task InitializeAsync(Song song)
+        public async Task InitializeAsync(Uri uri)
         {
             Id3MetadataRetriever metadataRetriever = new Id3MetadataRetriever();
-            await metadataRetriever.PopulateMetadataAsync(song);
+            await metadataRetriever.PopulateMetadataAsync(uri);
 
             _player.Reset();
-            await _player.SetDataSourceAsync(song.Url);
+            await _player.SetDataSourceAsync(uri.AbsoluteUri);
             _player.Prepare();
         }
 
@@ -40,6 +41,16 @@ namespace VoxIA.Mobile.Droid
         public void Play()
         {
             _player.Start();
+        }
+
+        public void DeafenVolume()
+        {
+            // NOT SUPPORTED BY PLAYER!
+        }
+
+        public void ResetVolume()
+        {
+            // NOT SUPPORTED BY PLAYER!
         }
     }
 }

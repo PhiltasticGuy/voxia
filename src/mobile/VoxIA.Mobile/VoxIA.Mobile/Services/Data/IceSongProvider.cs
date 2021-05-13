@@ -23,7 +23,9 @@ namespace VoxIA.Mobile.Services.Data
         {
             List<Song> allSongs = new List<Song>();
 
+            //TODO: What if the connection doesn't work? LOGS!!!
             var songs = await _client._mediaServer.GetAllSongsAsync();
+
             foreach (var song in songs)
             {
                 //TODO: Album Cover could be loaded from mp3 files...
@@ -31,7 +33,6 @@ namespace VoxIA.Mobile.Services.Data
                 {
                     Id = song.Id,
                     Title = song.Title,
-                    Url = song.Url,
                     ArtistName = song.Artist,
                     AlbumCover = "album_cover_generic.png"
                 });
@@ -42,6 +43,7 @@ namespace VoxIA.Mobile.Services.Data
 
         public async Task<Song> GetSongByIdAsync(string id)
         {
+            //TODO: What if the connection doesn't work? LOGS!!!
             return (await GetAllSongsAsync()).FirstOrDefault(_ => _.Id == id);
         }
 
@@ -49,7 +51,9 @@ namespace VoxIA.Mobile.Services.Data
         {
             List<Song> allSongs = new List<Song>();
 
+            //TODO: What if the connection doesn't work? LOGS!!!
             var songs = await _client._mediaServer.FindSongsAsync(query);
+
             foreach (var song in songs)
             {
                 //TODO: Album Cover could be loaded from mp3 files...
@@ -57,7 +61,6 @@ namespace VoxIA.Mobile.Services.Data
                 {
                     Id = song.Id,
                     Title = song.Title,
-                    Url = song.Url,
                     ArtistName = song.Artist,
                     AlbumCover = "album_cover_generic.png"
                 });

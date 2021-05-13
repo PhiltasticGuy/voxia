@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace VoxIA.Core.Media
 {
     public interface IMetadataRetriever
     {
-        Task<Song> PopulateMetadataAsync(Song song);
+        Task<Song> PopulateMetadataAsync(Uri uri);
     }
 }
