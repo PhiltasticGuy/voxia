@@ -12,7 +12,8 @@ namespace VoxIA.ZerocIce.Core.Client
         private readonly MediaPlayer _player;
         private readonly Media _media;
 
-        private bool disposedValue;
+        private bool _disposedValue = false;
+        private bool _secure = false;
 
         public ConsoleIceClient() : this(false, "--no-video")
         {
@@ -48,13 +49,12 @@ namespace VoxIA.ZerocIce.Core.Client
         {
             try
             {
-                //var obj = communicator.stringToProxy("SimplePrinter:tcp -h 127.0.0.1 -p 10000");
                 var obj = communicator.propertyToProxy("MediaServer.Proxy");
                 var mediaServer = MediaServerPrxHelper.checkedCast(obj);
 
                 if (mediaServer == null)
                 {
-                    throw new ApplicationException("Invalid proxy");
+                    throw new ApplicationException("[ERROR] Invalid proxy!");
                 }
 
                 string choice;
@@ -71,6 +71,7 @@ namespace VoxIA.ZerocIce.Core.Client
                     Console.WriteLine("\tupload - Add new song to the library.");
                     Console.WriteLine("\tupdate - Edit existing song in the library.");
                     Console.WriteLine("\tdelete - Delete existing song from the library.");
+                    Console.WriteLine("\tssl    - Toggle SSL feature 'on' or 'off'.");
                     Console.WriteLine("\tquit   - Quit");
                     Console.WriteLine();
                     Console.Write("> What do you want to do? ");
@@ -111,13 +112,27 @@ namespace VoxIA.ZerocIce.Core.Client
                             DeleteSong(mediaServer);
                             break;
 
+                        case "ssl":
+                            _secure = !_secure;
+                            mediaServer = (MediaServerPrx)mediaServer.ice_secure(_secure);
+
+                            if (_secure)
+                            {
+                                Console.WriteLine("[INFO] SSL is now enabled.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("[INFO] SSL is now disabled.");
+                            }
+                            break;
+
                         case "quit":
                         case "exit":
                             isRunning = false;
                             break;
 
                         default:
-                            Console.WriteLine("That action doesn't exist...");
+                            Console.WriteLine("[ERROR] That action doesn't exist...");
                             break;
                     };
 
@@ -168,7 +183,7 @@ namespace VoxIA.ZerocIce.Core.Client
             }
             else
             {
-                Console.WriteLine($"Could not play the song '{choice}'. Please try again.");
+                Console.WriteLine($"[ERROR] Could not play the song '{choice}'. Please try again.");
             }
         }
 
@@ -292,7 +307,7 @@ namespace VoxIA.ZerocIce.Core.Client
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!_disposedValue)
             {
                 if (disposing)
                 {
@@ -301,7 +316,7 @@ namespace VoxIA.ZerocIce.Core.Client
                     if (_vlc != null) _vlc.Dispose();
                 }
 
-                disposedValue = true;
+                _disposedValue = true;
             }
         }
 
