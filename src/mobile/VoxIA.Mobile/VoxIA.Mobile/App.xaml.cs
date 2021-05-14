@@ -1,4 +1,6 @@
-﻿using VoxIA.Core.Data;
+﻿using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
+using VoxIA.Core.Data;
 using VoxIA.Core.Intents;
 using VoxIA.Core.Media;
 using VoxIA.Core.Transcription;
@@ -12,8 +14,7 @@ namespace VoxIA.Mobile
 {
     public partial class App : Application
     {
-
-        public App()
+        public App(Dictionary<string, string> iceProperties)
         {
             InitializeComponent();
 
@@ -24,10 +25,10 @@ namespace VoxIA.Mobile
             DependencyService.Register<IStreamingService, IceStreamingService>();
             DependencyService.Register<ISongProvider, IceSongProvider>();
 
-            var client = new GenericIceClient();
+            var client = new GenericIceClient(iceProperties);
             client.Start(new string[] { });
             DependencyService.RegisterSingleton<GenericIceClient>(client);
-            
+
             MainPage = new AppShell();
         }
 

@@ -37,6 +37,11 @@
     <EnableLLVM>false</EnableLLVM>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <BundleAssemblies>false</BundleAssemblies>
+    <AndroidKeyStore>false</AndroidKeyStore>
+    <AndroidSigningKeyStore>
+    </AndroidSigningKeyStore>
+    <AndroidSigningStorePass>
+    </AndroidSigningStorePass>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -79,6 +84,10 @@
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
+    <AndroidAsset Include="Assets\config.client" />
+    <AndroidResource Include="Resources\raw\client.bks" />
+    <AndroidResource Include="Resources\raw\cacert.pem" />
+    <AndroidResource Include="Resources\raw\client1.p12" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Tabbar.xml" />
@@ -119,9 +128,7 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\philtasticguy_logo.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\raw\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\..\core\VoxIA.Core\VoxIA.Core.csproj">
       <Project>{D2FBFAF7-8D3D-4A34-AD5A-C400B46A52D2}</Project>
