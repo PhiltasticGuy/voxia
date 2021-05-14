@@ -36,8 +36,11 @@ namespace VoxIA.Mobile.ViewModels
             }
             set
             {
-                _songId = value;
-                LoadSongById(value);
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _songId = value;
+                    LoadSongById(value);
+                }
             }
         }
 

@@ -47,6 +47,13 @@ namespace VoxIA.ZerocIce.Core.Client
         //    }
         //}
 
+        public void SetServerUrl(string ipAddress, int port)
+        {
+            _properties["MediaServer.Proxy"] = 
+                $"MediaServer:tcp -p {port}:ssl -p 10001";
+            _properties["Ice.Default.Host"] = ipAddress;
+        }
+
         public void Start(string[] args)
         {
             try
@@ -83,7 +90,18 @@ namespace VoxIA.ZerocIce.Core.Client
 
         public void Stop()
         {
-            _communicator.destroy();
+            if (_communicator != null)
+            {
+                try
+                {
+                    _communicator.destroy();
+                    _communicator.Dispose();
+                }
+                finally
+                {
+                    _communicator = null;
+                }
+            }
         }
 
         protected virtual void Dispose(bool disposing)

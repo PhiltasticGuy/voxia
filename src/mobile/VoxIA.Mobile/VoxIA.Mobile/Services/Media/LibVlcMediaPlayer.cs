@@ -13,6 +13,8 @@ namespace VoxIA.Mobile.Services.Media
         private readonly LibVLC _vlc;
         private int _volume;
 
+        public bool IsPlaying => _player?.IsPlaying == true;
+
         public LibVlcMediaPlayer()
         {
             LibVLCSharp.Shared.Core.Initialize();

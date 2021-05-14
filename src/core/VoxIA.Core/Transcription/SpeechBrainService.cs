@@ -6,12 +6,29 @@ namespace VoxIA.Core.Transcription
 {
     public class SpeechBrainService : ITranscriptionService
     {
-        private readonly HttpClient _client;
+        private HttpClient _client;
 
         public SpeechBrainService()
         {
+            SetServerUrl("http://192.168.0.11:5000", 5000);
+        }
+
+        public void SetServerUrl(string ipAddress, int port)
+        {
+            if (string.IsNullOrEmpty(ipAddress))
+            {
+                //TODO: Error! Log something...
+                return;
+            }
+
+            if (port < 0 || port > 65535)
+            {
+                //TODO: Error! Log something...
+                return;
+            }
+
             _client = new HttpClient();
-            _client.BaseAddress = new Uri("http://192.168.0.11:5000");
+            _client.BaseAddress = new Uri($"http://{ipAddress}:{port}");
 
             _client.DefaultRequestHeaders.Add(
                 "Accept",

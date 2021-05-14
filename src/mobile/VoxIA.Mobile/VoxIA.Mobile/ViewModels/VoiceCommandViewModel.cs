@@ -234,6 +234,14 @@ namespace VoxIA.Mobile.ViewModels
             {
                 await StreamingService.StopStreaming();
             }
+            else if (intent.intent.name == "prev_song")
+            {
+                //TODO: Call same code as CurrentSongViewModel.PreviousSong().
+            }
+            else if (intent.intent.name == "next_song")
+            {
+                //TODO: Call same code as CurrentSongViewModel.NextSong().
+            }
         }
     }
 }

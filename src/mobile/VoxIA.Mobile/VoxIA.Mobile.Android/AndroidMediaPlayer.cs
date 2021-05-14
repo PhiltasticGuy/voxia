@@ -9,6 +9,8 @@ namespace VoxIA.Mobile.Droid
     {
         private readonly MediaPlayer _player;
 
+        public bool IsPlaying => _player?.IsPlaying == true;
+
         public AndroidMediaPlayer()
         {
             _player = new MediaPlayer();

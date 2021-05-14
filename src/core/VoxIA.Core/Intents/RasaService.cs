@@ -8,7 +8,7 @@ namespace VoxIA.Core.Intents
 {
     public partial class RasaService : IIntentClassificationService
     {
-        private readonly HttpClient _client;
+        private HttpClient _client;
 
         // Puisque les classes et les propriétés en .NET Core suivent le PascalCase,
         // nous devons s'assurer que la sérialisation utilise bien le camelCase puisque
@@ -21,8 +21,25 @@ namespace VoxIA.Core.Intents
 
         public RasaService()
         {
+            SetServerUrl("http://192.168.0.11:5005", 5005);
+        }
+
+        public void SetServerUrl(string ipAddress, int port)
+        {
+            if (string.IsNullOrEmpty(ipAddress))
+            {
+                //TODO: Error! Log something...
+                return;
+            }
+
+            if (port < 0 || port > 65535)
+            {
+                //TODO: Error! Log something...
+                return;
+            }
+
             _client = new HttpClient();
-            _client.BaseAddress = new Uri("http://192.168.0.11:5005");
+            _client.BaseAddress = new Uri($"http://{ipAddress}:{port}");
 
             _client.DefaultRequestHeaders.Add(
                 "Accept",

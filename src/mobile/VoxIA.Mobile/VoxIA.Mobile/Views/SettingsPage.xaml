@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VoxIA.Mobile.Views.SettingsPage"
+             Title="{Binding Title}">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Clicked="ToolbarItem_Clicked" />
+    </ContentPage.ToolbarItems>
+    
+    <ContentPage.Content>
+        <TableView Intent="Settings">
+            <TableRoot>
+                <TableSection Title="Ice Server">
+                    <EntryCell Label="IP: " Placeholder="ICE Server IP Address" Text="{Binding IceIpAddress}" Keyboard="Text" />
+                    <EntryCell Label="Port: " Placeholder="ICE Server Port Number" Text="{Binding IcePort}" Keyboard="Numeric"/>
+                </TableSection>
+
+                <TableSection Title="ASR Server">
+                    <EntryCell Label="IP: " Placeholder="ASR Server IP Address" Text="{Binding AsrIpAddress}" Keyboard="Text" />
+                    <EntryCell Label="Port: " Placeholder="ASR Server Port Number" Text="{Binding AsrPort}" Keyboard="Numeric"/>
+                </TableSection>
+
+                <TableSection Title="NLU Server">
+                    <EntryCell Label="IP: " Placeholder="NLU Server IP Address" Text="{Binding NluIpAddress}" Keyboard="Text" />
+                    <EntryCell Label="Port: " Placeholder="NLU Server Port Number" Text="{Binding NluPort}" Keyboard="Numeric"/>
+                </TableSection>
+            </TableRoot>
+        </TableView>
+    </ContentPage.Content>
+    
+</ContentPage>
