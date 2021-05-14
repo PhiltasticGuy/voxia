@@ -209,12 +209,20 @@ namespace VoxIA.Mobile.ViewModels
 
                     var url = await StreamingService.StartStreaming(entity.entity);
 
-                    var player = DependencyService.Get<IMediaPlayer>();
-                    await player.InitializeAsync(url);
-                    player.Play();
+                    if (!string.IsNullOrEmpty(url))
+                    {
+                        var player = DependencyService.Get<IMediaPlayer>();
+                        await player.InitializeAsync(new Uri(url));
+                        player.Play();
 
-                    // Navigate to the Currently Playing page.
-                    await Shell.Current.GoToAsync($"///{nameof(CurrentlyPlayingPage)}?{nameof(CurrentSongViewModel.SongId)}={entity.entity}");
+                        // Navigate to the Currently Playing page.
+                        await Shell.Current.GoToAsync($"///{nameof(CurrentlyPlayingPage)}?{nameof(CurrentSongViewModel.SongId)}={entity.entity}");
+                    }
+                    else
+                    {
+                        //TODO: Error handling! Dispay a nice message...
+                        Console.WriteLine($"[ERROR] Could not play the song '{entity.entity}'. Please try again.");
+                    }
                 }
             }
             else if (intent.intent.name == "pause_song")

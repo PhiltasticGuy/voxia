@@ -153,6 +153,48 @@ namespace VoxIA.Mobile.ViewModels
 
         private async void PlayPreviousSong()
         {
+            try
+            {
+                var songs = await SongProvider.GetAllSongsAsync();
+
+                int i = 0;
+                Song current;
+                do
+                {
+                    current = songs[i++];
+                }
+                while (current.Id != Id);
+
+                Song prev = songs[(--i == 0 ? songs.Count - 1 : i - 1)];
+
+                var streaming = DependencyService.Get<IStreamingService>();
+                await streaming.StopStreaming();
+                var url = await streaming.StartStreaming(prev.Id);
+
+                if (!string.IsNullOrEmpty(url))
+                {
+                    var x = DependencyService.Get<IMediaPlayer>();
+                    await x.InitializeAsync(new Uri(url));
+
+                    Id = prev.Id;
+                    SongTitle = prev.Title;
+                    ArtistName = prev.ArtistName;
+                    AlbumCover = prev.AlbumCover;
+                    IsPlaying = true;
+
+                    x.Play();
+                }
+                else
+                {
+                    //TODO: Error handling! Dispay a nice message...
+                    Console.WriteLine($"[ERROR] Could not play the song '{prev.Id}'. Please try again.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Failed to Load Item!");
+                Debug.WriteLine(ex);
+            }
             //try
             //{
             //    var songs = await SongProvider.GetAllSongsAsync();
@@ -187,7 +229,48 @@ namespace VoxIA.Mobile.ViewModels
 
         private async void PlayNextSong()
         {
+            try
+            {
+                var songs = await SongProvider.GetAllSongsAsync();
 
+                int i = 0;
+                Song current;
+                do
+                {
+                    current = songs[i++];
+                }
+                while (current.Id != Id);
+
+                Song next = songs[(i) % songs.Count];
+
+                var streaming = DependencyService.Get<IStreamingService>();
+                await streaming.StopStreaming();
+                var url = await streaming.StartStreaming(next.Id);
+
+                if (!string.IsNullOrEmpty(url))
+                {
+                    var x = DependencyService.Get<IMediaPlayer>();
+                    await x.InitializeAsync(new Uri(url));
+
+                    Id = next.Id;
+                    SongTitle = next.Title;
+                    ArtistName = next.ArtistName;
+                    AlbumCover = next.AlbumCover;
+                    IsPlaying = true;
+
+                    x.Play();
+                }
+                else
+                {
+                    //TODO: Error handling! Dispay a nice message...
+                    Console.WriteLine($"[ERROR] Could not play the song '{next.Id}'. Please try again.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Failed to Load Item!");
+                Debug.WriteLine(ex);
+            }
             //try
             //{
             //    var songs = await SongProvider.GetAllSongsAsync();
@@ -242,15 +325,23 @@ namespace VoxIA.Mobile.ViewModels
                 await streaming.StopStreaming();
                 var url = await streaming.StartStreaming(song.Id);
 
-                var x = DependencyService.Get<IMediaPlayer>();
-                await x.InitializeAsync(url);
+                if (!string.IsNullOrEmpty(url))
+                {
+                    var x = DependencyService.Get<IMediaPlayer>();
+                    await x.InitializeAsync(new Uri(url));
 
-                SongTitle = song.Title;
-                ArtistName = song.ArtistName;
-                AlbumCover = song.AlbumCover;
-                IsPlaying = true;
+                    SongTitle = song.Title;
+                    ArtistName = song.ArtistName;
+                    AlbumCover = song.AlbumCover;
+                    IsPlaying = true;
 
-                x.Play();
+                    x.Play();
+                }
+                else
+                {
+                    //TODO: Error handling! Dispay a nice message...
+                    Console.WriteLine($"[ERROR] Could not play the song '{song.Id}'. Please try again.");
+                }
             }
             catch (Exception ex)
             {
