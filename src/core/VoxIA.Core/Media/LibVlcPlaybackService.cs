@@ -16,6 +16,14 @@ namespace VoxIA.Core.Media
         //private readonly MediaList _medias;
         private LibVLCSharp.Shared.Media _media;
 
+        public int Port { get; set; }
+
+        public bool IsAvailable => 
+            _player?.State != VLCState.Buffering &&
+            _player?.State != VLCState.Opening &&
+            _player?.State != VLCState.Paused &&
+            _player?.State != VLCState.Playing;
+
         public event EventHandler<EventArgs> TimeChanged;
         public event EventHandler<EventArgs> PositionChanged;
         public event EventHandler<MediaPlayerLengthChangedEventArgs> LengthChanged;
@@ -60,9 +68,6 @@ namespace VoxIA.Core.Media
             _player.Paused += (sender, e) => Paused?.Invoke(sender, e);
             _player.Stopped += (sender, e) => Stopped?.Invoke(sender, e);
         }
-
-        private string BuildVlcStreamingOptions(Client client) =>
-            $":sout=#transcode{{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100,scodec=none}}:http{{dst=:{client.Port}/stream.mp3}}";
 
         //public async Task<bool> InitializeAsync(Client client, Song song)
         //{
@@ -109,7 +114,7 @@ namespace VoxIA.Core.Media
         //    return true;
         //}
 
-        public async Task<Song> PlayAsync(Client client, string filename)
+        public async Task<string> PlayAsync(Client client, string filename)
         {
             string mediaPath = MediaFolder + filename;
             if (!File.Exists(mediaPath))
@@ -153,7 +158,7 @@ namespace VoxIA.Core.Media
                 _vlc,
                 mediaPath,
                 FromType.FromPath,
-                BuildVlcStreamingOptions(client),
+                $":sout=#transcode{{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100,scodec=none}}:http{{dst=:{Port}/stream.mp3}}",
                 ":no-sout-all",
                 ":sout-keep"
             );
@@ -167,7 +172,7 @@ namespace VoxIA.Core.Media
             //_medias.SetMedia(media1);
             //using var m = new Media(_medias);
 
-            return (playing == true ? song : null);
+            return (playing == true ? $"http://{Environment.GetEnvironmentVariable("DOCKER_HOST_IP")}:{Port}/stream.mp3" : null);
         }
 
         public void Pause()

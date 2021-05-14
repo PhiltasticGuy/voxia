@@ -8,9 +8,10 @@ namespace VoxIA.ZerocIce.Core.Client
 {
     public class ConsoleIceClient : IIceClient, IDisposable
     {
+        private readonly Guid _clientId = Guid.NewGuid();
         private readonly LibVLC _vlc;
         private readonly MediaPlayer _player;
-        private readonly Media _media;
+        private Media _media;
 
         private bool _disposedValue = false;
         private bool _secure = false;
@@ -32,7 +33,7 @@ namespace VoxIA.ZerocIce.Core.Client
 
             _player = new MediaPlayer(_vlc);
             //TODO: Port must be assigned from server after registering!
-            _media = new Media(_vlc, new Uri("http://localhost:6000/stream.mp3"));
+            //_media = new Media(_vlc, new Uri("http://localhost:6000/stream.mp3"));
         }
 
         public void Start(string[] args)
@@ -177,8 +178,15 @@ namespace VoxIA.ZerocIce.Core.Client
             string choice = Console.ReadLine();
             Console.WriteLine();
 
-            if (mediaServer?.PlaySong("1", choice) != null)
+            var url = mediaServer?.PlaySong(_clientId.ToString(), choice);
+            if (!string.IsNullOrEmpty(url))
             {
+                if (_media != null)
+                {
+                    _media.Dispose();
+                }
+
+                _media = new Media(_vlc, new Uri(url));
                 _player.Play(_media);
             }
             else
@@ -189,12 +197,12 @@ namespace VoxIA.ZerocIce.Core.Client
 
         private void PauseSong(MediaServerPrx mediaServer)
         {
-            mediaServer?.PauseSong("1");
+            mediaServer?.PauseSong(_clientId.ToString());
         }
 
         private void StopSong(MediaServerPrx mediaServer)
         {
-            mediaServer?.StopSong("1");
+            mediaServer?.StopSong(_clientId.ToString());
         }
 
         private void UploadSong(MediaServerPrx mediaServer)

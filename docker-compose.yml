@@ -10,6 +10,8 @@ services:
       - "10000:10000"
       - "10001:10001"
       - "6000-6025:6000-6025"
+    environment:
+      - DOCKER_HOST_IP=${DOCKER_HOST_IP}
     volumes:
       - ./data/tracks:/app/tracks
       - ./data/certs:/app/certs

@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using VoxIA.Core.Media;
@@ -20,7 +23,7 @@ namespace VoxIA.ZerocIce.Core.Server
 
             _mutex.WaitOne();
             //TODO: Port range should be read from configurations!
-            for (int i = 6000; i <= 6000; i++)
+            for (int i = 6000; i <= 6001; i++)
             {
                 _availablePorts.Add(i);
             }
@@ -32,7 +35,7 @@ namespace VoxIA.ZerocIce.Core.Server
             int port = -1;
 
             _mutex.WaitOne();
-            if (_availablePorts.Count == 0)
+            if (_availablePorts.Count > 0)
             {
                 port = _availablePorts[0];
                 _availablePorts.RemoveAt(0);
@@ -44,47 +47,53 @@ namespace VoxIA.ZerocIce.Core.Server
 
         public override Task<RegisterResponse> RegisterClientAsync(string clientId, Ice.Current current = null)
         {
-            LibVlcPlaybackService service;
-            if (_services.ContainsKey(clientId))
-            {
-                return Task.FromResult(
-                    new RegisterResponse(RegisterResult.AlreadyRegistered, string.Empty)
-                );
-            }
-            else
-            {
-                int port = NextAvailablePort();
-                if (port == -1)
-                {
-                    return Task.FromResult(
-                        new RegisterResponse(RegisterResult.MaxClientsReached, string.Empty)
-                    );
-                }
-
-                _services[clientId] = service = new LibVlcPlaybackService(false, "--no-video");
-
-                return Task.FromResult(
-                    new RegisterResponse(RegisterResult.Success, $"http://{"192.168.0.11"}:{NextAvailablePort()}")
-                );
-            }
+            return Task.FromResult<RegisterResponse>(null);
         }
 
         public override Task<bool> UnregisterClientAsync(string clientId, Ice.Current current = null)
         {
-            LibVlcPlaybackService service;
+            return Task.FromResult(false);
+        }
+
+        public LibVlcPlaybackService GetPlaybackService(string clientId)
+        {
+            // Existing client, return previously used service.
             if (_services.ContainsKey(clientId))
             {
-                service = _services[clientId];
-
-                _mutex.WaitOne();
-                _availablePorts.Add(6000);
-                _mutex.ReleaseMutex();
-
-                return Task.FromResult(true);
+                return _services[clientId];
             }
+            // New client, return newly created service.
             else
             {
-                return Task.FromResult(false);
+                var port = NextAvailablePort();
+
+                // Port available, use a new port assignment for this client.
+                if (port > 0)
+                {
+                    var service = _services[clientId] = new LibVlcPlaybackService(false, "--no-video");
+                    service.Port = port;
+                    return service;
+                }
+                // Port unavailable, try to reuse existing service...
+                else
+                {
+                    var service = _services.Where(_ => _.Value.IsAvailable).FirstOrDefault();
+
+                    // Recyclable playback service found, reuse it!
+                    if (!string.IsNullOrEmpty(service.Key))
+                    {
+                        _services[clientId] = service.Value;
+                        _services.Remove(service.Key);
+                        return service.Value;
+                    }
+                    // All ports and playback services are busy...
+                    else
+                    {
+                        Console.WriteLine("[ERROR] Server too busy. Cannot assign port for streaming...");
+                        return null;
+                    }
+
+                }
             }
         }
 
@@ -126,44 +135,35 @@ namespace VoxIA.ZerocIce.Core.Server
             }).ToArray();
         }
 
-        public override async Task<Song> PlaySongAsync(string clientId, string filename, Ice.Current current = null)
+        public override async Task<string> PlaySongAsync(string clientId, string filename, Ice.Current current = null)
         {
-            LibVlcPlaybackService service;
-            if (_services.ContainsKey(clientId))
+            _mutex.WaitOne();
+            LibVlcPlaybackService service = GetPlaybackService(clientId);
+            _mutex.ReleaseMutex();
+
+            if (service != null)
             {
-                service = _services[clientId];
+                service.LengthChanged += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Length '{e.Length}'.");
+                service.Playing += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Started the stream for client '{clientId}'.");
+                service.Paused += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Paused the stream for client '{clientId}'.");
+                service.Stopped += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Stopped the stream for client '{clientId}'.");
+
+                //var ipAddress = Environment.GetEnvironmentVariable("DOCKER_HOST_IP");
+
+                var url = await service?.PlayAsync(new VoxIA.Core.Streaming.Client(), filename);
+                return url;
             }
             else
             {
-                _services[clientId] = service = new LibVlcPlaybackService(false, "--no-video");
+                return null;
             }
-
-            service.LengthChanged += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Length '{e.Length}'.");
-            service.Playing += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Started the stream for client '{clientId}'.");
-            service.Paused += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Paused the stream for client '{clientId}'.");
-            service.Stopped += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Stopped the stream for client '{clientId}'.");
-
-            //await service.InitializeAsync(new VoxIA.Core.Streaming.Client(), song);
-            var song = await service?.PlayAsync(new VoxIA.Core.Streaming.Client(), filename);
-            return new Song()
-            {
-                Id = song.Id,
-                Artist = song.ArtistName,
-                Title = song.Title
-            };
         }
 
         public override bool PauseSong(string clientId, Ice.Current current = null)
         {
-            LibVlcPlaybackService service;
-            if (_services.ContainsKey(clientId))
-            {
-                service = _services[clientId];
-            }
-            else
-            {
-                _services[clientId] = service = new LibVlcPlaybackService(false, "--no-video");
-            }
+            _mutex.WaitOne();
+            LibVlcPlaybackService service = GetPlaybackService(clientId);
+            _mutex.ReleaseMutex();
 
             service?.Pause();
 
@@ -172,15 +172,9 @@ namespace VoxIA.ZerocIce.Core.Server
 
         public override bool StopSong(string clientId, Ice.Current current = null)
         {
-            LibVlcPlaybackService service;
-            if (_services.ContainsKey(clientId))
-            {
-                service = _services[clientId];
-            }
-            else
-            {
-                _services[clientId] = service = new LibVlcPlaybackService(false, "--no-video");
-            }
+            _mutex.WaitOne();
+            LibVlcPlaybackService service = GetPlaybackService(clientId);
+            _mutex.ReleaseMutex();
 
             service?.Stop();
 

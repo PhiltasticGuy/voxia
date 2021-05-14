@@ -40,7 +40,7 @@
             ["amd"] SongArray FindSongs(string query);
 
             // Playback Controls
-            ["amd"] Song PlaySong(string clientId, string filename);
+            ["amd"] string PlaySong(string clientId, string filename);
             bool PauseSong(string clientId);
             bool StopSong(string clientId);
 

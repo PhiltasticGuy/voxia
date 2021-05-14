@@ -67,7 +67,6 @@ namespace VoxIA.ZerocIce.Core.Client
                 //pluginMgr.initializePlugins();
 
                 //TODO: The IP Address and Port should come from configurations!
-                //var obj = _communicator.stringToProxy("SimplePrinter:tcp -h 192.168.0.11 -p 10000");
                 var obj = _communicator.propertyToProxy("MediaServer.Proxy");
                 _mediaServer = MediaServerPrxHelper.checkedCast(obj);
 
