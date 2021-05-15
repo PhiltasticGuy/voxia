@@ -1,0 +1,40 @@
+#
+# Sample configuration file for the IceGrid node daemon
+#
+
+#
+# Proxy to the IceGrid registry
+#
+Ice.Default.Locator=DemoIceGrid/Locator:tcp -h ice.grid.registry -p 4061
+#Ice.Default.Locator=DemoIceGrid/Locator:ssl -h ice.grid.registry -p 4062
+
+#
+# The name of this node; must be unique within an IceGrid deployment
+#
+IceGrid.Node.Name=node1
+
+#
+# The node object adapter listens on the loopback interface using an
+# OS-assigned port
+#
+# These endpoints must be accessible to IceGrid registries.
+#
+# Note that access to these endpoints can pose a security
+# risk (remote code execution) and therefore these endpoints should be
+# secured. See the Ice manual for more information.
+#
+IceGrid.Node.Endpoints=tcp -h ice.grid.node -p 20002
+
+#
+# Redirect the servers'stdout and stderr to files in this directory:
+#
+IceGrid.Node.Output=/var/lib/ice/icegrid
+#IceGrid.Node.RedirectErrToOut=1
+
+#
+# Logging to syslog
+#
+Ice.UseSyslog=1
+Ice.ProgramName=icegridnode (DemoIceGrid node1)
+IceGrid.Node.Trace.Replica=2
+IceGrid.Node.AllowRunningServersAsRoot=1

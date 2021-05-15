@@ -1,20 +1,50 @@
 version: '3.4'
 
 services:
-  ice.server:
-    image: ${DOCKER_REGISTRY-}voxia/ice-server:latest
-    build:
-      context: .
-      dockerfile: src/ice/VoxIA.ZerocIce.Server/Dockerfile
+  ice.grid.registry:
+    image: zeroc/icegridregistry
     ports:
-      - "10000:10000"
-      - "10001:10001"
-      - "6000-6025:6000-6025"
+      - "4061:4061"
+      - "4062:4062"
+      - "20000"
+      - "20001"
     environment:
       - DOCKER_HOST_IP=${DOCKER_HOST_IP}
     volumes:
+      - ./src/ice/VoxIA.ZerocIce.Server/config.registry:/etc/icegridregistry.conf:ro
+      - ./data/icegrid/registry:/var/lib/ice/icegrid
+
+  ice.grid.node:
+    image: ${DOCKER_REGISTRY-}voxia/ice-node:latest
+    build:
+      context: .
+      dockerfile: src/ice/VoxIA.ZerocIce.Server/Dockerfile.node
+    environment:
+      - DOCKER_HOST_IP=${DOCKER_HOST_IP}
+    ports:
+      - "20002"
+      - "10000-10001:10000-10001"
+      - "6000-6025:6000-6025"
+    volumes:
+      - ./src/ice/VoxIA.ZerocIce.Server/config.node:/etc/icegridnode.conf:ro
+      - ./data/icegrid/node:/var/lib/ice/icegrid
       - ./data/tracks:/app/tracks
       - ./data/certs:/app/certs
+
+  #ice.server:
+  #  image: ${DOCKER_REGISTRY-}voxia/ice-server:latest
+  #  build:
+  #    context: .
+  #    dockerfile: src/ice/VoxIA.ZerocIce.Server/Dockerfile
+  #  ports:
+  #    - "9999:9999"
+  #    - "10000-10001:10000-10001"
+  #    - "6000-6025:6000-6025"
+  #  environment:
+  #    - DOCKER_HOST_IP=${DOCKER_HOST_IP}
+  #  volumes:
+  #    - ./data/tracks:/app/tracks
+  #    - ./data/certs:/app/certs
 
   rasa.api:
     image: ${DOCKER_REGISTRY-}voxia/rasa-nlu-api:latest

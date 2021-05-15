@@ -5,6 +5,10 @@
 
 *.mp3
 generated
+data/icegrid/node/*
+!data/icegrid/node/.gitkeep
+data/icegrid/registry/*
+!data/icegrid/registry/.gitkeep
 
 # [NLU/RASA]
 src/nlu/rasa/Lib

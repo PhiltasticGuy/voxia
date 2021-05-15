@@ -1,0 +1,26 @@
+﻿<!-- Copyright (c) ZeroC, Inc. All rights reserved. -->
+<icegrid>
+	<application name="Simple">
+		<node name="node1">
+			<server id="SimpleServer" exe="dotnet" user="root" activation="on-demand">
+				<option>/app/VoxIA.ZerocIce.Server.dll</option>
+				<adapter name="MediaServerAdapter" endpoints="tcp -p 10000:ssl -p 10001">
+					<object identity="MediaServerId" type="::VoxIA::ZerocIce::MediaServer" property="Identity"/>
+				</adapter>
+
+				<property name="Ice.Default.Host" value="ice.grid.node"/>
+				<property name="Ice.Admin.Endpoints" value="tcp -h 127.0.0.1"/>
+				<property name="MediaServerAdapter.PublishedEndpoints" value="tcp -h 192.168.0.11 -p 10000:ssl -h 192.168.0.11 -p 10001" />
+				<property name="Ice.Warn.Connections" value="1"/>
+				<property name="Ice.Trace.Network" value="1"/>
+				<property name="Ice.Trace.Protocol" value="1"/>
+				<property name="IceSSL.Trace.Security" value="1"/>
+				<property name="Ice.Plugin.IceSSL" value="IceSSL:IceSSL.PluginFactory"/>
+				<property name="IceSSL.DefaultDir" value="certs"/>
+				<property name="IceSSL.CAs" value="cacert.pem"/>
+				<property name="IceSSL.CertFile" value="server.p12"/>
+				<property name="IceSSL.Password" value="password"/>
+			</server>
+		</node>
+	</application>
+</icegrid>

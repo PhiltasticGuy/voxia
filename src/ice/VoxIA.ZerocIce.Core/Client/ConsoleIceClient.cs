@@ -50,7 +50,8 @@ namespace VoxIA.ZerocIce.Core.Client
         {
             try
             {
-                var obj = communicator.propertyToProxy("MediaServer.Proxy");
+                //var obj = communicator.propertyToProxy("MediaServer.Proxy");
+                var obj = communicator.stringToProxy("MediaServerId@SimpleServer.MediaServerAdapter");
                 var mediaServer = MediaServerPrxHelper.checkedCast(obj);
 
                 if (mediaServer == null)

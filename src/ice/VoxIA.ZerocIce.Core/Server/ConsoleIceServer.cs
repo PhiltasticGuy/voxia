@@ -30,8 +30,11 @@ namespace VoxIA.ZerocIce.Core.Server
         /// <param name="configurationFile">Server configuration file path</param>
         public void Start(string[] args, string configurationFile)
         {
-            using var communicator = Ice.Util.initialize(ref args, configurationFile);
-            RunIceServer(communicator);
+            //using var communicator = Ice.Util.initialize(ref args, configurationFile);
+            //RunIceServer(communicator);
+            Console.WriteLine("[DEBUG] UserName: {0}", Environment.UserName);
+            using var communicator = Ice.Util.initialize(ref args);
+            RunIceGrid(communicator);
         }
 
         private void RunIceServer(Ice.Communicator communicator)
@@ -40,9 +43,27 @@ namespace VoxIA.ZerocIce.Core.Server
             Directory.CreateDirectory("./upload-area");
 
             var adapter = communicator.createObjectAdapter("MediaServer");
-            //var adapter = communicator.createObjectAdapterWithEndpoints("SimplePrinterAdapter", "default -h ice.server -p 10000");
-            var server = new MediaServer();
-            adapter.add(server, Ice.Util.stringToIdentity("MediaServer"));
+            adapter.add(new MediaServer(), Ice.Util.stringToIdentity("MediaServer"));
+            adapter.activate();
+
+            // Ensure that communicator is notified of the stop signal.
+            ShutdownCommunicatorAction = () =>
+            {
+                communicator.destroy();
+            };
+
+            communicator.waitForShutdown();
+        }
+
+        private void RunIceGrid(Ice.Communicator communicator)
+        {
+            // Create the upload area directory.
+            Directory.CreateDirectory("./upload-area");
+
+            var adapter = communicator.createObjectAdapter("MediaServerAdapter");
+            var properties = communicator.getProperties();
+            var id = Ice.Util.stringToIdentity(properties.getProperty("Identity"));
+            adapter.add(new MediaServer(), id);
             adapter.activate();
 
             // Ensure that communicator is notified of the stop signal.

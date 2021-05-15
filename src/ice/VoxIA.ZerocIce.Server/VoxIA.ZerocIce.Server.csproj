@@ -24,6 +24,9 @@
 
 
   <ItemGroup>
+    <None Update="application.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="config.server">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
