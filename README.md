@@ -35,3 +35,9 @@ An open-source, voice-activated music player for your mobile devices.
 	* [Previous]
 	* [Next]
 * About
+
+1. Run 'icegridadmin' to setup IceGrid application and start server.
+	* Any username or password can be used to login.
+	* 'application add <absolute path to Application.xml>'
+	* 'server start SimpleServer'
+	* 'exit'
