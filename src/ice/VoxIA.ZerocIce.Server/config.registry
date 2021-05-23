@@ -6,7 +6,7 @@
 # The IceGrid instance name; must be unique, to distinguish several
 # IceGrid deployments
 #
-IceGrid.InstanceName=DemoIceGrid
+IceGrid.InstanceName=MediaIceGrid
 
 #
 # Client object adapter: listens on the loopback interface
@@ -43,8 +43,8 @@ IceGrid.Registry.Internal.Endpoints=tcp -h ice.grid.registry -p 20001
 # With NullPermissionsVerifier, any password is accepted (not recommended
 # for production)
 #
-IceGrid.Registry.PermissionsVerifier=DemoIceGrid/NullPermissionsVerifier
-IceGrid.Registry.AdminPermissionsVerifier=DemoIceGrid/NullPermissionsVerifier
+IceGrid.Registry.PermissionsVerifier=MediaIceGrid/NullPermissionsVerifier
+IceGrid.Registry.AdminPermissionsVerifier=MediaIceGrid/NullPermissionsVerifier
 
 #
 # Default templates
@@ -55,6 +55,6 @@ IceGrid.Registry.DefaultTemplates=/usr/share/Ice-3.6.2/templates.xml
 # Logging to syslog
 #
 Ice.UseSyslog=1
-Ice.ProgramName=icegridregistry (DemoIceGrid Master)
+Ice.ProgramName=icegridregistry (MediaIceGrid Master)
 IceGrid.Registry.Trace.Node=1
 IceGrid.Registry.Trace.Replica=1

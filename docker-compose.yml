@@ -3,18 +3,25 @@ version: '3.4'
 services:
   ice.grid.registry:
     image: zeroc/icegridregistry
+    #build:
+    #  context: .
+    #  dockerfile: src/ice/VoxIA.ZerocIce.Server/Dockerfile.registry
     ports:
       - "4061:4061"
       - "4062:4062"
+    expose:
       - "20000"
       - "20001"
     environment:
       - DOCKER_HOST_IP=${DOCKER_HOST_IP}
+    depends_on:
+      - ice.grid.node1
+      - ice.grid.node2
     volumes:
       - ./src/ice/VoxIA.ZerocIce.Server/config.registry:/etc/icegridregistry.conf:ro
       - ./data/icegrid/registry:/var/lib/ice/icegrid
 
-  ice.grid.node:
+  ice.grid.node1:
     image: ${DOCKER_REGISTRY-}voxia/ice-node:latest
     build:
       context: .
@@ -22,11 +29,34 @@ services:
     environment:
       - DOCKER_HOST_IP=${DOCKER_HOST_IP}
     ports:
-      - "20002"
       - "10000-10001:10000-10001"
-      - "6000-6025:6000-6025"
+      - "6000-6024:6000-6024"
+    expose:
+      - "20002"
+      - "4061"
+      - "4062"
     volumes:
-      - ./src/ice/VoxIA.ZerocIce.Server/config.node:/etc/icegridnode.conf:ro
+      - ./src/ice/VoxIA.ZerocIce.Server/config.node1:/etc/icegridnode.conf:ro
+      - ./data/icegrid/node:/var/lib/ice/icegrid
+      - ./data/tracks:/app/tracks
+      - ./data/certs:/app/certs
+
+  ice.grid.node2:
+    image: ${DOCKER_REGISTRY-}voxia/ice-node:latest
+    build:
+      context: .
+      dockerfile: src/ice/VoxIA.ZerocIce.Server/Dockerfile.node
+    environment:
+      - DOCKER_HOST_IP=${DOCKER_HOST_IP}
+    ports:
+      - "10002-10003:10002-10003"
+      - "6025-6049:6025-6049"
+    expose:
+      - "20002"
+      - "4061"
+      - "4062"
+    volumes:
+      - ./src/ice/VoxIA.ZerocIce.Server/config.node2:/etc/icegridnode.conf:ro
       - ./data/icegrid/node:/var/lib/ice/icegrid
       - ./data/tracks:/app/tracks
       - ./data/certs:/app/certs

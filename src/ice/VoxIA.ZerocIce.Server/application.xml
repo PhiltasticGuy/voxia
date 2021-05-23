@@ -1,16 +1,22 @@
-﻿<!-- Copyright (c) ZeroC, Inc. All rights reserved. -->
-<icegrid>
-	<application name="Simple">
-		<node name="node1">
-			<server id="SimpleServer" exe="dotnet" user="root" activation="on-demand">
+﻿<icegrid>
+	<application name="Streaming">
+		<replica-group id="MediaServerAdapters">
+			<load-balancing type="round-robin" n-replicas="2" />
+			<object identity="MediaServer" type="::VoxIA::ZerocIce::MediaServer"/>
+		</replica-group>
+		<server-template id="MediaServerTemplate">
+			<parameter name="INDEX"/>
+			<parameter name="PORT_INSECURE"/>
+			<parameter name="PORT_SECURE"/>
+			<server id="MediaServer${INDEX}" exe="dotnet" user="root" activation="on-demand">
 				<option>/app/VoxIA.ZerocIce.Server.dll</option>
-				<adapter name="MediaServerAdapter" endpoints="tcp -p 10000:ssl -p 10001">
-					<object identity="MediaServerId" type="::VoxIA::ZerocIce::MediaServer" property="Identity"/>
-				</adapter>
+				<adapter name="MediaServerAdapter" replica-group="MediaServerAdapters" endpoints="tcp -p ${PORT_INSECURE}:ssl -p ${PORT_SECURE}" />
 
-				<property name="Ice.Default.Host" value="ice.grid.node"/>
-				<property name="Ice.Admin.Endpoints" value="tcp -h 127.0.0.1"/>
-				<property name="MediaServerAdapter.PublishedEndpoints" value="tcp -h 192.168.0.11 -p 10000:ssl -h 192.168.0.11 -p 10001" />
+				<!-- 'Identity' needs to match the 'object identity' in the replica group! -->
+				<property name="Identity" value="MediaServer"/>
+				<property name="Ice.Default.Host" value="ice.grid.node${INDEX}"/>
+				<property name="MediaServerAdapter.PublishedEndpoints" value="tcp -h 192.168.0.11 -p ${PORT_INSECURE}:ssl -h 192.168.0.11 -p ${PORT_SECURE}" />
+
 				<property name="Ice.Warn.Connections" value="1"/>
 				<property name="Ice.Trace.Network" value="1"/>
 				<property name="Ice.Trace.Protocol" value="1"/>
@@ -20,7 +26,14 @@
 				<property name="IceSSL.CAs" value="cacert.pem"/>
 				<property name="IceSSL.CertFile" value="server.p12"/>
 				<property name="IceSSL.Password" value="password"/>
+				<property name="Ice.Admin.Endpoints" value="tcp -h 127.0.0.1"/>
 			</server>
+		</server-template>
+		<node name="Node1">
+			<server-instance template="MediaServerTemplate" INDEX="1" PORT_INSECURE="10000" PORT_SECURE="10001" />
+		</node>
+		<node name="Node2">
+			<server-instance template="MediaServerTemplate" INDEX="2" PORT_INSECURE="10002" PORT_SECURE="10003" />
 		</node>
 	</application>
 </icegrid>

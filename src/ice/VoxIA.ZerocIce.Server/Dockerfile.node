@@ -14,6 +14,7 @@ RUN apt-get update \
         libx11-dev \
         libvlc-dev \
         vlc \
+        zeroc-ice-utils \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv B6391CB2CFBA643D \
     && echo "deb http://download.zeroc.com/Ice/3.7/debian10 stable main" >> /etc/apt/sources.list.d/ice.list \
     && apt-get update \
@@ -53,4 +54,9 @@ RUN dotnet publish "VoxIA.ZerocIce.Server.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+#RUN chmod +x entrypoint.sh
+#ENTRYPOINT ["./entrypoint.sh"]
+#CMD ["icegridnode", "--Ice.Config=/etc/icegridnode.conf", "--IceGrid.Node.Data=/var/lib/ice/icegrid"]
+
 ENTRYPOINT ["/usr/bin/icegridnode", "--Ice.Config=/etc/icegridnode.conf", "--IceGrid.Node.Data=/var/lib/ice/icegrid"]
