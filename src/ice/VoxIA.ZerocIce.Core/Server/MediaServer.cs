@@ -98,7 +98,7 @@ namespace VoxIA.ZerocIce.Core.Server
                     // All ports and playback services are busy...
                     else
                     {
-                        _logger.Error($"[{LOGGER_TAG}][{clientId}] Server too busy. Cannot assign port for streaming...");
+                        _logger.Error($"[{clientId}][{LOGGER_TAG}] Server too busy. Cannot assign port for streaming...");
                         return null;
                     }
 
@@ -108,7 +108,7 @@ namespace VoxIA.ZerocIce.Core.Server
 
         public override async Task<Song[]> GetAllSongsAsync(string clientId, Ice.Current current = null)
         {
-            _logger.Information($"[{LOGGER_TAG}][{clientId}] Getting list of available songs in library.");
+            _logger.Information($"[{clientId}][{LOGGER_TAG}] GET_ALL_SONGS command received.");
 
             //TODO: Add more music extensions?
             var files = Directory.GetFiles($"tracks", "*.mp3");
@@ -131,53 +131,54 @@ namespace VoxIA.ZerocIce.Core.Server
                 );
             }
 
+            _logger.Information($"[{clientId}][{LOGGER_TAG}] Found '{songs.Count}' available songs in library.");
+
             return songs.ToArray();
         }
 
         public override async Task<Song[]> FindSongsAsync(string clientId, string query, Ice.Current current = null)
         {
-            _logger.Information($"[{LOGGER_TAG}][{clientId}] Searching for songs using query : {query}");
+            _logger.Information($"[{clientId}][{LOGGER_TAG}] FIND_SONG command received.");
 
             string sanitizedQuery = query.Trim().ToLower();
 
-            var songs = new List<Song>(await GetAllSongsAsync(clientId));
+            var songs = new List<Song>(await GetAllSongsAsync(clientId))
+                .FindAll(_ => {
+                    return
+                        _.Title.ToLower().Contains(sanitizedQuery) ||
+                        _.Artist.ToLower().Contains(sanitizedQuery);
+                }).ToArray();
 
-            return songs.FindAll(_ => {
-                return
-                    _.Title.ToLower().Contains(sanitizedQuery) ||
-                    _.Artist.ToLower().Contains(sanitizedQuery);
-            }).ToArray();
+            _logger.Information($"[{clientId}][{LOGGER_TAG}] Found '{songs.Length}' songs with query : {query}");
+
+            return songs;
         }
 
         public override async Task<string> PlaySongAsync(string clientId, string filename, Ice.Current current = null)
         {
+            _logger.Information($"[{clientId}][{LOGGER_TAG}] PLAY_SONG command received.");
             _mutex.WaitOne();
             LibVlcPlaybackService service = GetPlaybackService(clientId);
             _mutex.ReleaseMutex();
 
             if (service != null)
             {
-                service.LengthChanged += (sender, e) => _logger.Information($"[LibVLCSharp][{clientId}] Length '{e.Length}'.");;
-                service.Playing += (sender, e) => _logger.Information($"[LibVLCSharp][{clientId}] Started the stream.");
-                service.Paused += (sender, e) => _logger.Information($"[LibVLCSharp][{clientId}] Paused the stream.");
-                service.Stopped += (sender, e) => _logger.Information($"[LibVLCSharp][{clientId}] Stopped the stream.");
-
                 var url = await service?.PlayAsync(filename);
 
-                _logger.Information($"[{LOGGER_TAG}][{clientId}] Playing song '{filename}' from '{url}'.");
+                _logger.Information($"[{clientId}][{LOGGER_TAG}] Playing song '{filename}' from '{url}'.");
 
                 return url;
             }
             else
             {
-                _logger.Error($"[{LOGGER_TAG}][{clientId}] No playback reference found.");
+                _logger.Error($"[{clientId}][{LOGGER_TAG}] No playback reference found.");
                 return null;
             }
         }
 
         public override bool PauseSong(string clientId, Ice.Current current = null)
         {
-            _logger.Information($"[{LOGGER_TAG}][{clientId}] Pausing song.");
+            _logger.Information($"[{clientId}][{LOGGER_TAG}] PAUSE_SONG command received.");
 
             _mutex.WaitOne();
             LibVlcPlaybackService service = GetPlaybackService(clientId);
@@ -190,7 +191,7 @@ namespace VoxIA.ZerocIce.Core.Server
 
         public override bool StopSong(string clientId, Ice.Current current = null)
         {
-            _logger.Information($"[{LOGGER_TAG}][{clientId}] Stopping song.");
+            _logger.Information($"[{clientId}][{LOGGER_TAG}] STOP command received.");
 
             _mutex.WaitOne();
             LibVlcPlaybackService service = GetPlaybackService(clientId);
@@ -203,7 +204,8 @@ namespace VoxIA.ZerocIce.Core.Server
 
         public override Task UploadSongAsync(string clientId, string filename, byte[] content, Ice.Current current = null)
         {
-            _logger.Information($"[{LOGGER_TAG}][{clientId}] Uploading new song '{filename}'.");
+            _logger.Information($"[{clientId}][{LOGGER_TAG}] UPLOAD_SONG command received.");
+            _logger.Information($"[{clientId}][{LOGGER_TAG}] Uploading new song '{filename}'.");
 
             return Task.Run(() => {
                 File.WriteAllBytes("./tracks/" + filename, content);
@@ -212,7 +214,8 @@ namespace VoxIA.ZerocIce.Core.Server
 
         public override Task UploadSongChunkAsync(string clientId, string filename, int offset, byte[] content, Ice.Current current = null)
         {
-            _logger.Information($"[{LOGGER_TAG}][{clientId}] Uploading new song chunk (offset={offset}) for '{filename}'.");
+            _logger.Information($"[{clientId}][{LOGGER_TAG}] UPLOAD_SONG_CHUNK command received.");
+            _logger.Information($"[{clientId}][{LOGGER_TAG}] Uploading new song chunk (offset={offset}) for '{filename}'.");
 
             return Task.Run(() =>
             {
@@ -233,44 +236,45 @@ namespace VoxIA.ZerocIce.Core.Server
                 }
                 catch (Exception e)
                 {
-                    _logger.Error(e, $"[{LOGGER_TAG}][{clientId}]");
+                    _logger.Error(e, $"[{clientId}][{LOGGER_TAG}]");
                 }
             });
         }
 
         public override Task<bool> UpdateSongAsync(string clientId, Song song, Ice.Current current = null)
         {
+            _logger.Information($"[{clientId}][{LOGGER_TAG}] UPDATE_SONG command received.");
 
             if (song == null)
             {
-                _logger.Error($"[{LOGGER_TAG}][{clientId}] Update existing song failed. Song details received was null.");
+                _logger.Error($"[{clientId}][{LOGGER_TAG}] Update existing song failed. Song details received was null.");
                 return Task.FromResult(false);
             }
 
             if (string.IsNullOrEmpty(song?.Id))
             {
-                _logger.Error($"[{LOGGER_TAG}][{clientId}] Update existing song failed. Missing song ID.");
+                _logger.Error($"[{clientId}][{LOGGER_TAG}] Update existing song failed. Missing song ID.");
                 return Task.FromResult(false);
             }
 
-            _logger.Information($"[{LOGGER_TAG}][{clientId}] Update an existing song '{song.Id}'.");
+            _logger.Information($"[{clientId}][{LOGGER_TAG}] Update an existing song '{song.Id}'.");
 
             if (string.IsNullOrEmpty(song?.Title))
             {
-                _logger.Error($"[{LOGGER_TAG}][{clientId}] Update existing song failed. Missing song TITLE.");
+                _logger.Error($"[{clientId}][{LOGGER_TAG}] Update existing song failed. Missing song TITLE.");
                 return Task.FromResult(false);
             }
 
             if (string.IsNullOrEmpty(song?.Artist))
             {
-                _logger.Error($"[{LOGGER_TAG}][{clientId}] Update existing song failed. Missing song ARTIST.");
+                _logger.Error($"[{clientId}][{LOGGER_TAG}] Update existing song failed. Missing song ARTIST.");
                 return Task.FromResult(false);
             }
 
             var filePath = "./tracks/" + song?.Id;
             if (!File.Exists(filePath))
             {
-                _logger.Error($"[{LOGGER_TAG}][{clientId}] Update existing song failed. Song library folder doesn't exist.");
+                _logger.Error($"[{clientId}][{LOGGER_TAG}] Update existing song failed. Song library folder doesn't exist.");
                 return Task.FromResult(false);
             }
 
@@ -284,10 +288,12 @@ namespace VoxIA.ZerocIce.Core.Server
 
         public override bool DeleteSong(string clientId, string filename, Ice.Current current = null)
         {
+            _logger.Information($"[{clientId}][{LOGGER_TAG}] DELETE_SONG command received.");
+
             string path = "./tracks/" + filename;
             if (!File.Exists(path))
             {
-                _logger.Error($"[{LOGGER_TAG}][{clientId}] Update existing song failed. Song library folder doesn't exist.");
+                _logger.Error($"[{clientId}][{LOGGER_TAG}] Update existing song failed. Song library folder doesn't exist.");
                 return false;
             }
 

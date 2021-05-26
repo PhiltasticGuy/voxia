@@ -28,7 +28,7 @@ namespace VoxIA.ZerocIce.Server
             }
             catch (Exception e)
             {
-                Console.Error.WriteLine(e);
+                Log.Logger.Error(e, "Exception has occured!");
 
                 // Allow the user to read the error message.
                 Console.ReadLine();

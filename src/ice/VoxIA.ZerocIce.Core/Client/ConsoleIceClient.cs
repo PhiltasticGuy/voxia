@@ -1,4 +1,5 @@
 ﻿using LibVLCSharp.Shared;
+using Serilog;
 using System;
 using System.IO;
 using System.Text;
@@ -8,6 +9,7 @@ namespace VoxIA.ZerocIce.Core.Client
 {
     public class ConsoleIceClient : IIceClient, IDisposable
     {
+        private readonly ILogger _logger;
         private readonly Guid _clientId = Guid.NewGuid();
         private readonly LibVLC _vlc;
         private readonly MediaPlayer _player;
@@ -16,12 +18,14 @@ namespace VoxIA.ZerocIce.Core.Client
         private bool _disposedValue = false;
         private bool _secure = false;
 
-        public ConsoleIceClient() : this(false, "--no-video")
+        public ConsoleIceClient(ILogger logger) : this(logger, false, "--no-video")
         {
         }
 
-        public ConsoleIceClient(bool enableDebugLogs, params string[] options)
+        public ConsoleIceClient(ILogger logger, bool enableDebugLogs, params string[] options)
         {
+            _logger = logger;
+
             LibVLCSharp.Shared.Core.Initialize();
 
             _vlc = new LibVLC(enableDebugLogs, options);
@@ -201,6 +205,11 @@ namespace VoxIA.ZerocIce.Core.Client
         private void PauseSong(MediaServerPrx mediaServer)
         {
             mediaServer?.PauseSong(_clientId.ToString());
+
+            if (_player.State == VLCState.Paused)
+            {
+                _player.Play();
+            }
         }
 
         private void StopSong(MediaServerPrx mediaServer)
@@ -216,20 +225,28 @@ namespace VoxIA.ZerocIce.Core.Client
 
             Task.Run(async () =>
             {
-                string filename = Path.GetFileName(filepath);
-                const int chunkSize = 2048;
-                int offset = 0;
-                using var fs = File.OpenRead(filepath);
-                using var br = new BinaryReader(fs);
-
-                while (br.PeekChar() != -1)
+                try
                 {
-                    byte[] chunk = br.ReadBytes(chunkSize);
-                    await mediaServer.UploadSongChunkAsync(filename, offset, chunk);
-                    offset += chunk.Length;
+                    string filename = Path.GetFileName(filepath);
+                    const int chunkSize = 8192;
+                    byte[] chunk = new byte[chunkSize];
+                    using var fs = File.OpenRead(filepath);
 
-                    //string utfString = Encoding.UTF8.GetString(chunk, 0, chunk.Length);
-                    //Console.WriteLine(utfString);
+                    while (fs.Position < fs.Length)
+                    {
+                        fs.Read(chunk, 0, chunkSize);
+
+                        await mediaServer.UploadSongChunkAsync(_clientId.ToString(), filename, (int)fs.Position - chunk.Length, chunk);
+
+                        //string utfString = Encoding.UTF8.GetString(chunk, 0, chunk.Length);
+                        //Console.WriteLine(utfString);
+                    }
+
+                    Console.WriteLine($"Song upload complete for '{filename}'!");
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(e, "Exception has occured!");
                 }
             });
         }
@@ -247,7 +264,23 @@ namespace VoxIA.ZerocIce.Core.Client
             string artist = Console.ReadLine();
             Console.WriteLine();
 
-            mediaServer?.UpdateSong(new Song() { Id = "Test.mp3", Title = title, Artist = artist });
+            var result = mediaServer?.UpdateSong(
+                _clientId.ToString(), 
+                new Song() { 
+                    Id = (string.IsNullOrEmpty(filename) ? "Test.mp3" : filename), 
+                    Title = title, 
+                    Artist = artist 
+                }
+            );
+
+            if (result == true)
+            {
+                Console.WriteLine("Successfully updated the song details!");
+            }
+            else
+            {
+                Console.WriteLine("Failed to update the song details...");
+            }
         }
 
         private void DeleteSong(MediaServerPrx mediaServer)
@@ -259,15 +292,24 @@ namespace VoxIA.ZerocIce.Core.Client
             string filepath = Console.ReadLine();
             Console.WriteLine();
 
-            mediaServer?.DeleteSong(Path.GetFileName(filepath));
+            var result = mediaServer?.DeleteSong(_clientId.ToString(), Path.GetFileName(filepath));
+
+            if (result == true)
+            {
+                Console.WriteLine("Successfully deleted the song!");
+            }
+            else
+            {
+                Console.WriteLine("Failed to delete the song...");
+            }
         }
 
         private void TestAsyncUploads(MediaServerPrx mediaServer)
         {
             var filename = "lorem.txt";
             var content = File.ReadAllBytes($"./local-lib/" + filename);
-            var results = mediaServer.begin_UploadSong(filename, content);
-            mediaServer.begin_UploadSong(filename, content);
+            var results = mediaServer.begin_UploadSong(_clientId.ToString(), filename, content);
+            mediaServer.begin_UploadSong(_clientId.ToString(), filename, content);
 
             Task.Run(() =>
             {
@@ -281,7 +323,7 @@ namespace VoxIA.ZerocIce.Core.Client
                 while (br.PeekChar() != -1)
                 {
                     byte[] chunk = br.ReadBytes(chunkSize);
-                    mediaServer.UploadSongChunkAsync(filename, offset, chunk);
+                    mediaServer.UploadSongChunkAsync(_clientId.ToString(), filename, offset, chunk);
                     offset += chunk.Length;
 
                     string utfString = Encoding.UTF8.GetString(chunk, 0, chunk.Length);
@@ -301,7 +343,7 @@ namespace VoxIA.ZerocIce.Core.Client
                 while (br.PeekChar() != -1)
                 {
                     byte[] chunk = br.ReadBytes(chunkSize);
-                    mediaServer.UploadSongChunkAsync(filename, offset, chunk);
+                    mediaServer.UploadSongChunkAsync(_clientId.ToString(), filename, offset, chunk);
                     offset += chunk.Length;
 
                     string utfString = Encoding.UTF8.GetString(chunk, 0, chunk.Length);

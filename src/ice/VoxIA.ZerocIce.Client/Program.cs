@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using VoxIA.ZerocIce.Core.Client;
 
 namespace VoxIA.ZerocIce.Client
@@ -9,12 +10,19 @@ namespace VoxIA.ZerocIce.Client
         {
             try
             {
-                using var client = new ConsoleIceClient();
+                // Create the Serilog logger instance.
+                Log.Logger = new LoggerConfiguration()
+                    .MinimumLevel.Debug()
+                    .WriteTo.Console()
+                    //.WriteTo.File("logs/myapp.txt", rollingInterval: RollingInterval.Day)
+                    .CreateLogger();
+
+                using var client = new ConsoleIceClient(Log.Logger);
                 client.Start(args);
             }
             catch (Exception e)
             {
-                Console.Error.WriteLine(e);
+                Log.Logger.Error(e, "Exception has occured!");
 
                 // Allow the user to read the error message.
                 Console.ReadLine();
