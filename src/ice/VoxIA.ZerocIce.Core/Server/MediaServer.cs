@@ -151,22 +151,21 @@ namespace VoxIA.ZerocIce.Core.Server
 
         public override async Task<string> PlaySongAsync(string clientId, string filename, Ice.Current current = null)
         {
-            _logger.Information($"[{LOGGER_TAG}][{clientId}] Playing song '{filename}'.");
-
             _mutex.WaitOne();
             LibVlcPlaybackService service = GetPlaybackService(clientId);
             _mutex.ReleaseMutex();
 
             if (service != null)
             {
-                service.LengthChanged += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Length '{e.Length}'.");
-                service.Playing += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Started the stream for client '{clientId}'.");
-                service.Paused += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Paused the stream for client '{clientId}'.");
-                service.Stopped += (sender, e) => Console.WriteLine($"[LibVLCSharp] : Stopped the stream for client '{clientId}'.");
-
-                //var ipAddress = Environment.GetEnvironmentVariable("DOCKER_HOST_IP");
+                service.LengthChanged += (sender, e) => _logger.Information($"[LibVLCSharp][{clientId}] Length '{e.Length}'.");;
+                service.Playing += (sender, e) => _logger.Information($"[LibVLCSharp][{clientId}] Started the stream.");
+                service.Paused += (sender, e) => _logger.Information($"[LibVLCSharp][{clientId}] Paused the stream.");
+                service.Stopped += (sender, e) => _logger.Information($"[LibVLCSharp][{clientId}] Stopped the stream.");
 
                 var url = await service?.PlayAsync(new VoxIA.Core.Streaming.Client(), filename);
+
+                _logger.Information($"[{LOGGER_TAG}][{clientId}] Playing song '{filename}' from '{url}'.");
+
                 return url;
             }
             else
@@ -234,7 +233,7 @@ namespace VoxIA.ZerocIce.Core.Server
                 }
                 catch (Exception e)
                 {
-                    Console.Error.WriteLine(e.ToString());
+                    _logger.Error(e, $"[{LOGGER_TAG}][{clientId}]");
                 }
             });
         }
