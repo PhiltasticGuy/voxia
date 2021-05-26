@@ -223,32 +223,39 @@ namespace VoxIA.ZerocIce.Core.Client
             string filepath = Console.ReadLine();
             Console.WriteLine();
 
-            Task.Run(async () =>
+            if (File.Exists(filepath))
             {
-                try
+                Task.Run(async () =>
                 {
-                    string filename = Path.GetFileName(filepath);
-                    const int chunkSize = 8192;
-                    byte[] chunk = new byte[chunkSize];
-                    using var fs = File.OpenRead(filepath);
-
-                    while (fs.Position < fs.Length)
+                    try
                     {
-                        fs.Read(chunk, 0, chunkSize);
+                        string filename = Path.GetFileName(filepath);
+                        const int chunkSize = 8192;
+                        byte[] chunk = new byte[chunkSize];
+                        using var fs = File.OpenRead(filepath);
 
-                        await mediaServer.UploadSongChunkAsync(_clientId.ToString(), filename, (int)fs.Position - chunk.Length, chunk);
+                        while (fs.Position < fs.Length)
+                        {
+                            fs.Read(chunk, 0, chunkSize);
 
-                        //string utfString = Encoding.UTF8.GetString(chunk, 0, chunk.Length);
-                        //Console.WriteLine(utfString);
+                            await mediaServer.UploadSongChunkAsync(_clientId.ToString(), filename, (int)fs.Position - chunk.Length, chunk);
+
+                            //string utfString = Encoding.UTF8.GetString(chunk, 0, chunk.Length);
+                            //Console.WriteLine(utfString);
+                        }
+
+                        Console.WriteLine($"Song upload complete for '{filename}'!");
                     }
-
-                    Console.WriteLine($"Song upload complete for '{filename}'!");
-                }
-                catch (Exception e)
-                {
-                    _logger.Error(e, "Exception has occured!");
-                }
-            });
+                    catch (Exception e)
+                    {
+                        _logger.Error(e, "Exception has occured!");
+                    }
+                });
+            }
+            else
+            {
+                Console.WriteLine($"[ERROR] Could not find the song file at path '{filepath}'. Please try again.");
+            }
         }
 
         private void UpdateSong(MediaServerPrx mediaServer)
