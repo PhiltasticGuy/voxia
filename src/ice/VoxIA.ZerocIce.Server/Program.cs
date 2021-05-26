@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using VoxIA.ZerocIce.Core.Server;
 
 namespace VoxIA.ZerocIce.Server
@@ -9,14 +10,21 @@ namespace VoxIA.ZerocIce.Server
         {
             try
             {
-                var server = new ConsoleIceServer();
+                // Create the Serilog logger instance.
+                Log.Logger = new LoggerConfiguration()
+                    .MinimumLevel.Debug()
+                    .WriteTo.Console()
+                    //.WriteTo.File("logs/myapp.txt", rollingInterval: RollingInterval.Day)
+                    .CreateLogger();
+
+                var server = new ConsoleIceServer(Log.Logger);
 
                 //
                 // Destroy the communicator on Ctrl+C or Ctrl+Break
                 //
                 Console.CancelKeyPress += (sender, eventArgs) => server.Stop();
 
-                server.Start(args, "config.server");
+                server.Start(args);
             }
             catch (Exception e)
             {

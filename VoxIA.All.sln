@@ -74,6 +74,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{1739D143-B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoxIA.Core", "src\core\VoxIA.Core\VoxIA.Core.csproj", "{D2FBFAF7-8D3D-4A34-AD5A-C400B46A52D2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{95351726-04A4-4386-BE48-7EF064EF246C}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\setupIceGrid.ps1 = scripts\setupIceGrid.ps1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

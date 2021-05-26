@@ -36,8 +36,8 @@
             ["amd"] bool UnregisterClient(string clientId);
 
             // Song Library
-            ["amd"] SongArray GetAllSongs();
-            ["amd"] SongArray FindSongs(string query);
+            ["amd"] SongArray GetAllSongs(string clientId);
+            ["amd"] SongArray FindSongs(string clientId, string query);
 
             // Playback Controls
             ["amd"] string PlaySong(string clientId, string filename);
@@ -45,10 +45,10 @@
             bool StopSong(string clientId);
 
             // Song Management
-            ["amd"] void UploadSong(string filename, ByteArray content);
-            ["amd"] void UploadSongChunk(string filename, int offset, ByteArray content);
-            ["amd"] bool UpdateSong(Song song);
-            bool DeleteSong(string filename);
+            ["amd"] void UploadSong(string clientId, string filename, ByteArray content);
+            ["amd"] void UploadSongChunk(string clientId, string filename, int offset, ByteArray content);
+            ["amd"] bool UpdateSong(string clientId, Song song);
+            bool DeleteSong(string clientId, string filename);
         }
     }
 }

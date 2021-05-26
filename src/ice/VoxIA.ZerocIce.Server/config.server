@@ -3,7 +3,7 @@
 # "Hello". The following line sets the endpoints for this
 # adapter.
 #
-MediaServer.Endpoints=tcp -p 10000:ssl -p 10001
+MediaServerAdapter.Endpoints=tcp -p 10000:ssl -p 10001
 
 #
 # Only listen on the localhost interface by default.

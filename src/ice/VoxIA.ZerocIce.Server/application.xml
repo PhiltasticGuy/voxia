@@ -1,7 +1,8 @@
 ﻿<icegrid>
 	<application name="Streaming">
 		<replica-group id="MediaServerAdapters">
-			<load-balancing type="round-robin" n-replicas="2" />
+			<load-balancing type="round-robin" n-replicas="0" />
+			<!--<load-balancing type="random" n-replicas="0" />-->
 			<object identity="MediaServer" type="::VoxIA::ZerocIce::MediaServer"/>
 		</replica-group>
 		<server-template id="MediaServerTemplate">

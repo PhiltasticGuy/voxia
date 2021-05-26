@@ -6,6 +6,7 @@
 
 	<ItemGroup>
 		<SliceCompile Include="../contracts/MediaServer.ice" />
+		<PackageReference Include="Serilog" Version="2.10.0" />
 		<PackageReference Include="zeroc.ice.net" Version="3.7.5" />
 		<PackageReference Include="zeroc.icebuilder.msbuild" Version="5.0.7" />
 		<ProjectReference Include="..\..\core\VoxIA.Core\VoxIA.Core.csproj" />

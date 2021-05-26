@@ -53,6 +53,7 @@ namespace VoxIA.ZerocIce.Core.Client
                 //var obj = communicator.propertyToProxy("MediaServer.Proxy");
                 //var obj = communicator.stringToProxy("MediaServerId@SimpleServer.MediaServerAdapter");
                 var obj = communicator.stringToProxy("MediaServer");
+                obj.ice_connectionCached(false);
                 var mediaServer = MediaServerPrxHelper.checkedCast(obj);
 
                 if (mediaServer == null)
@@ -149,9 +150,9 @@ namespace VoxIA.ZerocIce.Core.Client
             }
         }
 
-        private static void DisplayAvailableSongs(MediaServerPrx mediaServer)
+        private void DisplayAvailableSongs(MediaServerPrx mediaServer)
         {
-            var songs = mediaServer.GetAllSongs();
+            var songs = mediaServer.GetAllSongs(_clientId.ToString());
             foreach (Song song in songs)
             {
                 Console.WriteLine($"  * {song.Title} - {song.Artist} ({song.Id})");
@@ -164,7 +165,7 @@ namespace VoxIA.ZerocIce.Core.Client
             var choice = Console.ReadLine();
             Console.WriteLine();
 
-            var songs = mediaServer.FindSongs(choice);
+            var songs = mediaServer.FindSongs(_clientId.ToString(), choice);
             foreach (Song song in songs)
             {
                 Console.WriteLine($"  * {song.Title} - {song.Artist} ({song.Id})");

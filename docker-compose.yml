@@ -27,7 +27,9 @@ services:
       context: .
       dockerfile: src/ice/VoxIA.ZerocIce.Server/Dockerfile.node
     environment:
-      - DOCKER_HOST_IP=${DOCKER_HOST_IP}
+      - DOCKER_HOST_IP=${DOCKER_HOST_IP-127.0.0.1}
+      - STREAMING_PORT_RANGE_MIN=${STREAMING_PORT_RANGE_MIN-6000}
+      - STREAMING_PORT_RANGE_MAX=${STREAMING_PORT_RANGE_MIN-6024}
     ports:
       - "10000-10001:10000-10001"
       - "6000-6024:6000-6024"
@@ -48,6 +50,8 @@ services:
       dockerfile: src/ice/VoxIA.ZerocIce.Server/Dockerfile.node
     environment:
       - DOCKER_HOST_IP=${DOCKER_HOST_IP}
+      - STREAMING_PORT_RANGE_MIN=${STREAMING_PORT_RANGE_MIN-6025}
+      - STREAMING_PORT_RANGE_MAX=${STREAMING_PORT_RANGE_MIN-6049}
     ports:
       - "10002-10003:10002-10003"
       - "6025-6049:6025-6049"
