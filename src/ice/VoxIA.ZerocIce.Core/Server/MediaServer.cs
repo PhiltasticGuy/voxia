@@ -162,7 +162,7 @@ namespace VoxIA.ZerocIce.Core.Server
                 service.Paused += (sender, e) => _logger.Information($"[LibVLCSharp][{clientId}] Paused the stream.");
                 service.Stopped += (sender, e) => _logger.Information($"[LibVLCSharp][{clientId}] Stopped the stream.");
 
-                var url = await service?.PlayAsync(new VoxIA.Core.Streaming.Client(), filename);
+                var url = await service?.PlayAsync(filename);
 
                 _logger.Information($"[{LOGGER_TAG}][{clientId}] Playing song '{filename}' from '{url}'.");
 

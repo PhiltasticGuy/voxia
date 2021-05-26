@@ -114,7 +114,7 @@ namespace VoxIA.Core.Media
         //    return true;
         //}
 
-        public async Task<string> PlayAsync(Client client, string filename)
+        public async Task<string> PlayAsync(string filename)
         {
             string mediaPath = MediaFolder + filename;
             if (!File.Exists(mediaPath))
@@ -140,13 +140,6 @@ namespace VoxIA.Core.Media
             //   main debug: `file:///<...>/local-file.mp3' 
             var media = new LibVLCSharp.Shared.Media(_vlc, mediaPath, FromType.FromPath);
             await media.Parse(MediaParseOptions.ParseLocal);
-
-            var song = new Song()
-            {
-                Id = filename,
-                Title = media.Meta(MetadataType.Title),
-                ArtistName = media.Meta(MetadataType.Artist)
-            };
 
             // Dispose of any existing media from previous playbacks.
             if (_media != null)
