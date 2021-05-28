@@ -12,6 +12,9 @@ namespace VoxIA.Mobile.Services.Media
         private readonly MediaPlayer _player;
         private readonly LibVLC _vlc;
         private int _volume;
+        private string _currentlyPlayingSongId;
+
+        public string CurrentlyPlayingSongId => _currentlyPlayingSongId;
 
         public bool IsPlaying => _player?.IsPlaying == true;
 
@@ -23,13 +26,15 @@ namespace VoxIA.Mobile.Services.Media
             _player = new MediaPlayer(_vlc);
         }
 
-        public async Task InitializeAsync(Uri uri)
+        public async Task InitializeAsync(string songId, Uri uri)
         {
             Task.Run(() => {
                 IMetadataRetriever metadataRetriever = DependencyService.Get<IMetadataRetriever>();
                 var song = metadataRetriever.PopulateMetadataAsync(uri);
                 MessagingCenter.Send(MessengerKeys.App, MessengerKeys.MetadataLoaded, song);
             });
+
+            _currentlyPlayingSongId = songId;
 
             using (var media = new LibVLCSharp.Shared.Media(_vlc, uri, ":no-video"))
             {

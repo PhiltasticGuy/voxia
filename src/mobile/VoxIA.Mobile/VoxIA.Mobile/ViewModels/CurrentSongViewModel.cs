@@ -179,7 +179,7 @@ namespace VoxIA.Mobile.ViewModels
                     Console.WriteLine($"[INFO] Playing the song '{prev.Id}' from '{url}'.");
 
                     var x = DependencyService.Get<IMediaPlayer>();
-                    await x.InitializeAsync(new Uri(url));
+                    await x.InitializeAsync(prev.Id, new Uri(url));
 
                     Id = prev.Id;
                     SongTitle = prev.Title;
@@ -257,7 +257,7 @@ namespace VoxIA.Mobile.ViewModels
                     Console.WriteLine($"[INFO] Playing the song '{next.Id}' from '{url}'.");
 
                     var x = DependencyService.Get<IMediaPlayer>();
-                    await x.InitializeAsync(new Uri(url));
+                    await x.InitializeAsync(next.Id, new Uri(url));
 
                     Id = next.Id;
                     SongTitle = next.Title;
@@ -337,7 +337,7 @@ namespace VoxIA.Mobile.ViewModels
                     Console.WriteLine($"[INFO] Playing the song '{song.Id}' from '{url}'.");
 
                     var x = DependencyService.Get<IMediaPlayer>();
-                    await x.InitializeAsync(new Uri(url));
+                    await x.InitializeAsync(song.Id, new Uri(url));
 
                     SongTitle = song.Title;
                     ArtistName = song.ArtistName;

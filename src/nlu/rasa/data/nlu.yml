@@ -36,15 +36,18 @@ nlu:
 
 - intent: pause_song
   examples: |
+    #- play [](.mp3)
+    #- start [](.mp3)
     - pause 
     - pause song
-    - pause a song
     - pause the song
     - pause music
     - pause the music
 
 - intent: stop_song
   examples: |
+    #- play [](.mp3)
+    #- start [](.mp3)
     - stop
     - stop song
     - stop the stop
@@ -55,31 +58,30 @@ nlu:
     - stop playing song
     - stop playing the song
 
-#- intent: prev_song
-#  examples: |
-#    - play
-#    - play song
-#    - play a song
-#    - play something
-#    - play music
-#    - start
-#    - start playing song
-#    - start playing
-#    - start song
-#    - start music
-
-#- intent: next_song
-#  examples: |
-#    - play song
-#    - play
-#    - play a song
-#    - play something
-#    - play music
-#    - start
-#    - start playing song
-#    - start playing
-#    - start song
-#    - start music
+- intent: prev_song
+  examples: |
+    - previous
+    - previous song
+    - back
+    - back to previous song
+    - back to last song
+    - last song
+    - play previous
+    - play previous song
+    - play the previous song
+    - play last song
+    - play the last song
+    
+- intent: next_song
+  examples: |
+    - next
+    - next song
+    - skip
+    - skip song
+    - skip the song
+    - play next
+    - play next song
+    - play the next song
 
 - synonym: The_Celebrated_Minuet.mp3
   examples: |

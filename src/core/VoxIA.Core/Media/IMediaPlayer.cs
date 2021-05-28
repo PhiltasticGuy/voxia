@@ -6,8 +6,9 @@ namespace VoxIA.Core.Media
     public interface IMediaPlayer
     {
         bool IsPlaying { get; }
+        string CurrentlyPlayingSongId { get; }
 
-        Task InitializeAsync(Uri uri);
+        Task InitializeAsync(string songId, Uri uri);
 
         void Play();
 

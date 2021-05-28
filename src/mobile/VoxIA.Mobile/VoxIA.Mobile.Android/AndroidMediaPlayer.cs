@@ -11,6 +11,8 @@ namespace VoxIA.Mobile.Droid
 
         public bool IsPlaying => _player?.IsPlaying == true;
 
+        public string CurrentlyPlayingSongId => throw new NotImplementedException();
+
         public AndroidMediaPlayer()
         {
             _player = new MediaPlayer();
@@ -53,6 +55,11 @@ namespace VoxIA.Mobile.Droid
         public void ResetVolume()
         {
             // NOT SUPPORTED BY PLAYER!
+        }
+
+        public Task InitializeAsync(string songId, Uri uri)
+        {
+            throw new NotImplementedException();
         }
     }
 }

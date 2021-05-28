@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using VoxIA.Core.Data;
 using VoxIA.Core.Intents;
 using VoxIA.Core.Media;
 using VoxIA.Core.Transcription;
@@ -13,6 +14,7 @@ namespace VoxIA.Mobile.ViewModels
 {
     class VoiceCommandViewModel : BaseViewModel
     {
+        private ISongProvider SongProvider => DependencyService.Get<ISongProvider>();
         private IMediaRecorder MediaRecorder => DependencyService.Get<IMediaRecorder>();
         private ITranscriptionService TranscriptionService => DependencyService.Get<ITranscriptionService>();
         private IIntentClassificationService IntentClassificationService => DependencyService.Get<IIntentClassificationService>();
@@ -211,9 +213,9 @@ namespace VoxIA.Mobile.ViewModels
 
                     if (!string.IsNullOrEmpty(url))
                     {
-                        var player = DependencyService.Get<IMediaPlayer>();
-                        await player.InitializeAsync(new Uri(url));
-                        player.Play();
+                        //var player = DependencyService.Get<IMediaPlayer>();
+                        //await player.InitializeAsync(entity.entity, new Uri(url));
+                        //player.Play();
 
                         // Navigate to the Currently Playing page.
                         await Shell.Current.GoToAsync($"///{nameof(CurrentlyPlayingPage)}?{nameof(CurrentSongViewModel.SongId)}={entity.entity}");
@@ -240,11 +242,41 @@ namespace VoxIA.Mobile.ViewModels
             }
             else if (intent.intent.name == "prev_song")
             {
-                //TODO: Call same code as CurrentSongViewModel.PreviousSong().
+                var player = DependencyService.Get<IMediaPlayer>();
+
+                var songs = await SongProvider.GetAllSongsAsync();
+
+                int i = 0;
+                Song current;
+                do
+                {
+                    current = songs[i++];
+                }
+                while (current.Id != player.CurrentlyPlayingSongId);
+
+                Song prev = songs[(--i == 0 ? songs.Count - 1 : i - 1)];
+
+                // Navigate to the Currently Playing page.
+                await Shell.Current.GoToAsync($"///{nameof(CurrentlyPlayingPage)}?{nameof(CurrentSongViewModel.SongId)}={prev.Id}");
             }
             else if (intent.intent.name == "next_song")
             {
-                //TODO: Call same code as CurrentSongViewModel.NextSong().
+                var player = DependencyService.Get<IMediaPlayer>();
+
+                var songs = await SongProvider.GetAllSongsAsync();
+
+                int i = 0;
+                Song current;
+                do
+                {
+                    current = songs[i++];
+                }
+                while (current.Id != player.CurrentlyPlayingSongId);
+
+                Song next = songs[(i) % songs.Count];
+
+                // Navigate to the Currently Playing page.
+                await Shell.Current.GoToAsync($"///{nameof(CurrentlyPlayingPage)}?{nameof(CurrentSongViewModel.SongId)}={next.Id}");
             }
         }
     }
