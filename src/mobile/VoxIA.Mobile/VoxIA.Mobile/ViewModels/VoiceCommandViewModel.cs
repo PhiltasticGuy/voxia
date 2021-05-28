@@ -235,10 +235,14 @@ namespace VoxIA.Mobile.ViewModels
             {
                 var player = DependencyService.Get<IMediaPlayer>();
                 player.Pause();
+
+                Entity = "";
             }
             else if (intent.intent.name == "stop_song")
             {
                 await StreamingService.StopStreaming();
+
+                Entity = "";
             }
             else if (intent.intent.name == "prev_song")
             {
@@ -255,6 +259,8 @@ namespace VoxIA.Mobile.ViewModels
                 while (current.Id != player.CurrentlyPlayingSongId);
 
                 Song prev = songs[(--i == 0 ? songs.Count - 1 : i - 1)];
+                
+                Entity = "";
 
                 // Navigate to the Currently Playing page.
                 await Shell.Current.GoToAsync($"///{nameof(CurrentlyPlayingPage)}?{nameof(CurrentSongViewModel.SongId)}={prev.Id}");
@@ -274,6 +280,8 @@ namespace VoxIA.Mobile.ViewModels
                 while (current.Id != player.CurrentlyPlayingSongId);
 
                 Song next = songs[(i) % songs.Count];
+
+                Entity = "";
 
                 // Navigate to the Currently Playing page.
                 await Shell.Current.GoToAsync($"///{nameof(CurrentlyPlayingPage)}?{nameof(CurrentSongViewModel.SongId)}={next.Id}");

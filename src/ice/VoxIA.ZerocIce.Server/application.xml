@@ -31,10 +31,10 @@
 			</server>
 		</server-template>
 		<node name="Node1">
-			<server-instance template="MediaServerTemplate" INDEX="1" PORT_INSECURE="10000" PORT_SECURE="10001" />
+			<server-instance template="MediaServerTemplate" INDEX="1" PORT_INSECURE="9000" PORT_SECURE="9001" />
 		</node>
 		<node name="Node2">
-			<server-instance template="MediaServerTemplate" INDEX="2" PORT_INSECURE="10002" PORT_SECURE="10003" />
+			<server-instance template="MediaServerTemplate" INDEX="2" PORT_INSECURE="9002" PORT_SECURE="9003" />
 		</node>
 	</application>
 </icegrid>
