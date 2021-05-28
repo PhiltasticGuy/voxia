@@ -7,7 +7,9 @@ using VoxIA.Core.Transcription;
 using VoxIA.Mobile.Services.Data;
 using VoxIA.Mobile.Services.Media;
 using VoxIA.Mobile.Services.Streaming;
+using VoxIA.Mobile.ViewModels;
 using VoxIA.ZerocIce.Core.Client;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace VoxIA.Mobile
@@ -20,8 +22,18 @@ namespace VoxIA.Mobile
 
             DependencyService.Register<MockDataStore>();
             DependencyService.Register<IMediaPlayer, LibVlcMediaPlayer>();
-            DependencyService.Register<ITranscriptionService, SpeechBrainService>();
-            DependencyService.Register<IIntentClassificationService, RasaService>();
+            DependencyService.RegisterSingleton<ITranscriptionService>(
+                new SpeechBrainService(
+                    Preferences.Get(nameof(SettingsViewModel.AsrIpAddress), "192.168.0.11"),
+                    Preferences.Get(nameof(SettingsViewModel.AsrPort), 5000)
+                )
+            );
+            DependencyService.RegisterSingleton<IIntentClassificationService>(
+                new RasaService(
+                    Preferences.Get(nameof(SettingsViewModel.NluIpAddress), "192.168.0.11"),
+                    Preferences.Get(nameof(SettingsViewModel.NluPort), 5005)
+                )
+            );
             DependencyService.Register<IStreamingService, IceStreamingService>();
             DependencyService.Register<ISongProvider, IceSongProvider>();
 

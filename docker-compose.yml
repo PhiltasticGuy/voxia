@@ -3,9 +3,6 @@ version: '3.4'
 services:
   ice.grid.registry:
     image: zeroc/icegridregistry
-    #build:
-    #  context: .
-    #  dockerfile: src/ice/VoxIA.ZerocIce.Server/Dockerfile.registry
     ports:
       - "4061:4061"
       - "4062:4062"
@@ -65,21 +62,6 @@ services:
       - ./data/tracks:/app/tracks
       - ./data/certs:/app/certs
 
-  #ice.server:
-  #  image: ${DOCKER_REGISTRY-}voxia/ice-server:latest
-  #  build:
-  #    context: .
-  #    dockerfile: src/ice/VoxIA.ZerocIce.Server/Dockerfile
-  #  ports:
-  #    - "9999:9999"
-  #    - "10000-10001:10000-10001"
-  #    - "6000-6025:6000-6025"
-  #  environment:
-  #    - DOCKER_HOST_IP=${DOCKER_HOST_IP}
-  #  volumes:
-  #    - ./data/tracks:/app/tracks
-  #    - ./data/certs:/app/certs
-
   rasa.api:
     image: ${DOCKER_REGISTRY-}voxia/rasa-nlu-api:latest
     build:
@@ -97,3 +79,5 @@ services:
       dockerfile: src/asr/speechbrain/Dockerfile
     ports:
       - "5000:80"
+    environment:
+      - MODEL_LANG=en

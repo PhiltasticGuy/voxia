@@ -4,18 +4,22 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace VoxIA.ZerocIce.Core.Client
 {
     public class GenericIceClient : IIceClient, IDisposable
     {
+        private readonly Guid _clientId = Guid.NewGuid();
+
         private readonly LibVLC _vlc;
         private readonly MediaPlayer _player;
         private readonly Dictionary<string, string> _properties;
 
         private bool disposedValue;
         private Ice.Communicator _communicator;
-        public MediaServerPrx _mediaServer;
+        private MediaServerPrx _mediaServer;
+
         public GenericIceClient(Dictionary<string, string> properties) : this(false, "--no-video")
         {
             _properties = properties;
@@ -76,7 +80,8 @@ namespace VoxIA.ZerocIce.Core.Client
                 //TODO: The IP Address and Port should come from configurations!
                 //var obj = _communicator.propertyToProxy("MediaServer.Proxy");
 
-                var obj = _communicator.stringToProxy("MediaServerId@SimpleServer.MediaServerAdapter");
+                var obj = _communicator.stringToProxy("MediaServer");
+                obj.ice_connectionCached(false);
                 _mediaServer = MediaServerPrxHelper.checkedCast(obj);
 
                 if (_mediaServer == null)
@@ -104,6 +109,26 @@ namespace VoxIA.ZerocIce.Core.Client
                     _communicator = null;
                 }
             }
+        }
+
+        public async Task<Song[]> GetAllSongsAsync()
+        {
+            return await _mediaServer.GetAllSongsAsync(_clientId.ToString());
+        }
+
+        public async Task<Song[]> FindSongsAsync(string query)
+        {
+            return await _mediaServer.FindSongsAsync(_clientId.ToString(), query);
+        }
+
+        public async Task<string> PlaySongAsync(string filename)
+        {
+            return await _mediaServer.PlaySongAsync(_clientId.ToString(), filename);
+        }
+
+        public async Task<bool> StopSongAsync()
+        {
+            return await _mediaServer.StopSongAsync(_clientId.ToString());
         }
 
         protected virtual void Dispose(bool disposing)

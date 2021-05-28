@@ -49,11 +49,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rasa", "rasa", "{9C4C4D6D-0
 	ProjectSection(SolutionItems) = preProject
 		src\nlu\rasa\.dockerignore = src\nlu\rasa\.dockerignore
 		src\nlu\rasa\config.yml = src\nlu\rasa\config.yml
-		src\nlu\rasa\credentials.yml = src\nlu\rasa\credentials.yml
 		src\nlu\rasa\Dockerfile = src\nlu\rasa\Dockerfile
-		src\nlu\rasa\domain.yml = src\nlu\rasa\domain.yml
-		src\nlu\rasa\endpoints.yml = src\nlu\rasa\endpoints.yml
-		src\nlu\rasa\requirements.txt = src\nlu\rasa\requirements.txt
 	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{D1EDB4E0-A20D-4DE3-B4F9-29A408E7F3C1}"
@@ -61,8 +57,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{8468B6E7-8131-4E1C-9EA4-637CDA3DED3C}"
 	ProjectSection(SolutionItems) = preProject
 		src\nlu\rasa\data\nlu.yml = src\nlu\rasa\data\nlu.yml
-		src\nlu\rasa\data\rules.yml = src\nlu\rasa\data\rules.yml
-		src\nlu\rasa\data\stories.yml = src\nlu\rasa\data\stories.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "speechbrain", "speechbrain", "{087C1DB0-C6F9-4670-B69D-DBB7026C0AEF}"

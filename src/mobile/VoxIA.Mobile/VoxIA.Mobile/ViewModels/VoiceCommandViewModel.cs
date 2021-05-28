@@ -224,6 +224,10 @@ namespace VoxIA.Mobile.ViewModels
                         Console.WriteLine($"[ERROR] Could not play the song '{entity.entity}'. Please try again.");
                     }
                 }
+                else
+                {
+                    Entity = "";
+                }
             }
             else if (intent.intent.name == "pause_song")
             {

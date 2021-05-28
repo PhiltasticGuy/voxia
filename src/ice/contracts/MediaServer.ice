@@ -15,26 +15,9 @@
         }
 
         sequence<Song> SongArray;
-        
-        enum RegisterResult
-        { 
-            Success,
-            AlreadyRegistered,
-            MaxClientsReached,
-            UnknownClient
-        }
-
-        class RegisterResponse
-        {
-            RegisterResult result;
-            string StreamingUrl;
-        }
 
         interface MediaServer
         {
-            ["amd"] RegisterResponse RegisterClient(string clientId);
-            ["amd"] bool UnregisterClient(string clientId);
-
             // Song Library
             ["amd"] SongArray GetAllSongs(string clientId);
             ["amd"] SongArray FindSongs(string clientId, string query);

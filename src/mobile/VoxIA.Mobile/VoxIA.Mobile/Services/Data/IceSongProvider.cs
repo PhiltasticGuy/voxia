@@ -24,7 +24,7 @@ namespace VoxIA.Mobile.Services.Data
             List<Song> allSongs = new List<Song>();
 
             //TODO: What if the connection doesn't work? LOGS!!!
-            var songs = await _client._mediaServer.GetAllSongsAsync();
+            var songs = await _client.GetAllSongsAsync();
 
             foreach (var song in songs)
             {
@@ -52,7 +52,7 @@ namespace VoxIA.Mobile.Services.Data
             List<Song> allSongs = new List<Song>();
 
             //TODO: What if the connection doesn't work? LOGS!!!
-            var songs = await _client._mediaServer.FindSongsAsync(query);
+            var songs = await _client.FindSongsAsync(query);
 
             foreach (var song in songs)
             {

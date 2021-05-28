@@ -14,5 +14,6 @@ RUN pip install --upgrade pip \
 
 # Preload the SpeechBrain models.
 RUN python -c "from speechbrain.pretrained import EncoderDecoderASR; EncoderDecoderASR.from_hparams(source='speechbrain/asr-crdnn-rnnlm-librispeech', savedir='pretrained_models/asr-crdnn-rnnlm-librispeech');"
+RUN python -c "from speechbrain.pretrained import EncoderDecoderASR; EncoderDecoderASR.from_hparams(source='speechbrain/asr-crdnn-commonvoice-fr', savedir='pretrained_models/asr-crdnn-commonvoice-fr');"
 
 COPY src/asr/speechbrain/app .

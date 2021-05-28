@@ -54,16 +54,6 @@ namespace VoxIA.ZerocIce.Core.Server
             return port;
         }
 
-        public override Task<RegisterResponse> RegisterClientAsync(string clientId, Ice.Current current = null)
-        {
-            return Task.FromResult<RegisterResponse>(null);
-        }
-
-        public override Task<bool> UnregisterClientAsync(string clientId, Ice.Current current = null)
-        {
-            return Task.FromResult(false);
-        }
-
         public LibVlcPlaybackService GetPlaybackService(string clientId)
         {
             // Existing client, return previously used service.

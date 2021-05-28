@@ -63,13 +63,22 @@ def transcribeFile():
         file.save(filePath)
 
         # Transcribe the file using SpeechBrain.
-        #asr_model = EncoderDecoderASR.from_hparams(source="speechbrain/asr-crdnn-commonvoice-fr", savedir="pretrained_models/asr-crdnn-commonvoice-fr")
-        asr_model = EncoderDecoderASR.from_hparams(source="speechbrain/asr-crdnn-rnnlm-librispeech", savedir="pretrained_models/asr-crdnn-rnnlm-librispeech")
+        model_lang = str(os.getenv('MODEL_LANG')).lower()
+
+        print('MODEL_LANG =', model_lang)
+
+        if (model_lang == 'en'):
+            asr_model = EncoderDecoderASR.from_hparams(source="speechbrain/asr-crdnn-rnnlm-librispeech", savedir="pretrained_models/asr-crdnn-rnnlm-librispeech")
+        elif (model_lang == 'fr'):
+            asr_model = EncoderDecoderASR.from_hparams(source="speechbrain/asr-crdnn-commonvoice-fr", savedir="pretrained_models/asr-crdnn-commonvoice-fr")
+        else:
+            return '[ERROR] Unrecognized language for the transcription model.'
+
         words = asr_model.transcribe_file(str(filePath))
         print(words)
         return words
 
-    return "PAS COMPRENDU DSL"
+    return "[ERROR] HTTP verb not supported."
 
 if __name__ == "__main__":
     # Only for debugging while developing

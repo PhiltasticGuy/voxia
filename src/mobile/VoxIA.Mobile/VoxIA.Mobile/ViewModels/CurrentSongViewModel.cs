@@ -176,6 +176,8 @@ namespace VoxIA.Mobile.ViewModels
 
                 if (!string.IsNullOrEmpty(url))
                 {
+                    Console.WriteLine($"[INFO] Playing the song '{prev.Id}' from '{url}'.");
+
                     var x = DependencyService.Get<IMediaPlayer>();
                     await x.InitializeAsync(new Uri(url));
 
@@ -252,6 +254,8 @@ namespace VoxIA.Mobile.ViewModels
 
                 if (!string.IsNullOrEmpty(url))
                 {
+                    Console.WriteLine($"[INFO] Playing the song '{next.Id}' from '{url}'.");
+
                     var x = DependencyService.Get<IMediaPlayer>();
                     await x.InitializeAsync(new Uri(url));
 
@@ -330,6 +334,8 @@ namespace VoxIA.Mobile.ViewModels
 
                 if (!string.IsNullOrEmpty(url))
                 {
+                    Console.WriteLine($"[INFO] Playing the song '{song.Id}' from '{url}'.");
+
                     var x = DependencyService.Get<IMediaPlayer>();
                     await x.InitializeAsync(new Uri(url));
 

@@ -21,7 +21,12 @@ namespace VoxIA.Core.Intents
 
         public RasaService()
         {
-            SetServerUrl("http://192.168.0.11:5005", 5005);
+            SetServerUrl("127.0.0.1", 5005);
+        }
+
+        public RasaService(string ipAddress, int port)
+        {
+            SetServerUrl(ipAddress, port);
         }
 
         public void SetServerUrl(string ipAddress, int port)

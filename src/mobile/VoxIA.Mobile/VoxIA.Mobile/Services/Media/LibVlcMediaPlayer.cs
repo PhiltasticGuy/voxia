@@ -56,13 +56,19 @@ namespace VoxIA.Mobile.Services.Media
 
         public void DeafenVolume()
         {
-            _volume = _player.Volume;
-            _player.Volume = 10;
+            if (_player.IsPlaying)
+            {
+                _volume = _player.Volume;
+                _player.Volume = 0;
+            }
         }
 
         public void ResetVolume()
         {
-            _player.Volume = _volume;
+            if (_player.IsPlaying)
+            {
+                _player.Volume = _volume;
+            }
         }
 
         private void PositionChanged(object sender, MediaPlayerPositionChangedEventArgs e) =>

@@ -10,7 +10,6 @@ namespace VoxIA.Mobile.Services.Streaming
     public class IceStreamingService : IStreamingService
     {
         private readonly GenericIceClient _client = DependencyService.Get<GenericIceClient>();
-        private readonly Guid _clientId = Guid.NewGuid();
 
         public IceStreamingService()
         {
@@ -25,11 +24,6 @@ namespace VoxIA.Mobile.Services.Streaming
             }
         }
 
-        public Task RegisterClient(Client client)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task PlaySong(Song song)
         {
             return Task.CompletedTask;
@@ -37,12 +31,12 @@ namespace VoxIA.Mobile.Services.Streaming
 
         public async Task<string> StartStreaming(string filename)
         {
-            return await _client._mediaServer.PlaySongAsync(_clientId.ToString(), filename);
+            return await _client.PlaySongAsync(filename);
         }
 
         public async Task StopStreaming()
         {
-            await _client._mediaServer.StopSongAsync(_clientId.ToString());
+            await _client.StopSongAsync();
         }
     }
 }

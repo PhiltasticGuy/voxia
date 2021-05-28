@@ -73,8 +73,8 @@ namespace VoxIA.ZerocIce.Core.Client
                     Console.WriteLine("Choose an action from the following list:");
                     Console.WriteLine("\tlist   - List available songs in the library.");
                     Console.WriteLine("\tfind   - Find songs by Title or by Artist.");
-                    Console.WriteLine("\tplay   - Play (Stream) the selected song.");
-                    Console.WriteLine("\tpause  - Pause the currently playing (streaming) song.");
+                    Console.WriteLine("\tplay   - Play (Stream) a selected song.");
+                    Console.WriteLine("\tpause  - Pause OR Unpause the currently playing (streaming) song.");
                     Console.WriteLine("\tstop   - Stop the playback (stream).");
                     Console.WriteLine("\tupload - Add new song to the library.");
                     Console.WriteLine("\tupdate - Edit existing song in the library.");
@@ -210,11 +210,17 @@ namespace VoxIA.ZerocIce.Core.Client
             {
                 _player.Play();
             }
+            else
+            {
+                _player.Pause();
+            }
         }
 
         private void StopSong(MediaServerPrx mediaServer)
         {
             mediaServer?.StopSong(_clientId.ToString());
+            _player.Stop();
+            _logger.Information($"[{_clientId}] LibVLC player is currently in '{_player.State}' state.");
         }
 
         private void UploadSong(MediaServerPrx mediaServer)

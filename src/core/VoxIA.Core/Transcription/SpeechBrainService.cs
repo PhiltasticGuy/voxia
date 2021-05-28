@@ -10,7 +10,12 @@ namespace VoxIA.Core.Transcription
 
         public SpeechBrainService()
         {
-            SetServerUrl("http://192.168.0.11:5000", 5000);
+            SetServerUrl("127.0.0.1", 5000);
+        }
+
+        public SpeechBrainService(string ipAddress, int port)
+        {
+            SetServerUrl(ipAddress, port);
         }
 
         public void SetServerUrl(string ipAddress, int port)
